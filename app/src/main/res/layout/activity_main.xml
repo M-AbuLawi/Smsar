@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:id="@+id/mainView"
+    >
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="162dp"
+        android:layout_height="196dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:adjustViewBounds="true"
+        android:maxHeight="64dp"
+        android:maxWidth="64dp"
+        app:srcCompat="@drawable/logo" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_below="@+id/password"
+        android:layout_alignStart="@+id/logo"
+        android:layout_marginStart="-26dp"
+        android:layout_marginTop="2dp">
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/logIn"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="216dp"
+            android:layout_height="65dp"
+            android:backgroundTint="@color/PrimaryDark"
+            android:minWidth="200dp"
+            android:onClick="logIN"
+            android:text="Login"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="277dp"
+        android:layout_height="wrap_content"
+
+        android:layout_centerInParent="true"
+        android:ems="10"
+        android:fontFamily="@font/catamaran"
+        android:hint="UserName"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="277dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userName"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/catamaran"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+
+    <TextView
+        android:id="@+id/_new"
+        android:layout_width="159dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="-35dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toStartOf="@+id/sginUp"
+        android:fontFamily="@font/catamaran"
+        android:text="New ? Start Now By"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/sginUp"
+        android:layout_width="81dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginBottom="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@id/mError"
+        android:clickable="true"
+        android:fontFamily="@font/catamaran"
+        android:text="SginUp"
+        android:textAlignment="center"
+        android:textColor="@color/links"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/mError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="82dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="invisible"
+        android:text="mError" />
+
+
+</RelativeLayout>

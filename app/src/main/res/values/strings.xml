@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Smsar</string>
+    <string name="title_activity_smsar_main">Smsar</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_Discover">Discover</string>
+    <string name="title_inbox">Inbox</string>
+    <string name="title_notification">Notification</string>
+    <string name="title_account">Account</string>
+    <string name="title_like">Liked</string>
+
+
+    <string-array name="settings">
+        <item>Logout</item>
+        <item>Delete Account</item>
+
+    </string-array>
+    <string-array name="cities">
+        <item>Amman</item>
+        <item>Irbid</item>
+        <item>Al Zarqa</item>
+        <item>Al Mafraq</item>
+        <item>AL Aqba</item>
+        <item>Al Kara</item>
+        <item>Maan</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_test">Discover</string>
+    <string name="title_notifications">Notifications</string>
+
+
+</resources>

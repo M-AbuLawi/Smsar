@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Signup">
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fullName"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:fontFamily="@font/catamaran"
+        android:hint="Email@domain.com"
+        android:inputType="textEmailAddress"
+        android:textAlignment="textStart" />
+
+    <EditText
+        android:id="@+id/fullName"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/username"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:fontFamily="@font/catamaran"
+        android:hint="Full Name"
+        android:inputType="textPersonName"
+        android:textAlignment="textStart" />
+
+
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Password"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:fontFamily="@font/catamaran"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        android:textAlignment="textStart" />
+
+    <EditText
+        android:id="@+id/Password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/fullName"
+        android:layout_marginBottom="230dp"
+        android:ems="10"
+        android:fontFamily="@font/catamaran"
+        android:hint="Passwrod"
+        android:inputType="textPassword"
+        android:textAlignment="textStart" />
+
+    <EditText
+        android:id="@+id/phoneNumber"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-230dp"
+        android:ems="10"
+        android:fontFamily="@font/catamaran"
+        android:hint="Phone Number "
+        android:inputType="phone"
+        android:textAlignment="textStart" />
+
+    <Button
+        android:id="@+id/_signUp"
+        android:layout_width="127dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/rgType"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:background="@color/buttons"
+        android:text="SignUp"
+        android:textColor="@android:color/black" />
+
+    <RadioGroup
+        android:id="@+id/rgType"
+        android:layout_width="289dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="126dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RadioButton
+                android:id="@+id/smsar"
+                android:layout_width="115dp"
+                android:layout_height="44dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="Smsar" />
+
+            <RadioButton
+                android:id="@+id/user"
+                android:layout_width="117dp"
+                android:layout_height="43dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:text="User" />
+        </RelativeLayout>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/eTextMessage"
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="71dp"
+        android:layout_marginBottom="63dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="16dp"
+        android:visibility="invisible"
+        android:text="TextView" />
+</RelativeLayout>

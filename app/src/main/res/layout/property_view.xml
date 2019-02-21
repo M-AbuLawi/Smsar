@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/property_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ViewFlipper
+            android:id="@+id/v_flipper"
+            android:layout_width="380dp"
+            android:layout_height="241dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/house1">
+
+        </ViewFlipper>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:fontFamily="@font/tajawalmedium"
+                android:paddingLeft="2dp"
+                android:text="city  "
+                android:textColor="@android:color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cabin"
+                android:text="|"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/tajawalregular"
+                android:paddingLeft="2dp"
+                android:text="address"
+                android:textColor="@color/caption"
+                android:textSize="15sp" />
+
+            <com.like.LikeButton
+                android:id="@+id/star_button"
+                android:layout_width="56dp"
+                android:layout_height="58dp"
+                app:icon_size="25dp"
+                app:icon_type="heart" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="363dp"
+            android:layout_height="71dp"
+            android:fontFamily="@font/tajawalbold"
+            android:paddingLeft="2dp"
+            android:text="description"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/caption"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/tajawallight"
+            android:paddingLeft="2dp"
+            android:text="price $ per ?"
+            android:textColor="@color/caption"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+                android:layout_width="81dp"
+
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:numStars="100"
+
+                android:paddingLeft="2dp"
+                android:paddingTop="5dp"
+                android:rating="100" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="1dp"
+                android:text="|"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/rate"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="2dp"
+                android:text="5"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/eCall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:fontFamily="@font/tajawalmedium"
+                android:linksClickable="true"
+                android:text="Call"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textColorLink="@color/Primary"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
+
+
+
