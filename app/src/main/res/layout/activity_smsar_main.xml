@@ -11,7 +11,6 @@
         android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:orientation="horizontal" />
 
     <android.support.design.widget.BottomNavigationView
@@ -23,8 +22,6 @@
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
         android:background="?android:attr/windowBackground"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

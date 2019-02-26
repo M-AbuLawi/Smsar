@@ -3,12 +3,19 @@
     <string name="app_name">Smsar</string>
     <string name="title_notifications">الإشعارات</string>
     <string name="title_inbox">البريد</string>
-    <string name="title_dashboard">لائحةالعرض</string>
-    <string name="title_Discover">"الإكتشاف "</string>
-    <string name="title_account">الحساب</string>
+    <string name="title_dashboard">لائحة العرض</string>
+    <string name="title_Discover">الإكتشاف</string>
+    <string name="title_account">حسابي</string>
     <string name="title_activity_test">الإكتشاف</string>
     <string name="title_notification">الإشعارات</string>
     <string name="title_activity_smsar_main">الرئيسية</string>
     <string name="hello_blank_fragment">فراغ</string>
     <string name="title_like">المفضلة</string>
+    <string name="title_newApartment">اضف منزلاُ</string>
+    <string name="NOR">عدد الغرف</string>
+    <string name="NOF">عدد الطوابق</string>
+    <string name="title_setting">الإعدادات</string>
+    <string name="title_About">من نحن</string>
+    <string name="title_AddNew">اضف جديداً</string>
+    <string name="title_contact">تواصل معنا</string>
 </resources>

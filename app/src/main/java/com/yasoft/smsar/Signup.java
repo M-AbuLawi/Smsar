@@ -23,8 +23,10 @@ public class Signup extends AppCompatActivity {
     RadioButton radioButton;
     Intent intent;
     Button button;
-private DBHelper mDBHelper =new DBHelper(this);
+    private DBHelper mDBHelper =new DBHelper(this);
     private SQLiteDatabase mDb;
+
+    String email,name,username,password,pn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +51,13 @@ private DBHelper mDBHelper =new DBHelper(this);
             @Override
             public void onClick(View v) throws SQLException {
                 if (validationVariable()) {
+
                     boolean flag;
                     //      mydb.getWritableDatabase();
+                    prepareToInsert();
                     try {
-                        flag = mDBHelper.insertSmsar( Username.getText().toString(),Fullname.getText().toString(),
-                                Email.getText().toString(), Password.getText().toString(), phonenumber.getText().toString());
+                        flag = mDBHelper.insertSmsar( username,name,
+                                email, password,pn);
                         if (flag) {
                             Toast.makeText(getApplicationContext(), "done",
                                     Toast.LENGTH_SHORT).show();
@@ -89,7 +93,18 @@ private DBHelper mDBHelper =new DBHelper(this);
             return true;
 
         }
+
+        public void prepareToInsert(){
+        username=Username.getText().toString();
+        name=Fullname.getText().toString();
+        email= Email.getText().toString();
+        password= Password.getText().toString();
+        pn= phonenumber.getText().toString();
+        String space=name.charAt(name.length()-1)+"";
+       username=username.toLowerCase();
+       username=username.replaceAll(" ","");
     }
+}
 
 
 

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/property_view"
+    android:id="@+id/single_property"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -64,23 +64,25 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="361dp"
-            android:layout_height="73dp"
-            android:layout_marginLeft="0dp"
-            android:paddingLeft="2dp"
-            android:text="Description"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/caption"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="361dp"
+                android:layout_height="73dp"
+                android:layout_marginLeft="0dp"
+                android:fontFamily="@font/tajawalbold"
+                android:clickable="true"
+                android:paddingLeft="2dp"
+                android:text="Description"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/caption"
+                android:textSize="22sp" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
-            android:fontFamily="@font/cabin"
+            android:fontFamily="@font/tajawalmedium"
             android:paddingLeft="2dp"
             android:text="price $ per ?"
             android:textColor="@color/caption" />
@@ -95,6 +97,7 @@
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="65dp"
                 android:layout_height="25dp"
+                android:fontFamily="@font/tajawallight"
                 android:paddingLeft="2dp"
                 android:text="Liked By" />
 
@@ -160,6 +163,13 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="id"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

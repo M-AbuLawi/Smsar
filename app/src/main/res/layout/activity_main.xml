@@ -51,8 +51,8 @@
 
         android:layout_centerInParent="true"
         android:ems="10"
-        android:fontFamily="@font/catamaran"
-        android:hint="UserName"
+        android:fontFamily="@font/tajawalmedium"
+        android:hint="Username"
         android:inputType="textPersonName"
         android:text="" />
 
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/userName"
         android:layout_centerHorizontal="true"
-        android:fontFamily="@font/catamaran"
+        android:fontFamily="@font/tajawalmedium"
         android:hint="Password"
         android:inputType="textPassword" />
 
@@ -75,7 +75,7 @@
         android:layout_marginEnd="-35dp"
         android:layout_marginBottom="0dp"
         android:layout_toStartOf="@+id/sginUp"
-        android:fontFamily="@font/catamaran"
+        android:fontFamily="@font/tajawalmedium"
         android:text="New ? Start Now By"
         android:textAlignment="center"
         android:textSize="18sp" />
@@ -90,7 +90,7 @@
         android:layout_centerHorizontal="true"
         android:layout_toEndOf="@id/mError"
         android:clickable="true"
-        android:fontFamily="@font/catamaran"
+        android:fontFamily="@font/tajawalmedium"
         android:text="SginUp"
         android:textAlignment="center"
         android:textColor="@color/links"

@@ -25,7 +25,7 @@ public class UserMainActivity extends AppCompatActivity {
         FragmentManager fg=getFragmentManager();
         FragmentTransaction ft=fg.beginTransaction();
         Discover _discoverFrag=new Discover();
-
+        BottomNavigationView navigation;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -67,7 +67,7 @@ public class UserMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_main);
 
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         ft.replace(R.id.discoverView,_discoverFrag);
         ft.commit();
@@ -94,4 +94,10 @@ public class UserMainActivity extends AppCompatActivity {
             startActivity(intent);*/
 
         }
+
+    public void navPointer(int id){
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setSelectedItemId(id);
+
+    }
 }

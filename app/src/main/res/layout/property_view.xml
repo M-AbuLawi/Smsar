@@ -74,6 +74,7 @@
                 android:layout_width="56dp"
                 android:layout_height="58dp"
                 app:icon_size="25dp"
+
                 app:icon_type="heart" />
 
         </LinearLayout>
@@ -84,6 +85,12 @@
             android:layout_height="71dp"
             android:fontFamily="@font/tajawalbold"
             android:paddingLeft="2dp"
+
+            android:clickable="true"
+            android:ellipsize="end"
+            android:singleLine="false"
+            android:maxLines="2"
+
             android:text="description"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/caption"
@@ -93,7 +100,7 @@
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/tajawallight"
+            android:fontFamily="@font/tajawalmedium"
             android:paddingLeft="2dp"
             android:text="price $ per ?"
             android:textColor="@color/caption"
@@ -104,33 +111,16 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
-                android:layout_width="81dp"
 
-                android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
-                android:numStars="100"
 
-                android:paddingLeft="2dp"
-                android:paddingTop="5dp"
-                android:rating="100" />
 
             <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="1dp"
-                android:text="|"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/rate"
+                android:id="@+id/usernameShow"
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="2dp"
+                android:fontFamily="@font/tajawalregular"
                 android:text="5"
                 android:textColor="@android:color/black"
                 android:textSize="12sp" />
@@ -147,7 +137,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 android:textColorLink="@color/Primary"
-                android:textSize="25sp" />
+                android:textSize="22sp" />
         </LinearLayout>
 
 

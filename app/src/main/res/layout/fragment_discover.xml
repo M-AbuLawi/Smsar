@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Discover">
+    tools:context=".Discover"
+    >
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -12,10 +13,7 @@
         android:id="@+id/discoverLV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="45dp"
         android:divider="@null"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="1dp" />
+        android:layout_marginBottom="50dp"
+        />
 </RelativeLayout>

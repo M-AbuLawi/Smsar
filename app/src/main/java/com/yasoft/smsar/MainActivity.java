@@ -1,6 +1,7 @@
 package com.yasoft.smsar;
 
 
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -22,16 +23,18 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
 
-    TextView userNameEdit,passwordEdit;
+    TextView userNameEdit, passwordEdit;
     TextView _signUp;
     Button _login;
     Intent intent;
     ImageView imageView;
     TextView mError;
-    Smsar mFrag =new Smsar();
+    Smsar mFrag = new Smsar();
     SharedPreferences pref;
     private DBHelper mDBHelper;
     private SQLiteDatabase mDb;
+
+    String email,name,username,password,pn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
 
         imageView=(ImageView)findViewById(R.id.logo);
+
         mDBHelper =new DBHelper(this);
+
+
          mError=(TextView)findViewById(R.id.mError);
         //Define the variables
         userNameEdit=(EditText)findViewById(R.id.userName);
@@ -84,11 +90,11 @@ public class MainActivity extends AppCompatActivity {
     public void logIN(View view)throws SQLException{
 
         pref = getSharedPreferences("user_details", MODE_PRIVATE);
-
+        prepareToInsert();
         if (validationVariable()) {
             try {
 
-                Cursor rs = mDBHelper.getData(userNameEdit.getText().toString());
+                Cursor rs = mDBHelper.getData(username);
                 rs.moveToFirst();
                 if (rs.getCount() > 0) {
                     String nam = rs.getString(rs.getColumnIndex(DBHelper.SMSAR_COLUMN_USERNAME));
@@ -98,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("password",pass);
                     editor.apply();
                    // editor.commit();
-                    if (passwordEdit.getText().toString().equals(pass)) {
+                    if (password.equals(pass)) {
                      success();
                     } else
                         Toast.makeText(this, "Wrong Password", Toast.LENGTH_LONG).show();
@@ -123,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public boolean validationVariable () {
-        if (TextUtils.isEmpty(userNameEdit.getText().toString()) || TextUtils.isEmpty(passwordEdit.getText().toString()))
+        if (username.isEmpty()||password.isEmpty())
             return false;
 
         return true;
@@ -142,5 +148,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
 
+    }
+    public void prepareToInsert(){
+        username=userNameEdit.getText().toString();
+        password= passwordEdit.getText().toString();
+        String space=username.charAt(username.length()-1)+"";
+        username=username.toLowerCase();
+        username=username.replaceAll(" ","");
     }
 }

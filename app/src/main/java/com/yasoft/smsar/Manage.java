@@ -52,22 +52,22 @@ public class Manage extends Fragment {
       root = inflater.inflate(R.layout.fragment_manage, container, false);
 
         _propertList=(ListView)root.findViewById(R.id.propertyList);
-        FloatingActionButton _Fab=(FloatingActionButton)root.findViewById(R.id.toAddNew);
 
-        _Fab.setOnClickListener(new OnClickListener() {
+
+ /*       _Fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 ((SmsarMainActivity)getActivity()).openAddNew();
             }
-        });
+        });*/
 
         listItem=new ArrayList<>();
         userName=(TextView)root.findViewById(R.id.user) ;
 
         listData();
 
-
+        ((SmsarMainActivity)getActivity()).navPointer(R.id.navigation_dashboard);
         return root;
     }
 

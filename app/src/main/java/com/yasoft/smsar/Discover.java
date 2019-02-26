@@ -3,12 +3,15 @@ package com.yasoft.smsar;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.BottomNavigationView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 import android.widget.ViewFlipper;
 
 import com.yasoft.smsar.models.Property;
@@ -36,12 +39,22 @@ public class Discover extends Fragment {
     ListAdapter iAdapter;
     Property propertyModel;
     View root;
+    Toolbar toolbar;
+    BottomNavigationView navigation;
     ViewFlipper v_flipper;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         root= inflater.inflate(R.layout.fragment_discover, container, false);
+        String context=root.getContext().toString();
+
+        if(context.contains("Smsar"))
+            ((SmsarMainActivity)getActivity()).navPointer(R.id.navigation_discover);
+        else if(context.contains("User"))
+            ((UserMainActivity)getActivity()).navPointer(R.id.navigation_discover);
+
         _propertList=(ListView)root.findViewById(R.id.discoverLV);
 
 
@@ -69,6 +82,9 @@ public class Discover extends Fragment {
     v_flipper.setInAnimation(root.getContext(),android.R.anim.slide_in_left);
     v_flipper.setOutAnimation(root.getContext(),android.R.anim.slide_out_right);
     }*/
+
+
+
     public void listData(){
 
       //  String username = getArguments().getString("username");

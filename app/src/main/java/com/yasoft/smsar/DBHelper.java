@@ -155,7 +155,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean updateSmsar (String username,String name, String email, String password, String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("username", username);
         contentValues.put("name", name);
         contentValues.put("email", email);
         contentValues.put("password", password);
@@ -165,12 +164,16 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public Integer deleteSmsar (String username) {
+    public void deleteSmsar (String username) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        return db.delete("Smsars",
+        db.delete("Smsars",
                 "username = ? ",
                 new String[] { (username) });
+        db.delete("Property",
+                "smsarUsername = ? ",
+                new String[] { (username) });
+
     }
 
     public boolean deletePropperty (int id) {
@@ -180,7 +183,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.delete(PROPERTY_TABLE_NAME, PROPERTY_COLUMN__PROPERTYID + "=" + id, null) > 0;
     }
 
-
+    //For ArrayList and Adapters
     public ArrayList<Property> getAllProperty(String Username){
         ArrayList<Property> array_list = new ArrayList<>();
         SQLiteDatabase db=this.getReadableDatabase();
@@ -201,6 +204,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
 
     }
+
+    //For Cursor;
+    public Cursor getProperty(String Username){
+
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor res=db.rawQuery("select * from Property where smsarUsername='"+Username+"'",null);
+        res.moveToFirst();
+            return res;
+
+    }
+
+
     public ArrayList<Property> getAllProperty(){
         ArrayList<Property> array_list = new ArrayList<>();
         SQLiteDatabase db=this.getReadableDatabase();

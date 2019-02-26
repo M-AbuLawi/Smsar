@@ -4,15 +4,16 @@ package com.yasoft.smsar;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.SQLException;
-import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,15 +25,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yasoft.smsar.interfaces.Foreign;
 import com.yasoft.smsar.models.Property;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewProperty extends Fragment {
+public class NewProperty extends Fragment implements Foreign {
 
 
     Spinner spin;
@@ -46,10 +50,13 @@ public class NewProperty extends Fragment {
      TextView mError;
      TextView mListed;
      Context context;
+
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
     public NewProperty() {
         // Required empty public constructor
     }
-
+    String restoredText;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,40 +88,46 @@ public class NewProperty extends Fragment {
 
 
 
+        ((SmsarMainActivity)getActivity()).navPointer(R.id.navigation_newApartment);
+
         return root;
       //  return inflater.inflate(R.layout.fragment_addproperty, container, false);
 
     }
-    public void captureImage(){
-        try {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                    == PackageManager.PERMISSION_DENIED)
-                ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.CAMERA}, 2020 );
-
-            Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(i, 2020);
+    public void captureImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        MY_CAMERA_PERMISSION_CODE);
+            } else {
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
         }
-        catch (Exception e)
-        {
-            Toast.makeText(root.getContext(),"No Image",Toast.LENGTH_LONG).show();
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(root.getContext(), "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent cameraIntent = new
+                        Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            } else {
+                Toast.makeText(root.getContext(), "camera permission denied", Toast.LENGTH_LONG).show();
+            }
 
         }
 
     }
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode==2020)
-        {
-            Bundle ext=data.getExtras();
-            if(ext!=null){
-            Bitmap imv=(Bitmap) ext.get("data");iv.setImageBitmap(imv);
-            iv.getLayoutParams().height = 650;
-            iv.getLayoutParams().width = 650;
-        }
-        }
-    }
 
-    public void addProperty()throws SQLException{
+
+        public void addProperty()throws SQLException{
          mDBHelper=new DBHelper(root.getContext());
        // mListed=(TextView)root.findViewById(R.id.dett);
 
@@ -158,17 +171,15 @@ public class NewProperty extends Fragment {
         return true;
 
     }
-/*
-        public void printData(String location){
-            ArrayList<Property> listed=new ArrayList();
-            listed=mDBHelper.getAllProperty(location);
-
-     *//*   for (int i=0;i<5;i++){
-
-            mListed.setText(listed.get(i)+"\t");
-
-        }*//*
 
 
-        }*/
+    final SmsarMainActivity smsar=(SmsarMainActivity)context;
+//need property id to update ;
+    @Override
+    public void setData(String username,Context context) {
+        DESC.setText("yes");
+        PRICE.setText("no");
+        Toast.makeText(context,username,Toast.LENGTH_LONG).show();
+
+    }
 }

@@ -5,15 +5,18 @@
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/dashboard"
         android:title="@string/title_dashboard" />
+
+    <item
+        android:id="@+id/navigation_newApartment"
+        android:icon="@drawable/plus2"
+        android:title="@string/title_AddNew" />
+
     <item
         android:id="@+id/navigation_discover"
         android:icon="@drawable/discover"
         android:title="@string/title_Discover" />
 
-    <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/notification"
-        android:title="@string/title_account" />
+
 
     <item
         android:id="@+id/navigation_inbox"

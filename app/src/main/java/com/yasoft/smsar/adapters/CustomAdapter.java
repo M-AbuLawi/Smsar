@@ -3,6 +3,7 @@ package com.yasoft.smsar.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 
 import android.app.FragmentManager;
@@ -25,12 +26,14 @@ import com.yasoft.smsar.R;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class CustomAdapter extends BaseAdapter{
 
     Context context;
     ArrayList<Property> arrayList;
     DBHelper mDBHelper;
-
+    SmsarMainActivity sm=new SmsarMainActivity();
     NewProperty newProperty= new NewProperty();
     public CustomAdapter(Context context,ArrayList<Property> arrayList){
 
@@ -52,15 +55,13 @@ public class CustomAdapter extends BaseAdapter{
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView =inflater.inflate(R.layout.single_property,null);
             TextView txtCity=(TextView)convertView.findViewById(R.id.city);
-            TextView txtDesc=(TextView)convertView.findViewById(R.id.description);
+            final TextView txtDesc=(TextView)convertView.findViewById(R.id.description);
             TextView txtPrice=(TextView)convertView.findViewById(R.id.price);
-
+            final TextView txtId=(TextView)convertView.findViewById(R.id.id);
             final Property property=arrayList.get(position);
-
             txtCity.setText(property.getmCity());
             txtDesc.setText(property.getmDesc());
             txtPrice.setText(property.getmPrice()+" JD");
@@ -68,7 +69,10 @@ public class CustomAdapter extends BaseAdapter{
         TextView mEdit=(TextView)convertView.findViewById(R.id.eEdit);
         TextView mDelete=(TextView)convertView.findViewById(R.id.eDelete);
 
+
         final SmsarMainActivity smsar=(SmsarMainActivity)context;
+
+
         mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)throws SQLException {
@@ -90,14 +94,16 @@ public class CustomAdapter extends BaseAdapter{
       mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = smsar.getFragmentManager().beginTransaction();
-                    ft.replace(R.id.mainView,newProperty);
+
+                ((SmsarMainActivity)context).callSetData();
             }
         });
 
 
         return convertView;
     }
+
+
 
 
     @Override
