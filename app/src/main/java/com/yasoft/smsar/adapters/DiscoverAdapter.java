@@ -161,6 +161,7 @@ public class DiscoverAdapter extends BaseAdapter {
 
         });
 
+
  /*       mMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -156,7 +156,7 @@
                 android:id="@+id/description"
                 android:layout_width="419dp"
                 android:layout_height="217dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

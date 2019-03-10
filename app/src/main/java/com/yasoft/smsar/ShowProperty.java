@@ -3,20 +3,18 @@ package com.yasoft.smsar;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-
-
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +32,6 @@ public class ShowProperty extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
     }
 
@@ -59,6 +55,8 @@ public class ShowProperty extends Fragment {
     View root;
     Context context;
      ViewGroup actionBarLayout;
+    String username="",pn="";
+     Button mCall;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,6 +69,8 @@ public class ShowProperty extends Fragment {
         final TextView mPrice=(TextView)root.findViewById(R.id.price);
         final TextView mDescription=(TextView)root.findViewById(R.id.description);
         final TextView mCity=(TextView)root.findViewById(R.id.address);
+
+
 
 
 
@@ -87,7 +87,6 @@ public class ShowProperty extends Fragment {
         final Toolbar toolbar1 = (Toolbar) root.findViewById(R.id.discoverToolBar);
         toolbar1.inflateMenu(R.menu.menu_dashboard_titlebar);
         toolbar1.setNavigationOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 onDetach();
@@ -101,29 +100,9 @@ public class ShowProperty extends Fragment {
                 }
 
 
-                mDBHelper=new DBHelper(root.getContext());
-                try {
-
-                    Cursor rs = mDBHelper.getProperty(Integer.parseInt(getArguments().get("propertyID")+""));
-                    rs.moveToFirst();
-
-                       mDescription.setText(rs.getString(rs.getColumnIndex(DBHelper.PROPERTY_COLUMN__DESCRIPTION)));
-                       mPrice.setText(rs.getString(rs.getColumnIndex(DBHelper.PROPERTY_COLUMN__PRICE)));
-                       mCity.setText( rs.getString(rs.getColumnIndex(DBHelper.PROPERTY_COLUMN__CITY)));
-
-                        if (!rs.isClosed())
-                            rs.close();
 
 
 
-
-
-                }
-                catch(SQLException e){
-                    e.printStackTrace();
-                    Toast.makeText(root.getContext(), e.toString(), Toast.LENGTH_LONG).show();
-
-                }
 
 
 
@@ -131,6 +110,52 @@ public class ShowProperty extends Fragment {
 
             }
         });
+        mDBHelper=new DBHelper(root.getContext());
+        try {
+
+            Cursor rs = mDBHelper.getProperty(Integer.parseInt(getArguments().get("propertyID")+""));
+
+            rs.moveToFirst();
+
+            mDescription.setText(rs.getString(rs.getColumnIndex(DBHelper.PROPERTY_COLUMN__DESCRIPTION)));
+            mPrice.setText(rs.getString(rs.getColumnIndex(DBHelper.PROPERTY_COLUMN__PRICE)));
+            mCity.setText( rs.getString(rs.getColumnIndex(DBHelper.PROPERTY_COLUMN__CITY)));
+            username=rs.getString(rs.getColumnIndex(DBHelper.PROPERTY_COLUMN_SMSARUSERNAME));
+            pn=mDBHelper.getPhone(username);
+
+            if (!rs.isClosed())
+                rs.close();
+
+
+
+
+
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            Toast.makeText(root.getContext(), e.toString(), Toast.LENGTH_LONG).show();
+
+        }
+
+       mCall=(Button)root.findViewById(R.id.call);
+        mCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCall.setTextColor(getResources().getColor(R.color.ms_white));
+                mCall.setBackgroundColor(getResources().getColor(R.color.buttons));
+
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + pn));
+                root.getContext().startActivity(intent);
+
+            }
+
+        });
+
+
+
+
+
+
 
     return root;
     }
@@ -150,7 +175,11 @@ public class ShowProperty extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mCall.setTextColor(getResources().getColor(R.color.ms_black));
+        mCall.setBackgroundColor(getResources().getColor(R.color.float_transparent));
 
-
-
+    }
 }
