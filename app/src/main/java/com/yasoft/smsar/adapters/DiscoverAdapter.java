@@ -1,21 +1,29 @@
 package com.yasoft.smsar.adapters;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.yasoft.smsar.DBHelper;
+import com.yasoft.smsar.ShowProperty;
+import com.yasoft.smsar.SmsarMainActivity;
 import com.yasoft.smsar.models.Property;
 import com.yasoft.smsar.R;
 import com.yasoft.smsar.UserMainActivity;
@@ -34,7 +42,8 @@ public class DiscoverAdapter extends BaseAdapter {
     Button mCall,mMessage;
     String pn;
     String textMessage="أود استأجار الشقة ";
-    TextView txtDesc;
+    TextView txtDesc,mInfo;
+     Property property;
 
     public DiscoverAdapter(Context context,ArrayList<Property> arrayList){
 
@@ -59,21 +68,21 @@ public class DiscoverAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView =inflater.inflate(R.layout.property_view,null);
+
         TextView txtCity=(TextView)convertView.findViewById(R.id.city);
-         txtDesc=(TextView)convertView.findViewById(R.id.description);
+
+        txtDesc=(TextView)convertView.findViewById(R.id.description);
+
         TextView txtPrice=(TextView)convertView.findViewById(R.id.price);
         TextView txtUsername=(TextView)convertView.findViewById(R.id.usernameShow);
         TextView mCall=(TextView)convertView.findViewById(R.id.eCall);
 
         mDBHelper= new DBHelper(context);
 
-
-
-        final Property property=arrayList.get(position);
-
+         Property property=arrayList.get(position);
+       final Property mProperty=arrayList.get(position);
         smsarModels=mDBHelper.getAllSmsar(property.getmUsername());
 
         txtCity.setText(property.getmCity());
@@ -119,13 +128,33 @@ public class DiscoverAdapter extends BaseAdapter {
        mCall=(TextView) convertView.findViewById(R.id.eCall);
       //  mMessage=(Button)convertView.findViewById(R.id.eTextMessage);
 
+        mInfo=(TextView)convertView.findViewById(R.id.description);
+        ViewFlipper mImage=(ViewFlipper)convertView.findViewById(R.id.v_flipper);
+
+
+
+
+            mInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) { parseActivity(mProperty.getmID()); }
+            });
+
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parseActivity(mProperty.getmID());
+            }
+        });
+
+
+
+
+
+
         mCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                pn=mDBHelper.getPhone(property.getmUsername());
-
+                pn=mDBHelper.getPhone(mProperty.getmUsername());
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + pn));
                 context.startActivity(intent);
             }
@@ -152,4 +181,35 @@ public class DiscoverAdapter extends BaseAdapter {
     public int getCount() {
         return this.arrayList.size();
     }
+
+    public  void parseActivity (int id /*Property ID*/ ){
+        FragmentManager fragmentManager =null;
+        FragmentTransaction fragmentTransaction=null;
+        ShowProperty mShowProperty = new ShowProperty();
+        Bundle mBundle=new Bundle();
+     if(context.toString().contains("User")) {
+        final UserMainActivity user = (UserMainActivity) context;
+         fragmentManager=user.getFragmentManager();
+         fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.discoverView ,mShowProperty, "ShowProperty");
+
+
+     }
+
+     else if(context.toString().contains("Smsar"))
+        {
+            final SmsarMainActivity mSmsar = (SmsarMainActivity) context;
+             fragmentManager=mSmsar.getFragmentManager();
+             fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.mainView ,mShowProperty, "ShowProperty");
+
+        }
+
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        mBundle.putInt("propertyID",id);
+        mShowProperty.setArguments(mBundle);
+    }
+
+
 }

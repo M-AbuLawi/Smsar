@@ -2,22 +2,30 @@ package com.yasoft.smsar;
 
 
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,19 +40,29 @@ public class MainActivity extends AppCompatActivity {
     Smsar mFrag = new Smsar();
     SharedPreferences pref;
     private DBHelper mDBHelper;
-    private SQLiteDatabase mDb;
 
     String email,name,username,password,pn;
 
+    @TargetApi(Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         _login =(Button)findViewById(R.id.logIn);
+        _signUp=(TextView)findViewById(R.id.sginUp);
 
 
+        //_signUp.setText(Html.fromHtml(String.format(getString(R.string.sign_up))));
 
+
+   String text = "New ? Start Now By  <font color='blue'>"+String.format(getString(R.string.sign_up))+"</font>.";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            _signUp.setText(Html.fromHtml(text,  Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+        } else {
+            _signUp.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+        }
         pref = getSharedPreferences("user_details", MODE_PRIVATE);
             if(pref.contains("username")&&pref.contains("password"))
                  success();
@@ -67,7 +85,10 @@ public class MainActivity extends AppCompatActivity {
         //Define the variables
         userNameEdit=(EditText)findViewById(R.id.userName);
         passwordEdit=(EditText)findViewById(R.id.password);
-        _signUp=(TextView)findViewById(R.id.sginUp);
+
+
+        userNameEdit.setFocusableInTouchMode(true);
+        passwordEdit.setFocusableInTouchMode(true);
         //End
 
 
@@ -106,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                    // editor.commit();
                     if (password.equals(pass)) {
                      success();
+
                     } else
                         Toast.makeText(this, "Wrong Password", Toast.LENGTH_LONG).show();
                     if (!rs.isClosed()) {
@@ -140,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(MainActivity.this, SmsarMainActivity.class);
         startActivity(intent);
         finish();
-
+        this.finish();
     }
 
     public void closeSmsar(){
@@ -150,10 +172,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void prepareToInsert(){
+
         username=userNameEdit.getText().toString();
-        password= passwordEdit.getText().toString();
-        String space=username.charAt(username.length()-1)+"";
-        username=username.toLowerCase();
-        username=username.replaceAll(" ","");
+        if(!username.isEmpty()){
+            password= passwordEdit.getText().toString();
+            String space=username.charAt(username.length()-1)+"";
+            username=username.toLowerCase();
+            username=username.replaceAll(" ","");
+        }
+
+
     }
 }

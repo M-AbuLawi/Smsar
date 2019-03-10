@@ -1,5 +1,6 @@
 package com.yasoft.smsar;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,9 +9,15 @@ import android.support.design.widget.BottomNavigationView;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.yalantis.jellytoolbar.listener.JellyListener;
+import com.yalantis.jellytoolbar.widget.JellyToolbar;
 
 public class UserMainActivity extends AppCompatActivity {
 
@@ -21,6 +28,7 @@ public class UserMainActivity extends AppCompatActivity {
     }
 
     private TextView mTextMessage;
+
 
         FragmentManager fg=getFragmentManager();
         FragmentTransaction ft=fg.beginTransaction();
@@ -67,12 +75,14 @@ public class UserMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_main);
 
 
-         navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
+         navigation = (BottomNavigationView) findViewById(R.id.user_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         ft.replace(R.id.discoverView,_discoverFrag);
         ft.commit();
 
     }
+
 
 /*
     private  <T> void fragmentLuncher(T transform){
@@ -96,8 +106,39 @@ public class UserMainActivity extends AppCompatActivity {
         }
 
     public void navPointer(int id){
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.user_navigation);
         navigation.setSelectedItemId(id);
 
     }
+
+
+    public void hideBottomNavigationView() {
+        navigation.clearAnimation();
+        navigation.animate().translationY(navigation.getHeight()).setDuration(300);
+
+    }
+
+
+     public void showBottomNavigationView() {
+    navigation.clearAnimation();
+    navigation.animate().translationY(0).setDuration(300);
+}
+
+
+    @Override
+    public void onBackPressed() {
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+
+    }
+
+
+
 }

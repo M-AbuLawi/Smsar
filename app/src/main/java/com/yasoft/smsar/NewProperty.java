@@ -25,19 +25,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yasoft.smsar.interfaces.Foreign;
-import com.yasoft.smsar.models.Property;
-
-import java.util.ArrayList;
-
-import static android.content.Context.MODE_PRIVATE;
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewProperty extends Fragment implements Foreign {
-
+public class NewProperty extends Fragment {
 
     Spinner spin;
     EditText DESC,PRICE;
@@ -56,10 +47,11 @@ public class NewProperty extends Fragment implements Foreign {
     public NewProperty() {
         // Required empty public constructor
     }
-    String restoredText;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         // Inflate the layout for this fragment
         root= inflater.inflate(R.layout.fragment_addproperty, container, false);
@@ -174,12 +166,8 @@ public class NewProperty extends Fragment implements Foreign {
 
 
     final SmsarMainActivity smsar=(SmsarMainActivity)context;
-//need property id to update ;
-    @Override
-    public void setData(String username,Context context) {
-        DESC.setText("yes");
-        PRICE.setText("no");
-        Toast.makeText(context,username,Toast.LENGTH_LONG).show();
 
-    }
+
+
+
 }

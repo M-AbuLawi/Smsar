@@ -1,8 +1,8 @@
 package com.yasoft.smsar.interfaces;
 
-import android.content.Context;
+
 
 public interface Foreign {
 
-    public void setData(String username, Context context);
+    public void setData(int id, String city, String desc, String price);
 }

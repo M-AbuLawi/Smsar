@@ -15,6 +15,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class Signup extends AppCompatActivity {
 
         TextView Fullname, Email, Username, Password, phonenumber, ErorrM;;
@@ -46,10 +48,16 @@ public class Signup extends AppCompatActivity {
         radioButton = (RadioButton) findViewById(id);*/
 
         button = (Button) findViewById(R.id._signUp);
+
+
+
         button.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View v) throws SQLException {
+
+
                 if (validationVariable()) {
 
                     boolean flag;

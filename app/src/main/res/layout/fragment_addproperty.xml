@@ -33,6 +33,7 @@
                     android:layout_width="161dp"
                     android:layout_height="43dp"
                     android:layout_marginTop="60dp"
+                    android:dropDownWidth="20dp"
                     android:entries="@array/cities" />
 
                 <EditText
@@ -53,33 +54,24 @@
                 android:orientation="horizontal"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/NOR" />
-
-                <EditText
-
-                    android:id="@+id/numofrooms"
-                    android:layout_width="40dp"
+                <Spinner
+                    android:id="@+id/numofRooms"
+                    android:layout_width="116dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="0"
-                    android:inputType="number" />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:entries="@array/numbers"
+                    android:inputType="number"
+                    android:spinnerMode="dialog" />
+
+                <Spinner
+                    android:id="@+id/numofFloors"
+                    android:layout_width="107dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/NOF"
                     android:layout_marginLeft="5dp"
-                    />
-
-                <EditText
-                    android:id="@+id/numoffloors"
-                    android:layout_width="34dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="0"
-                    android:inputType="number" />
+                    android:dropDownWidth="20dp"
+                    android:entries="@array/numbers"
+                    android:text="@string/NOF" />
 
             </LinearLayout>
 

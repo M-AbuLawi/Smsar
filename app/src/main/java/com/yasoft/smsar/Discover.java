@@ -1,18 +1,20 @@
 package com.yasoft.smsar;
 
 
+
+import android.content.Context;
+
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.design.widget.BottomNavigationView;
+
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Filter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.Toolbar;
-import android.widget.ViewFlipper;
+
 
 import com.yasoft.smsar.models.Property;
 import com.yasoft.smsar.adapters.DiscoverAdapter;
@@ -39,24 +41,51 @@ public class Discover extends Fragment {
     ListAdapter iAdapter;
     Property propertyModel;
     View root;
-    Toolbar toolbar;
-    BottomNavigationView navigation;
-    ViewFlipper v_flipper;
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
+
+
         root= inflater.inflate(R.layout.fragment_discover, container, false);
         String context=root.getContext().toString();
+       final Context mContext=root.getContext();
 
-        if(context.contains("Smsar"))
-            ((SmsarMainActivity)getActivity()).navPointer(R.id.navigation_discover);
-        else if(context.contains("User"))
-            ((UserMainActivity)getActivity()).navPointer(R.id.navigation_discover);
+        if(context.contains("Smsar")) {
+            ((SmsarMainActivity) getActivity()).navPointer(R.id.navigation_discover);
+     //       UserMainActivity mUser=(UserMainActivity)mContext;
+        }
+        else if(context.contains("User")) {
+            ((UserMainActivity) getActivity()).navPointer(R.id.navigation_discover);
+        }
+
+       //mUser.getSupportActionBar().setTitle(R.string.title_Discover);
+
+        final Toolbar toolbar1 = (Toolbar) root.findViewById(R.id.discoverToolBar);
+        toolbar1.inflateMenu(R.menu.menu_dashboard_titlebar);
+        toolbar1.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
+
+
+
+
+
+
+
 
         _propertList=(ListView)root.findViewById(R.id.discoverLV);
-
 
     /*    int images[]={R.drawable.house1,R.drawable.house2, R.drawable.house3};
 
@@ -69,7 +98,6 @@ public class Discover extends Fragment {
 
         return root;
     }
-
 
 /*    public void flipperImages(int image){
         ImageView imageView=new ImageView(root.getContext());

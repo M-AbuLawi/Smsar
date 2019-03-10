@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Popup" parent="Theme.AppCompat.Light">
+    </style>3
+
+    <style name="Theme.GuidelinesCompat" parent="Theme.GuidelinesCompat.Dark.DarkToolbar.NoActionbar">
+
+        <item name="colorPrimary">@color/ms_black</item>
+        <item name="colorPrimaryDark">@color/ms_black</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="actionModeBackground">@color/colorAccent</item>
+
+        <!-- Actionbar styles -->
+        <item name="actionBarTheme">@style/Theme.GuidelinesCompat.Toolbar</item>
+
+    </style>
+
+    <style name="Theme.GuidelinesCompat.Toolbar" parent="Theme.GuidelinesCompat.ColoredToolbar">
+
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/ms_black</item>
+
+    </style>
+
+
+</resources>

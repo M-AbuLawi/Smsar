@@ -144,6 +144,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    public Cursor getProperty(int id)throws SQLException {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from Property where propertyID='"+id+"'", null);
+        res.moveToFirst();
+        return res;
+
+    }
 
 
     public int numberOfRows(){
@@ -183,6 +190,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.delete(PROPERTY_TABLE_NAME, PROPERTY_COLUMN__PROPERTYID + "=" + id, null) > 0;
     }
 
+
+
     //For ArrayList and Adapters
     public ArrayList<Property> getAllProperty(String Username){
         ArrayList<Property> array_list = new ArrayList<>();
@@ -206,15 +215,25 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //For Cursor;
-    public Cursor getProperty(String Username){
+/*    public String getProperty(int id){
 
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor res=db.rawQuery("select * from Property where smsarUsername='"+Username+"'",null);
+        Cursor res=db.rawQuery("select * from Property where propertyID= 30 ",null);
         res.moveToFirst();
-            return res;
+            return res.getString(res.getColumnIndex(PROPERTY_COLUMN__DESCRIPTION));
+
+    }*/
+    //For Cursor;
+
+    public int getPropertyID(String Username){
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor res=db.rawQuery("select propertyID from Property where smsarUsername='"+Username+"'",null);
+        res.moveToFirst();
+       int id= res.getColumnIndex(PROPERTY_COLUMN__PROPERTYID);
+
+        return id;
 
     }
-
 
     public ArrayList<Property> getAllProperty(){
         ArrayList<Property> array_list = new ArrayList<>();

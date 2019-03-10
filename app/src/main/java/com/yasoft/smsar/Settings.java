@@ -1,10 +1,6 @@
 package com.yasoft.smsar;
 
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,13 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.widget.Toast;
 
-import static android.content.Context.MODE_PRIVATE;
-
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +32,7 @@ public class Settings extends Fragment {
     DBHelper mDBHelper;
     ListView li;
     ImageView image;
-View root;
+    View root;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,11 +60,28 @@ View root;
                 ((SmsarMainActivity)getActivity()).logout();
             }
             if(id==1){
-                mDBHelper=new DBHelper(root.getContext());
-                String username = getArguments().getString("username");
-                mDBHelper.deleteSmsar(username);
-                ((SmsarMainActivity)getActivity()).logout();
 
+                new SweetAlertDialog(root.getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Are you sure?")
+                        .setContentText("All of your data will be gone!")
+                        .setConfirmText("Yes,delete it!")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                mDBHelper=new DBHelper(root.getContext());
+                                String username = getArguments().getString("username");
+                                mDBHelper.deleteSmsar(username);
+                                ((SmsarMainActivity)getActivity()).logout();
+                            }
+                        })
+                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .show();
                 //need to create class to manage the sessions
             }
         }
@@ -79,5 +91,8 @@ View root;
     }
 
 
-
+/*
+*
+*
+* */
 }

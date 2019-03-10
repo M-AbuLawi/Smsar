@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.yasoft.smsar.interfaces.Foreign;
 
+
 public class SmsarMainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -38,8 +39,6 @@ public class SmsarMainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_dashboard_titlebar,menu);
 
         return true;
-
-
     }
 
 
@@ -97,25 +96,33 @@ public class SmsarMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = new Bundle();
         setContentView(R.layout.activity_smsar_main);
 
 
 
 
+        Bundle bundle = new Bundle();
 
+        //get username
+
+        // START
         SharedPreferences prefs = getSharedPreferences("user_details", MODE_PRIVATE);
          restoredText = prefs.getString("username",null);
+        //END
 
-
-
-        Toast.makeText(this,restoredText,Toast.LENGTH_LONG).show();
+        //send username to fragments
+        //START
+        Toast.makeText(this,restoredText,Toast.LENGTH_LONG).show(); // FOR TESTING PURPOSES
         bundle.putString("username",restoredText);
 
         _fragmentManage.setArguments(bundle);
         _fragmentSetting.setArguments(bundle);
         _fragmentNewProperty.setArguments(bundle);
+
+        //END
+
         mTextMessage = (TextView) findViewById(R.id.message);
+
 
          navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -137,11 +144,11 @@ public class SmsarMainActivity extends AppCompatActivity {
         if (_fragmentSetting.isVisible())
             fragmentTransaction.remove(_fragmentSetting);
         if(_fragmentNewProperty.isVisible()){
-            setListener(_fragmentNewProperty);
+         //   setListener(_fragmentNewProperty);
             fragmentTransaction.remove(_fragmentNewProperty);}
         fragmentTransaction.replace(R.id.mainView, (android.app.Fragment) transform);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
 
     }
     public void logout(){
@@ -174,20 +181,32 @@ public class SmsarMainActivity extends AppCompatActivity {
         navigation.setSelectedItemId(id);
 
     }
-    private Foreign listener ;
 
-    public void setListener(Foreign listener)
-    {
-        this.listener = listener ;
+
+
+    public void hideBottomNavigationView() {
+        navigation.clearAnimation();
+        navigation.animate().translationY(navigation.getHeight()).setDuration(300);
+
     }
 
-    public void callSetData(){
-        FragmentTransaction ft =getFragmentManager().beginTransaction();
-        ft.replace(R.id.mainView,_fragmentNewProperty);
-        setListener(_fragmentNewProperty);
-        ft.commit();
-        listener.setData(restoredText,this);
+    public void showBottomNavigationView() {
+        navigation.clearAnimation();
+        navigation.animate().translationY(0).setDuration(300);
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+
+    }
 }

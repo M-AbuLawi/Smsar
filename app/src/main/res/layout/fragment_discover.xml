@@ -1,19 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Discover"
-    >
+    android:background="@color/ms_white" >
 
     <!-- TODO: Update blank fragment layout -->
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/discoverToolBar"
+        android:layout_width="420dp"
+        android:layout_height="55dp"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/Theme.Popup"
+        app:theme="@style/Theme.GuidelinesCompat.Toolbar"
+        app:title="@string/title_Discover"
+        app:titleTextColor="@color/ms_black">
+    </android.support.v7.widget.Toolbar>
+
+
+    <Button
+        android:id="@+id/filter"
+        android:layout_width="169dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="244dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/float_transparent"
+        android:drawableRight="@drawable/filter40"
+        android:drawablePadding="2dp"
+        android:fontFamily="@font/tajawalregular"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="@string/title_filter"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/discoverLV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/discoverToolBar" />
+
+    <Button
+        android:id="@+id/sort"
+        android:layout_width="169dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/float_transparent"
+        android:drawableRight="@drawable/sort"
+        android:drawablePadding="2dp"
+        android:fontFamily="@font/tajawalregular"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="@string/title_sort"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/discoverLV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/filter"
+        app:layout_constraintTop_toBottomOf="@+id/discoverToolBar" />
 
 
     <ListView
         android:id="@+id/discoverLV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="440dp"
+        android:layout_height="526dp"
+        android:layout_below="@+id/toolbar"
         android:divider="@null"
-        android:layout_marginBottom="50dp"
-        />
-</RelativeLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/discoverToolBar" />
+
+</android.support.constraint.ConstraintLayout>

@@ -15,6 +15,18 @@
     <string name="title_like">Liked</string>
     <string name="title_newApartment">Add Apartment</string>
     <string name="title_contact">Contact Us</string>
+
+
+
+    <string name="title_filter">Filter</string>
+    <string name="title_sort">Sort</string>
+
+    <string name="title_username">Username</string>
+    <string name="title_password">Password</string>
+    <string name="title_login">Login</string>
+    <string name="title_smsar">Smsar ?</string>
+    <string name="title_vistor">Want Apartment</string>
+
     <string-array name="settings">
         <item>Logout</item>
         <item>Delete Account</item>
@@ -29,12 +41,21 @@
         <item>Al Kara</item>
         <item>Maan</item>
     </string-array>
-
+    <string-array name="numbers">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_test">Discover</string>
     <string name="title_notifications">Notifications</string>
-
+    <string name="sign_up"> &lt;u>Sign Up&lt;/u></string>
 
 
 </resources>

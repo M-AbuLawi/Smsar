@@ -18,4 +18,12 @@
     <string name="title_About">من نحن</string>
     <string name="title_AddNew">اضف جديداً</string>
     <string name="title_contact">تواصل معنا</string>
+    <string name="sign_up">&lt;u>underline&lt;/u></string>
+    <string name="title_filter">تصنيف</string>
+    <string name="title_username">اسم المستخدم</string>
+    <string name="title_password">كلمة المرور</string>
+    <string name="title_login">تسجيل دخول</string>
+    <string name="title_smsar">سمسار ؟</string>
+    <string name="title_vistor">تبحث عن شقة ؟</string>
+    <string name="title_sort">ترتيب</string>
 </resources>

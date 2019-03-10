@@ -4,24 +4,30 @@
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/dashboard"
+        android:iconTint="#000"
         android:title="@string/title_dashboard" />
     <item
         android:id="@+id/navigation_discover"
         android:icon="@drawable/discover"
+        android:iconTint="#000"
         android:title="@string/title_Discover" />
 
     <item
         android:id="@+id/like"
         android:icon="@drawable/like"
+        android:iconTint="#000"
         android:title="@string/title_like" />
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/notification"
+        android:iconTint="#000"
+
         android:title="@string/title_account" />
 
     <item
         android:id="@+id/navigation_inbox"
         android:icon="@drawable/inbox"
+        android:iconTint="#000"
         android:title="@string/title_inbox" />
 
 
