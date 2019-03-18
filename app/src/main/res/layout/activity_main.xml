@@ -38,7 +38,7 @@
             android:background="@drawable/btn_rounded"
             android:minWidth="200dp"
             android:onClick="logIN"
-            android:text="Login"
+            android:text="@string/title_login"
             android:textAllCaps="false"
             android:textColor="@color/ms_white"
             android:textSize="18sp" />
@@ -53,7 +53,7 @@
         android:ems="10"
         android:background="@drawable/rounded_edittext"
         android:fontFamily="@font/tajawalmedium"
-        android:hint="Username"
+        android:hint="@string/title_username"
         android:textSize="16dp"
         android:layout_marginBottom="4dp"
         android:drawableLeft="@drawable/user"
@@ -74,9 +74,10 @@
         android:background="@drawable/rounded_edittext"
         android:layout_below="@+id/userName"
         android:layout_centerHorizontal="true"
-        android:drawableRight="@drawable/eye"
+        android:drawablePadding="2dp"
+        android:drawableLeft="@drawable/password"
         android:fontFamily="@font/tajawalmedium"
-        android:hint="Password"
+        android:hint="@string/title_password"
         android:inputType="textPassword" />
 
 

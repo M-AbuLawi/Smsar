@@ -11,28 +11,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.yasoft.smsar.models.Property;
 import com.yasoft.smsar.models.SmsarModel;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    /*
-    * CREATE TABLE Property (
-        `PropertyID`	INTEGER NOT NULL,
-        `SmsarUsername`	TEXT NOT NULL,
-        `City`	TEXT,
-        `Country`	TEXT,
-        `Neighborhood`	TEXT,
-        `Apartment Number`	INTEGER,
-        `Description`	TEXT,
-        `Longitude`	REAL,
-        `Latitude`	REAL,
-        `Pictures`	BLOB,
-        FOREIGN KEY(`SmsarUsername`) REFERENCES `Smsar`(`username`),
-        PRIMARY KEY(`PropertyID`)
-    );
-    *
-    * */
     public static final String DATABASE_NAME = "Smsar.db";
 
     //CREATE TABLE Smsar
@@ -50,9 +35,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String  PROPERTY_COLUMN__CITY = "city";
     public static final String  PROPERTY_COLUMN__DESCRIPTION = "description";
     public static final String  PROPERTY_COLUMN__PRICE = "price";
+    public static final String  PROPERTY_COLUMN__NOROOMS = "noRooms";
+    public static final String  PROPERTY_COLUMN__NOBATHROOMS = "noBathrooms";
+    public static final String  PROPERTY_COLUMN__PARKING = "parking";
+    public static final String  PROPERTY_COLUMN__ADDRESS = "address";
+    public static final String  PROPERTY_COLUMN__DATE= "date";
+    public static final String  PROPERTY_COLUMN__AREA = "area";
 
     // CREATE TABLE Images
-    public static final String IMAGES_TABLE_NAME = "Property";
+    public static final String IMAGES_TABLE_NAME = "Images";
     public static final String  IMAGES_COLUMN__PROPERTYID = "propertyID";
     public static final String  IMAGES_COLUMN_IMAGEID= "imageID";
     public static final String  IMAGES_COLUMN__IMAGE = "image";
@@ -62,7 +53,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME , null, 13);
+        super(context, DATABASE_NAME , null, 19);
     }
 
     @Override
@@ -70,12 +61,15 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table Smsars " +
-                        "(username text primary key unique, name text,email text, password text,phone text)"
+                        "(username text primary key unique, name text,email text, password text," +
+                        "phone text)"
         );
         db.execSQL(
                 "create table Property " +
                         "(propertyID INTEGER primary key AUTOINCREMENT unique, smsarUsername TEXT " +
-                        ",city TEXT, picture BLOB,description TEXT,price float ," +
+                        ",city TEXT, picture BLOB,description TEXT,price float ,noRooms INTEGER ," +
+                            "noBathrooms INTEGER ,parking BOOLEAN ,address TEXT , date TEXT ," +
+                        "area TEXT, " +
                         "FOREIGN KEY(`smsarUsername`) REFERENCES `Smsar`(`username`))"
         );
         db.execSQL(
@@ -84,6 +78,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         ",image BLOB,"  +
                         "FOREIGN KEY(`propertyID`) REFERENCES `Property`(`propertyID`))"
         );
+
         db.execSQL(
                "create view propertyDataView AS " +
                        "select username ,name , phone, city " +
@@ -102,13 +97,21 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertProperty (String smsarusername,String City, String Description, float Price)throws SQLException {
+    public boolean insertProperty (String smsarusername, String City, String Description,
+                                   float Price, int numRoom, int numBaths, boolean parking,String address,
+                                   String date,String area)throws SQLException {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("city", City);
         contentValues.put("smsarUsername", smsarusername);
         contentValues.put("description", Description);
         contentValues.put("price", Price);
+        contentValues.put("noRooms", numRoom);
+        contentValues.put("noBathrooms", numBaths);
+        contentValues.put("parking", parking);
+        contentValues.put("address", address);
+        contentValues.put("date",date);
+        contentValues.put("area",area);
         db.insert("Property", null, contentValues);
         return true;
     }
@@ -319,16 +322,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public String getPhone(String userName) {
-        ArrayList<SmsarModel> array_list = new ArrayList<>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from Smsars where username='" + userName + "'", null );
-        res.moveToFirst();
-        String pn="";
-            pn=res.getString(res.getColumnIndex(SMSAR_COLUMN_PHONE));
-
-
-        return pn;
+        Cursor res =db.rawQuery( "select * from Smsars where username='" + userName + "'", null );
+            res.moveToFirst();
+       // return res;
+            return res.getString(res.getColumnIndex(SMSAR_COLUMN_PHONE));
     }
 }

@@ -21,4 +21,49 @@
         app:layout_constraintHorizontal_bias="0.705"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/plus"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="311dp"
+        android:layout_marginTop="197dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="320dp"
+        android:background="@color/float_transparent"
+        android:src="@drawable/plus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner1"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <ImageButton
+        android:id="@+id/low"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="267dp"
+        android:layout_marginTop="244dp"
+        android:background="@color/float_transparent"
+        android:src="@drawable/plus"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="59dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="322dp"
+        android:text="1"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/plus"
+        app:layout_constraintStart_toEndOf="@+id/low" />
+
 </android.support.constraint.ConstraintLayout>

@@ -4,9 +4,7 @@ package com.yasoft.smsar;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,9 +19,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,17 +33,20 @@ import android.widget.Toast;
 public class NewProperty extends Fragment {
 
     Spinner spin;
-    EditText DESC,PRICE;
+    EditText DESC,PRICE,mAddress;
     ImageButton ib;
     float price;
     ImageView iv;
     DBHelper mDBHelper;
     FloatingActionButton fab;
      View  root;
-     TextView mError;
+     TextView mError , mArea;
      TextView mListed;
      Context context;
-
+    Spinner _mNumberOfRooms;
+    Spinner _mNumberOfBathRooms;
+    RadioButton rd;
+    String date;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     public NewProperty() {
@@ -77,6 +82,16 @@ public class NewProperty extends Fragment {
                  captureImage();
                     }
             });
+        _mNumberOfBathRooms=(Spinner)root.findViewById(R.id.numofRooms);
+        _mNumberOfRooms=(Spinner)root.findViewById(R.id.numofbathroom);
+        mArea=(TextView)root.findViewById(R.id.area);
+        rd=(RadioButton)root.findViewById(R.id.parking);
+        mAddress=(EditText)root.findViewById(R.id.address);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        date = sdf.format(new Date());
+
+     //   Toast.makeText(root.getContext(),date,Toast.LENGTH_LONG).show(); //   FOE TESTING PURPOSE
 
 
 
@@ -124,10 +139,17 @@ public class NewProperty extends Fragment {
        // mListed=(TextView)root.findViewById(R.id.dett);
 
     if (validationVariable()) {
+
+        boolean parking=false;
+        if(rd.isChecked())
+            parking=true;
+
         boolean flag;
         try {
             flag = mDBHelper.insertProperty(getArguments().getString("username"),spin.getSelectedItem().toString(), DESC.getText()
-                    .toString(), Float.valueOf(PRICE.getText().toString()));
+                    .toString(), Float.valueOf(PRICE.getText().toString()),
+                    Integer.parseInt(_mNumberOfRooms.getSelectedItem().toString()),
+                    Integer.parseInt(_mNumberOfBathRooms.getSelectedItem().toString()),parking,mAddress.getText().toString(),date,mArea.getText().toString());
             if (flag) {
                 Toast.makeText(root.getContext(), "done",
                         Toast.LENGTH_SHORT).show();
@@ -157,7 +179,8 @@ public class NewProperty extends Fragment {
 
     public boolean validationVariable () {
         if (TextUtils.isEmpty(spin.getSelectedItem().toString()) || TextUtils.isEmpty(DESC.getText().toString()) ||
-                TextUtils.isEmpty(PRICE.getText().toString()))
+                TextUtils.isEmpty(PRICE.getText().toString())||
+                TextUtils.isEmpty(_mNumberOfBathRooms.toString())||TextUtils.isEmpty(_mNumberOfRooms.toString()))
             return false;
 
         return true;

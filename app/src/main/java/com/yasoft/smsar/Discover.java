@@ -2,6 +2,8 @@ package com.yasoft.smsar;
 
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -41,7 +44,7 @@ public class Discover extends Fragment {
     ListAdapter iAdapter;
     Property propertyModel;
     View root;
-
+     Context mContext;
 
 
 
@@ -50,12 +53,12 @@ public class Discover extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-
-
-
         root= inflater.inflate(R.layout.fragment_discover, container, false);
         String context=root.getContext().toString();
-       final Context mContext=root.getContext();
+
+
+
+          mContext=root.getContext();
 
         if(context.contains("Smsar")) {
             ((SmsarMainActivity) getActivity()).navPointer(R.id.navigation_discover);
@@ -76,7 +79,13 @@ public class Discover extends Fragment {
 
             }
         });
-
+        Button mFilter=(Button)root.findViewById(R.id.filter);
+        mFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parseActivity();
+            }
+        });
 
 
 
@@ -123,4 +132,37 @@ public class Discover extends Fragment {
 
 
     }
+
+    public  void parseActivity (){
+        FragmentManager fragmentManager =null;
+        FragmentTransaction fragmentTransaction=null;
+        ShowFilter mFlter = new ShowFilter();
+        Bundle mBundle=new Bundle();
+        if(mContext.toString().contains("User")) {
+            final UserMainActivity user = (UserMainActivity) mContext;
+            fragmentManager=user.getFragmentManager();
+            fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(android.R.animator.fade_in,android.R.animator.fade_out,
+                    android.R.animator.fade_in,android.R.animator.fade_out);
+
+            fragmentTransaction.replace(R.id.discoverView ,mFlter, "ShowFilter");
+
+
+        }
+
+        else if(mContext.toString().contains("Smsar"))
+        {
+            final SmsarMainActivity mSmsar = (SmsarMainActivity) mContext;
+            fragmentManager=mSmsar.getFragmentManager();
+            fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(android.R.animator.fade_in,android.R.animator.fade_out);
+            fragmentTransaction.replace(R.id.mainView ,mFlter, "ShowFilter");
+
+        }
+
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+    }
+
 }

@@ -7,12 +7,13 @@
 
 
     <item
-        android:id="@+id/action_add"
-        android:icon="@drawable/plustitlebar"
+        android:id="@+id/action_share"
+        android:icon="@drawable/share"
         android:title="@string/title_newApartment"
         app:showAsAction="always"
         />
-<item android:id="@+id/action_setting"
+
+    <item android:id="@+id/action_setting"
     android:iconTint="@color/ms_black"
     android:title="@string/title_setting"
     app:showAsAction="never"/>

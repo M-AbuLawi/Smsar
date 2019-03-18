@@ -17,7 +17,6 @@
     <string name="title_contact">Contact Us</string>
 
 
-
     <string name="title_filter">Filter</string>
     <string name="title_sort">Sort</string>
 
@@ -25,7 +24,7 @@
     <string name="title_password">Password</string>
     <string name="title_login">Login</string>
     <string name="title_smsar">Smsar ?</string>
-    <string name="title_vistor">Want Apartment</string>
+    <string name="title_vistor">Want Apartment ?</string>
 
     <string-array name="settings">
         <item>Logout</item>

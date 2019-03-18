@@ -8,7 +8,7 @@
         android:color="#2f6699"
         />
     <corners
-        android:radius="30dp"
+        android:radius="2dp"
 
     />
 

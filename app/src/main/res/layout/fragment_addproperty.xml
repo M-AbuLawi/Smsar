@@ -1,161 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NewProperty">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="102dp"
-                android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/cities"
+                android:layout_width="161dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="116dp"
+                android:autofillHints="@string/title_About"
+                android:dropDownWidth="20dp"
+                android:entries="@array/cities"
+                android:spinnerMode="dialog"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-                <Spinner
-                    android:id="@+id/cities"
-                    android:layout_width="161dp"
-                    android:layout_height="43dp"
-                    android:layout_marginTop="60dp"
-                    android:dropDownWidth="20dp"
-                    android:entries="@array/cities" />
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="272dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="196dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_edittext"
+                android:ems="10"
+                android:hint="Mecca Al Mukarramah St"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cities"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
 
-                <EditText
-                    android:id="@+id/editText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:layout_marginTop="60dp"
-                    android:hint="Mecca Al Mukarramah St"
-                    android:inputType="textPersonName" />
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <Spinner
-                    android:id="@+id/numofRooms"
-                    android:layout_width="116dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="0"
-                    android:entries="@array/numbers"
-                    android:inputType="number"
-                    android:spinnerMode="dialog" />
-
-                <Spinner
-                    android:id="@+id/numofFloors"
-                    android:layout_width="107dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:dropDownWidth="20dp"
-                    android:entries="@array/numbers"
-                    android:text="@string/NOF" />
-
-            </LinearLayout>
 
             <EditText
                 android:id="@+id/description"
-                android:layout_width="383dp"
-                android:layout_height="103dp"
+                android:layout_width="385dp"
+                android:layout_height="200dp"
                 android:layout_alignEnd="@+id/price"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="-240dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_edittext"
                 android:ems="10"
+                android:gravity="start"
                 android:hint="add description about the property"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="77dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/price"
-                    android:layout_width="119dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="14dp"
-                    android:layout_marginTop="15dp"
-
-                    android:ems="10"
-                    android:hint="$"
-                    android:inputType="number" />
-
-                <ImageButton
-                    android:id="@+id/addImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="140dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/photo_camera" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="152dp"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/address" />
 
 
-                <ImageView
-                    android:id="@+id/showImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="166dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/addproperty" />
-            </LinearLayout>
+            <EditText
+                android:id="@+id/price"
+                android:layout_width="115dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="7dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_edittext"
+                android:ems="10"
+                android:hint="$"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description" />
+
+            <ImageButton
+                android:id="@+id/addImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="335dp"
+                android:layout_marginTop="134dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="112dp"
+                android:background="@drawable/photo_camera"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/price" />
+
+            <ImageView
+                android:id="@+id/showImage"
+                android:layout_width="178dp"
+                android:layout_height="171dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="123dp"
+                android:layout_marginEnd="225dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/addproperty"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numofbathroom"
+                app:layout_constraintVertical_bias="1.0" />
+
+
+            <Spinner
+                android:id="@+id/numofRooms"
+                android:layout_width="107dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="124dp"
+                android:ems="10"
+                android:entries="@array/numbers"
+                android:hint="0"
+                android:inputType="number"
+                android:spinnerMode="dialog"
+                app:layout_constraintBottom_toTopOf="@+id/showImage"
+                app:layout_constraintEnd_toStartOf="@+id/price"
+                app:layout_constraintStart_toEndOf="@+id/numofbathroom"
+                app:layout_constraintTop_toBottomOf="@+id/description"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Spinner
+                android:id="@+id/numofbathroom"
+                android:layout_width="109dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="2dp"
+                android:dropDownWidth="20dp"
+                android:entries="@array/numbers"
+                android:spinnerMode="dialog"
+                android:text="@string/NOF"
+                app:layout_constraintEnd_toStartOf="@+id/numofRooms"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description" />
+
             <TextView
                 android:id="@+id/mError"
                 android:layout_width="204dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="128dp"
+                android:layout_marginEnd="29dp"
+                android:layout_marginBottom="15dp"
                 android:text=""
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="18dp"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/address"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cities"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
 
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/addProperty"
+                android:layout_width="77dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="116dp"
+                android:layout_marginTop="92dp"
+                android:layout_marginEnd="45dp"
+                android:layout_marginBottom="52dp"
+                android:backgroundTint="@color/Primary"
+                android:clickable="true"
+                android:src="@drawable/tick"
+                app:backgroundTint="@color/buttons"
+                app:fabCustomSize="@android:dimen/notification_large_icon_width"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/showImage"
+                app:layout_constraintTop_toBottomOf="@+id/addImage"
+                app:layout_constraintVertical_bias="0.489"
+                app:maxImageSize="30dp" />
+
+            <RadioButton
+                android:id="@+id/parking"
+                android:layout_width="wrap_content"
+                android:layout_height="39dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="55dp"
+                android:layout_marginEnd="299dp"
+                android:layout_marginBottom="222dp"
+                android:text="Parking "
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/showImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numofbathroom" />
+
+            <EditText
+                android:id="@+id/area"
+                android:layout_width="115dp"
+                android:layout_height="53dp"
+                android:layout_marginStart="168dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="176dp"
+                android:background="@drawable/rounded_edittext"
+                android:ems="10"
+                android:paddingRight="2dp"
+                android:paddingLeft="2dp"
+                android:hint="150 m"
+                android:inputType="number"
+                app:layout_constraintBottom_toTopOf="@+id/addImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/parking"
+                app:layout_constraintTop_toBottomOf="@+id/price" />
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addProperty"
-        android:layout_width="77dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="22dp"
-        android:layout_marginBottom="72dp"
-        android:backgroundTint="@color/Primary"
-        android:clickable="true"
-        android:src="@drawable/tick"
-        app:backgroundTint="@color/buttons"
-        app:fabCustomSize="@android:dimen/notification_large_icon_width"
-        app:maxImageSize="30dp" />
 
-</RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -21,7 +21,7 @@
         android:layout_marginBottom="59dp"
         android:background="@drawable/btn_rounded"
         android:fontFamily="@font/cabin"
-        android:text="Smsar ?"
+        android:text="@string/title_smsar"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -36,6 +36,6 @@
         android:layout_marginBottom="138dp"
         android:background="@drawable/btn_rounded"
         android:fontFamily="@font/cabin"
-        android:text="Want Apartment ?"
+        android:text="@string/title_vistor"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </RelativeLayout>

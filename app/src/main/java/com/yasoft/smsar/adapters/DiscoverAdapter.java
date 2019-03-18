@@ -151,15 +151,6 @@ public class DiscoverAdapter extends BaseAdapter {
 
 
 
-        mCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pn=mDBHelper.getPhone(mProperty.getmUsername());
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + pn));
-                context.startActivity(intent);
-            }
-
-        });
 
 
  /*       mMessage.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +174,7 @@ public class DiscoverAdapter extends BaseAdapter {
         return this.arrayList.size();
     }
 
-    public  void parseActivity (int id /*Property ID*/ ){
+    public  void parseActivity (int id /*Property item ID*/ ){
         FragmentManager fragmentManager =null;
         FragmentTransaction fragmentTransaction=null;
         ShowProperty mShowProperty = new ShowProperty();

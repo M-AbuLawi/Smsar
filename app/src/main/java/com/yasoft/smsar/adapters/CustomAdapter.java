@@ -80,8 +80,9 @@ public class CustomAdapter extends BaseAdapter{
                 try{
                 mDBHelper=new DBHelper(context.getApplicationContext());
                 mDBHelper.deletePropperty(property.getmID());
-                arrayList.remove(position);
-                Toast.makeText(context,"Done",Toast.LENGTH_LONG).show();
+             //   arrayList.remove(position);
+
+                Toast.makeText(context,""+position,Toast.LENGTH_LONG).show();
 
 
             }

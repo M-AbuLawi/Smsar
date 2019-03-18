@@ -45,7 +45,7 @@ public class SmsarMainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add:
+            case R.id.action_share:
                 fragmentLuncher(_fragmentNewProperty);
                 setTitle(R.string.title_newApartment);
                 return true;
@@ -146,6 +146,7 @@ public class SmsarMainActivity extends AppCompatActivity {
         if(_fragmentNewProperty.isVisible()){
          //   setListener(_fragmentNewProperty);
             fragmentTransaction.remove(_fragmentNewProperty);}
+
         fragmentTransaction.replace(R.id.mainView, (android.app.Fragment) transform);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
