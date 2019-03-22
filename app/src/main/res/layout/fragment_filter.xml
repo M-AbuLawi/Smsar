@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,126 +7,147 @@
     android:background="@color/ms_white"
     tools:context=".ShowFilter">
 
-    <android.support.design.chip.Chip
-        android:id="@+id/chip"
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="281dp"
-        android:checkable="true"
-        android:checked="true"
-        android:clickable="true"
-        android:text="Amman"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/ms_white"
-        app:chipBackgroundColor="@color/colorAccent"
-        app:closeIcon="@drawable/ic_close"
-        app:closeIconEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.chip.Chip
-        android:id="@+id/chip1"
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="66dp"
-        android:checkable="true"
-        android:checked="false"
-        android:clickable="true"
-        android:text="Zarqa"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/ms_white"
-        app:chipBackgroundColor="@color/colorAccent"
-        app:closeIcon="@drawable/ic_close"
-        app:closeIconEnabled="false"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
-        app:layout_constraintStart_toEndOf="@+id/chip" />
+    <com.warkiz.widget.IndicatorSeekBar
+        android:layout_width="371dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="363dp" />
 
-    <android.support.design.chip.Chip
-        android:id="@+id/chip3"
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="66dp"
-        android:checkable="true"
-        android:checked="false"
-        android:clickable="true"
-        android:text="Mafraq"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/ms_white"
-        app:chipBackgroundColor="@color/colorAccent"
-        app:closeIcon="@drawable/ic_close"
-        app:closeIconEnabled="false"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
-        app:layout_constraintStart_toEndOf="@+id/chip1"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/view2"
-        style="@style/separator"
-        android:layout_marginTop="66dp"
-        app:layout_constraintBottom_toTopOf="@+id/test"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chip"
-        app:layout_constraintVertical_bias="1.0" />
 
+
+    <ImageButton
+        android:id="@+id/decreaseR"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="247dp"
+        android:layout_marginTop="451dp"
+        android:layout_marginEnd="122dp"
+        android:background="@color/float_transparent"
+        android:src="@drawable/minus" />
+
+
+    <ImageButton
+        android:id="@+id/increaseR"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="346dp"
+        android:layout_marginTop="452dp"
+        android:layout_marginEnd="22dp"
+        android:background="@color/float_transparent"
+        android:src="@drawable/ic_plus_40" />
+
+    <TextView
+        android:id="@+id/numofRooms"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="294dp"
+        android:layout_marginTop="451dp"
+        android:layout_marginEnd="31dp"
+        android:gravity="center"
+        android:text="1"
+        android:textAlignment="center"
+        android:textColor="@color/ms_black"
+        android:textSize="24sp" />
+
+
+    <ImageButton
+        android:id="@+id/decreaseB"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="247dp"
+        android:layout_marginTop="506dp"
+        android:layout_marginEnd="121dp"
+        android:background="@color/float_transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/minus" />
+
+
+    <ImageButton
+        android:id="@+id/increaseB"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="346dp"
+        android:layout_marginTop="507dp"
+        android:layout_marginEnd="22dp"
+        android:background="@color/float_transparent"
+        android:src="@drawable/ic_plus_40" />
+
+    <TextView
+        android:id="@+id/numofbathroom"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="294dp"
+        android:layout_marginTop="506dp"
+        android:layout_marginEnd="31dp"
+        android:gravity="center"
+        android:text="1"
+        android:textAlignment="center"
+        android:textColor="@color/ms_black"
+        android:textSize="24sp" />
 
     <Button
-        android:id="@+id/test"
+        android:id="@+id/city"
         style="@style/Widget.MaterialComponents.Chip.Filter"
         android:layout_width="match_parent"
         android:layout_height="95dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="141dp"
+        android:layout_marginBottom="299dp"
         android:background="@color/white_transparency"
         android:drawableRight="@drawable/ic_arrow_right_16px"
         android:hint="Amman"
         android:paddingStart="10dp"
+        android:paddingTop="15dp"
         android:paddingEnd="8dp"
         android:text="Amman"
-        android:paddingTop="15dp"
-
         android:textAlignment="textStart"
         android:textAppearance="@style/Widget.MaterialComponents.Chip.Filter"
         android:textColor="@color/links"
         android:textColorHint="@color/gray_btn_bg_color"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
-
-    <View
-        android:id="@+id/view"
-        style="@style/separator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/test" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="147dp"
         android:text="LOCATION"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:layout_constraintStart_toStartOf="@+id/test"
-        app:layout_constraintTop_toTopOf="@+id/test" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
 
     <Button
-        android:id="@+id/test1"
+        android:id="@+id/date"
         style="@style/Widget.MaterialComponents.Chip.Filter"
         android:layout_width="match_parent"
-        android:layout_height="79dp"
+        android:layout_height="95dp"
 
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="236dp"
         android:background="@color/white_transparency"
         android:drawableRight="@drawable/ic_arrow_right_16px"
         android:hint="Amman"
@@ -138,31 +159,60 @@
         android:textAppearance="@style/Widget.MaterialComponents.Chip.Filter"
         android:textColor="@color/links"
         android:textColorHint="@color/gray_btn_bg_color"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/view3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <View
-        android:id="@+id/view3"
-        style="@style/separator"
-        android:layout_marginBottom="320dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="243dp"
         android:text="DATE"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-</android.support.constraint.ConstraintLayout>
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="518dp"
+        android:fontFamily="@font/tajawallight"
+        android:text="Number of BathRooms"
+        android:textColor="@color/ms_black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="464dp"
+        android:layout_marginBottom="177dp"
+        android:fontFamily="@font/tajawallight"
+        android:text="Number of Rooms"
+        android:textColor="@color/ms_black"
+        android:textSize="20sp" />
+
+    <Switch
+        android:id="@+id/parkingAsk"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="563dp"
+        android:layout_marginEnd="22dp"
+        android:fontFamily="@font/tajawallight"
+        android:text="Parking"
+        android:textSize="20sp" />
+
+
+</RelativeLayout>

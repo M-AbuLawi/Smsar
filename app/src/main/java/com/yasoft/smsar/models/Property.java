@@ -12,6 +12,10 @@ public class Property {
         private String mPrice;
         private String mUsername;
 
+    public  Property(){
+
+
+    }
 
     public Property(int mID, String mCity, String mDesc, String mPrice) {
         this.mID=mID;

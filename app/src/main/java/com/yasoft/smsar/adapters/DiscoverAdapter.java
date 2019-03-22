@@ -8,6 +8,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +17,19 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import java.util.List;
 
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -30,68 +42,61 @@ import com.yasoft.smsar.UserMainActivity;
 import com.yasoft.smsar.models.SmsarModel;
 
 import java.util.ArrayList;
+import java.util.List;
+//  private List<Property> arrayList;
 
-public class DiscoverAdapter extends BaseAdapter {
 
 
+public class DiscoverAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    Context context;
-    ArrayList<Property> arrayList;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+    List<Property> arrayList;
     ArrayList<SmsarModel> smsarModels;
+    Context context;
     DBHelper mDBHelper;
     Button mCall,mMessage;
     String pn;
     String textMessage="أود استأجار الشقة ";
-    TextView txtDesc,mInfo;
+    TextView mInfo;
      Property property;
-
-    public DiscoverAdapter(Context context,ArrayList<Property> arrayList){
-
-        this.context=context;
-        this.arrayList=arrayList;
+    View convertView;
+  //  public List<String> arrayList;
 
 
+    public DiscoverAdapter(List<Property> itemList) {
+
+        arrayList = itemList;
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.property_view, parent, false);
+            return new ItemViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            return new LoadingViewHolder(view);
+        }
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
-    }
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        TextView txtCity, txtPrice, txtUsername,txtDesc;
+        if (viewHolder instanceof ItemViewHolder) {
 
-    @Override
-    public Object getItem(int position) {
+            populateItemRows((ItemViewHolder) viewHolder, position);
+        } else if (viewHolder instanceof LoadingViewHolder) {
+            showLoadingView((LoadingViewHolder) viewHolder, position);
+        }
 
-        return arrayList.get(position);
 
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView =inflater.inflate(R.layout.property_view,null);
-
-        TextView txtCity=(TextView)convertView.findViewById(R.id.city);
-
-        txtDesc=(TextView)convertView.findViewById(R.id.description);
-
-        TextView txtPrice=(TextView)convertView.findViewById(R.id.price);
-        TextView txtUsername=(TextView)convertView.findViewById(R.id.usernameShow);
-        TextView mCall=(TextView)convertView.findViewById(R.id.eCall);
-
-        mDBHelper= new DBHelper(context);
-
-         Property property=arrayList.get(position);
-       final Property mProperty=arrayList.get(position);
-        smsarModels=mDBHelper.getAllSmsar(property.getmUsername());
-
-        txtCity.setText(property.getmCity());
-        txtDesc.setText(property.getmDesc());
-        txtPrice.setText(property.getmPrice()+" JD");
         final LikeButton likeButton =(LikeButton)convertView.findViewById(R.id.star_button);
-        final MediaPlayer mp=MediaPlayer.create(context,R.raw.like);
+        final MediaPlayer mp=MediaPlayer.create(convertView.getContext(),R.raw.like);
 
-
+        mDBHelper= new DBHelper(convertView.getContext());
+       // smsarModels=mDBHelper.getAllSmsar(property.getmUsername());
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -104,29 +109,25 @@ public class DiscoverAdapter extends BaseAdapter {
             }
         });
 
-
+        txtDesc=(TextView)convertView.findViewById(R.id.description);
         txtDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtDesc.setMaxLines(7);
+
 
 
             }
         });
-        String text = "By <font color='blue'>"+property.getmUsername()+"</font>.";
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            txtUsername.setText(Html.fromHtml(text,  Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
-        } else {
-            txtUsername.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-        }
 
 
 
 
+        final Property mProperty=arrayList.get(position);
 
-       mCall=(TextView) convertView.findViewById(R.id.eCall);
-      //  mMessage=(Button)convertView.findViewById(R.id.eTextMessage);
+
+
+        //mCall=(TextView) convertView.findViewById(R.id.eCall);
+        //  mMessage=(Button)convertView.findViewById(R.id.eTextMessage);
 
         mInfo=(TextView)convertView.findViewById(R.id.description);
         ViewFlipper mImage=(ViewFlipper)convertView.findViewById(R.id.v_flipper);
@@ -134,10 +135,10 @@ public class DiscoverAdapter extends BaseAdapter {
 
 
 
-            mInfo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) { parseActivity(mProperty.getmID()); }
-            });
+        mInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { parseActivity(mProperty.getmID()); }
+        });
 
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,54 +146,101 @@ public class DiscoverAdapter extends BaseAdapter {
                 parseActivity(mProperty.getmID());
             }
         });
+        
 
-
-
-
-
-
-
-
- /*       mMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pn=mDBHelper.getPhone(property.getmUsername());
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + pn));
-                intent.putExtra("sms_body", textMessage);
-                context.startActivity(intent);
-            }
-        });*/
-
-
-
-        return convertView;
     }
-
 
     @Override
-    public int getCount() {
-        return this.arrayList.size();
+    public int getItemCount() {
+        return arrayList == null ? 0 : arrayList.size();
     }
 
-    public  void parseActivity (int id /*Property item ID*/ ){
+    /**
+     * The following method decides the type of ViewHolder to display in the RecyclerView
+     *
+     * @param position
+     * @return
+     */
+    @Override
+    public int getItemViewType(int position) {
+        return arrayList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
+
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
+        public   TextView txtCity, txtPrice, txtUsername,txtDesc;
+
+
+        public ItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+            convertView=itemView;
+            context=convertView.getContext();
+
+
+            txtDesc=(TextView)itemView.findViewById(R.id.description);
+            txtCity=(TextView)itemView.findViewById(R.id.city);
+            txtPrice=(TextView)itemView.findViewById(R.id.price);
+            txtUsername=(TextView)itemView.findViewById(R.id.usernameShow);
+
+        }
+    }
+
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.progressBar);
+        }
+    }
+
+    private void showLoadingView(LoadingViewHolder viewHolder, int position) {
+        //ProgressBar would be displayed
+
+    }
+
+    private void populateItemRows(ItemViewHolder viewHolder, int position) {
+
+        Property item = arrayList.get(position);
+        viewHolder.txtCity.setText(item.getmCity());
+        viewHolder.txtDesc.setText(item.getmDesc());
+        viewHolder.txtPrice.setText(item.getmPrice()+" JD");
+
+
+        String text = "By <font color='blue'>"+item.getmUsername()+"</font>.";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            viewHolder.txtUsername.setText(Html.fromHtml(text,  Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+        } else {
+            viewHolder.txtUsername.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+        }
+    }
+
+
+
+
+    public  void parseActivity (int id /*Property item ID*/)
+
+    {
         FragmentManager fragmentManager =null;
         FragmentTransaction fragmentTransaction=null;
         ShowProperty mShowProperty = new ShowProperty();
         Bundle mBundle=new Bundle();
-     if(context.toString().contains("User")) {
-        final UserMainActivity user = (UserMainActivity) context;
-         fragmentManager=user.getFragmentManager();
-         fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.discoverView ,mShowProperty, "ShowProperty");
+        if(context.toString().contains("User")) {
+            final UserMainActivity user = (UserMainActivity) context;
+            fragmentManager=user.getFragmentManager();
+            fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.discoverView ,mShowProperty, "ShowProperty");
 
 
-     }
+        }
 
-     else if(context.toString().contains("Smsar"))
+        else if(context.toString().contains("Smsar"))
         {
             final SmsarMainActivity mSmsar = (SmsarMainActivity) context;
-             fragmentManager=mSmsar.getFragmentManager();
-             fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentManager=mSmsar.getFragmentManager();
+            fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.mainView ,mShowProperty, "ShowProperty");
 
         }
