@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Smsar</string>
     <string name="title_activity_smsar_main">Smsar</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_home">Home</string>
     <string name="title_Discover">Discover</string>
     <string name="title_inbox">Inbox</string>
     <string name="title_notification">Notification</string>

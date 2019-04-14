@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "415242249172",
+    "firebase_url": "https://project-yasoft-0002.firebaseio.com",
+    "project_id": "project-yasoft-0002",
+    "storage_bucket": "project-yasoft-0002.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415242249172:android:c0c457ea98bfb8b3",
+        "android_client_info": {
+          "package_name": "com.yasoft.smsar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415242249172-ieh368ha24qftf5bjt0u6upfjtkfrf71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yasoft.smsar",
+            "certificate_hash": "b83a989e7675d6cb726d2ee1668ca046fcc5c4c4"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJCEEqCki-UejAxCVaz5QKNBPHIY3FxEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415242249172-i1hcjmgrvvup4hhbr9folei9t5aql1kr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

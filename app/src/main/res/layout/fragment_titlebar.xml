@@ -16,7 +16,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fragment title" />
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/tajawallight"
+            android:gravity="center"
+            android:text="Fragment Title"
+
+            android:textColor="@color/ms_black"
+            android:textSize="24sp"
+            />
 
 
     </android.support.v7.widget.Toolbar>

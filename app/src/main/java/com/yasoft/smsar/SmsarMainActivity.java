@@ -16,8 +16,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yasoft.smsar.interfaces.Foreign;
-
 
 public class SmsarMainActivity extends AppCompatActivity {
 
@@ -46,13 +44,13 @@ public class SmsarMainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                fragmentLuncher(_fragmentNewProperty);
-                setTitle(R.string.title_newApartment);
+                fragmentLauncher(_fragmentNewProperty);
+            //    setTitle(R.string.title_newApartment);
                 return true;
 
             case R.id.action_setting:
-                fragmentLuncher(_fragmentSetting);
-                setTitle(R.string.title_setting);
+                fragmentLauncher(_fragmentSetting);
+           //     setTitle(R.string.title_setting);
                 return true;
 
         }
@@ -69,24 +67,24 @@ public class SmsarMainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
 
                 case R.id.navigation_dashboard:
-                 fragmentLuncher(_fragmentManage);
-                    setTitle(R.string.title_dashboard);
+                 fragmentLauncher(_fragmentManage);
+                   // setTitle(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_discover:
-                    fragmentLuncher(mDiscover);
-                    setTitle(R.string.title_Discover);
+                    fragmentLauncher(mDiscover);
+                 //   setTitle(R.string.title_Discover);
                     return true;
                 case R.id.navigation_newApartment:
-                    fragmentLuncher(_fragmentNewProperty);
-                    setTitle(R.string.title_newApartment);
+                    fragmentLauncher(_fragmentNewProperty);
+                //    setTitle(R.string.title_newApartment);
                     return true;
                 case R.id.navigation_inbox:
-                    fragmentLuncher(_mInbox);
-                    setTitle(R.string.title_inbox);
+                    fragmentLauncher(_mInbox);
+                //    setTitle(R.string.title_inbox);
                     return true;
                 case R.id.navigation_account:
-                    fragmentLuncher(_fragmentSetting);
-                    setTitle(R.string.title_account);
+                    fragmentLauncher(_fragmentSetting);
+               //     setTitle(R.string.title_account);
                     return true;
             }
             return false;
@@ -136,9 +134,12 @@ public class SmsarMainActivity extends AppCompatActivity {
 
     }
 
-    private  <T> void fragmentLuncher(T transform){
+
+
+    private  <T> void fragmentLauncher(T transform){
 
         fragmentTransaction = fragmentManager.beginTransaction();
+
         if(_fragmentManage.isVisible())
             fragmentTransaction.remove(_fragmentManage);
         if (_fragmentSetting.isVisible())
@@ -150,7 +151,6 @@ public class SmsarMainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.mainView, (android.app.Fragment) transform);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
     }
     public void logout(){
         SharedPreferences pref = getSharedPreferences("user_details", MODE_PRIVATE);;
@@ -172,7 +172,7 @@ public class SmsarMainActivity extends AppCompatActivity {
         //Do Nothing
         }
         else
-        fragmentLuncher(_fragmentNewProperty);
+        fragmentLauncher(_fragmentNewProperty);
 
     }
 

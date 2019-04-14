@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,6 +23,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/ms_white"
             android:orientation="vertical">
 
 
@@ -28,7 +31,7 @@
                 android:id="@+id/cities"
                 android:layout_width="161dp"
                 android:layout_height="43dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="116dp"
                 android:autofillHints="@string/title_About"
                 android:dropDownWidth="20dp"
@@ -86,13 +89,13 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="7dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/rounded_edittext"
                 android:ems="10"
                 android:hint="$"
                 android:inputType="number"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
 
@@ -107,25 +110,10 @@
                 android:background="@drawable/photo_camera"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/price" />
-
-            <ImageView
-                android:id="@+id/showImage"
-                android:layout_width="178dp"
-                android:layout_height="171dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="123dp"
-                android:layout_marginEnd="225dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-                android:src="@drawable/addproperty"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/numofbathroom"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toBottomOf="@+id/price"
+                app:layout_constraintVertical_bias="0.0" />
 
 
             <Spinner
@@ -135,17 +123,14 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="50dp"
-                android:layout_marginBottom="124dp"
                 android:ems="10"
                 android:entries="@array/numbers"
                 android:hint="0"
                 android:inputType="number"
                 android:spinnerMode="dialog"
-                app:layout_constraintBottom_toTopOf="@+id/showImage"
                 app:layout_constraintEnd_toStartOf="@+id/price"
                 app:layout_constraintStart_toEndOf="@+id/numofbathroom"
-                app:layout_constraintTop_toBottomOf="@+id/description"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/description" />
 
             <Spinner
                 android:id="@+id/numofbathroom"
@@ -186,10 +171,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="116dp"
-                android:layout_marginTop="92dp"
-                android:layout_marginEnd="45dp"
-                android:layout_marginBottom="52dp"
+                android:layout_marginStart="303dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="44dp"
+                android:layout_marginBottom="90dp"
                 android:backgroundTint="@color/Primary"
                 android:clickable="true"
                 android:src="@drawable/tick"
@@ -197,23 +182,20 @@
                 app:fabCustomSize="@android:dimen/notification_large_icon_width"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/showImage"
-                app:layout_constraintTop_toBottomOf="@+id/addImage"
-                app:layout_constraintVertical_bias="0.489"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/browseImages"
                 app:maxImageSize="30dp" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/parking"
                 android:layout_width="wrap_content"
                 android:layout_height="39dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="55dp"
                 android:layout_marginEnd="299dp"
-                android:layout_marginBottom="222dp"
+                android:buttonTint="@color/buttons"
                 android:text="Parking "
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/showImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/numofbathroom" />
@@ -225,21 +207,69 @@
                 android:layout_marginStart="168dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="176dp"
                 android:background="@drawable/rounded_edittext"
                 android:ems="10"
-                android:paddingRight="2dp"
-                android:paddingLeft="2dp"
                 android:hint="150 m"
                 android:inputType="number"
-                app:layout_constraintBottom_toTopOf="@+id/addImage"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/parking"
                 app:layout_constraintTop_toBottomOf="@+id/price" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/browseImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                android:scrollbars="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addImage">
+
+
+            </android.support.v7.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/testI"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="19dp"
+                android:layout_marginEnd="45dp"
+                android:layout_marginBottom="117dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/upload"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/parking" />
+            <Button
+                android:id="@+id/upload"
+                android:layout_width="101dp"
+                android:layout_height="59dp"
+                android:layout_marginStart="230dp"
+                android:layout_marginTop="79dp"
+                android:layout_marginEnd="17dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/float_transparent"
+                android:drawableEnd="@drawable/ic_photo"
+
+                android:text="Upload"
+                android:textColor="@color/buttons"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/browseImages"
+                app:layout_constraintEnd_toStartOf="@+id/addImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/area" />
         </android.support.constraint.ConstraintLayout>
+
+
     </ScrollView>
 
 
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

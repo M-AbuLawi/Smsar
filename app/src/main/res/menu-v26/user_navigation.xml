@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/ic_home"
+        android:iconTint="#000"
+        android:title="@string/title_home" />
+
+
+    <item
+        android:id="@+id/like"
+        android:icon="@drawable/ic_like"
+        android:iconTint="#000"
+        android:title="@string/title_like" />
+    <item
+        android:id="@+id/navigation_discover"
+        android:icon="@drawable/ic_discover"
+        android:iconTint="#000"
+        android:title="@string/title_Discover" />
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/ic_notification"
+        android:iconTint="#000"
+
+        android:title="@string/title_account" />
+
+    <item
+        android:id="@+id/navigation_inbox"
+        android:icon="@drawable/ic_inbox"
+        android:iconTint="#000"
+        android:title="@string/title_inbox" />
+
+
+
+
+
+
+</menu>

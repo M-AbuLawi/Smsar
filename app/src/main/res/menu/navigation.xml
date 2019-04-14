@@ -3,31 +3,33 @@
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/dashboard"
-        android:title="@string/title_dashboard" />
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home"
+        android:visible="true" />
 
-    <item
-        android:id="@+id/navigation_newApartment"
-        android:icon="@drawable/plus2"
-        android:title="@string/title_AddNew" />
+
 
     <item
         android:id="@+id/navigation_discover"
-        android:icon="@drawable/discover"
-        android:title="@string/title_Discover" />
-
-
+        android:icon="@drawable/ic_discover"
+        android:title="@string/title_Discover"
+        />
 
     <item
+        android:id="@+id/navigation_newApartment"
+        android:icon="@drawable/ic_add"
+        android:title="@string/title_AddNew" />
+    <item
         android:id="@+id/navigation_inbox"
-        android:icon="@drawable/inbox"
+        android:icon="@drawable/ic_inbox"
         android:title="@string/title_inbox" />
 
 
     <item
         android:id="@+id/navigation_account"
-        android:icon="@drawable/account"
-        android:title="@string/title_account" />
+        android:icon="@drawable/ic_user"
+        android:title="@string/title_account"
+        android:visible="true" />
 
 
 </menu>

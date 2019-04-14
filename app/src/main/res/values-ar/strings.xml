@@ -3,7 +3,6 @@
     <string name="app_name">Smsar</string>
     <string name="title_notifications">الإشعارات</string>
     <string name="title_inbox">البريد</string>
-    <string name="title_dashboard">لائحة العرض</string>
     <string name="title_Discover">الإكتشاف</string>
     <string name="title_account">حسابي</string>
     <string name="title_activity_test">الإكتشاف</string>
@@ -26,4 +25,5 @@
     <string name="title_smsar">سمسار ؟</string>
     <string name="title_vistor">تبحث عن شقة ؟</string>
     <string name="title_sort">ترتيب</string>
+    <string name="title_home">الرئيسية</string>
 </resources>

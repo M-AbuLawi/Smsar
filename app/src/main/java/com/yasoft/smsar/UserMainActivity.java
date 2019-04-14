@@ -141,4 +141,14 @@ public class UserMainActivity extends AppCompatActivity {
 
 
 
+
+    void parseDataFilter(int rooms,int baths,boolean parking){
+            Bundle mBundle=new Bundle();
+        mBundle.putBoolean("parking",parking);
+        mBundle.putInt("NOBathrooms",baths);
+        mBundle.putInt("NORooms",rooms);
+
+            _discoverFrag.setArguments(mBundle);
+
+    }
 }

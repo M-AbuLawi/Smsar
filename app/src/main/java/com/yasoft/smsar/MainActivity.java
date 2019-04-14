@@ -1,90 +1,109 @@
 package com.yasoft.smsar;
 
 
-
 import android.annotation.TargetApi;
-import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.Html;
-import android.text.SpannableString;
-import android.text.TextUtils;
-import android.text.style.UnderlineSpan;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.yasoft.smsar.models.Smsar;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
 
 
-    TextView userNameEdit, passwordEdit;
+
+    //
+    private Handler mHandler;
+    //
+
+    EditText userNameEdit, passwordEdit;
     TextView _signUp;
     Button _login;
     Intent intent;
     ImageView imageView;
     TextView mError;
-    Smsar mFrag = new Smsar();
+    StartInterface mFrag = new StartInterface();
     SharedPreferences pref;
     private DBHelper mDBHelper;
 
-    String email,name,username,password,pn;
+    String email, name, username, password, pn;
+    private static String KEY_USERNAME = "username";
+    private static String KEY_PASSWORD = "password";
 
+    FirebaseFirestore db;
+    DocumentReference userRef;
+    ProgressBar progressBar ;
     @TargetApi(Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        _login =(Button)findViewById(R.id.logIn);
-        _signUp=(TextView)findViewById(R.id.sginUp);
-
-
-        //_signUp.setText(Html.fromHtml(String.format(getString(R.string.sign_up))));
-
-
-   String text = "New ? Start Now By  <font color='blue'>"+String.format(getString(R.string.sign_up))+"</font>.";
+        _login = findViewById(R.id.logIn);
+        _signUp = findViewById(R.id.sginUp);
+        progressBar =findViewById(R.id.loading);
+        mHandler = new Handler();
+        String text = "New ? Start Now By  <font color='blue'>" + String.format(getString(R.string.sign_up)) + "</font>.";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            _signUp.setText(Html.fromHtml(text,  Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+            _signUp.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
         } else {
             _signUp.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
         }
         pref = getSharedPreferences("user_details", MODE_PRIVATE);
-            if(pref.contains("username")&&pref.contains("password"))
-                 success();
-
-
-
-
-       FragmentManager fm=getFragmentManager();
+        if (pref.contains("username") && pref.contains("password"))
+            success();
+        FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(null);
         ft.replace(R.id.mainView, mFrag);
         ft.commit();
 
-        imageView=(ImageView)findViewById(R.id.logo);
+        imageView = findViewById(R.id.logo);
 
-        mDBHelper =new DBHelper(this);
+        mDBHelper = new DBHelper(this);
+        FirebaseApp.initializeApp(this);
+        db = FirebaseFirestore.getInstance();
+        userRef = db.document("ID/id");
 
-
-         mError=(TextView)findViewById(R.id.mError);
+        mError = findViewById(R.id.mError);
         //Define the variables
-        userNameEdit=(EditText)findViewById(R.id.userName);
-        passwordEdit=(EditText)findViewById(R.id.password);
+        userNameEdit =findViewById(R.id.userName);
+        passwordEdit =findViewById(R.id.password);
 
 
         userNameEdit.setFocusableInTouchMode(true);
@@ -92,95 +111,208 @@ public class MainActivity extends AppCompatActivity {
         //End
 
 
-
         _signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-               intent=new Intent(MainActivity.this,Signup.class);
-               startActivity(intent);
+                intent = new Intent(MainActivity.this, Signup.class);
+                startActivity(intent);
 
             }
         });
 
 
 
+        //On Type Listener for Text view so we can know the user is typing or retyping in them ;
+        checkInputs();
+
+
+
+
     }
+    int counter;
+    String cUsername="";
+    String cPassword="";
+    public void logIN(View view) throws SQLException {
 
-
-    public void logIN(View view)throws SQLException{
+     //   progressBar.setVisibility(View.VISIBLE);
+        startLoading();
+        showProgressBar();
 
         pref = getSharedPreferences("user_details", MODE_PRIVATE);
         prepareToInsert();
         if (validationVariable()) {
-            try {
 
-                Cursor rs = mDBHelper.getData(username);
-                rs.moveToFirst();
-                if (rs.getCount() > 0) {
-                    String nam = rs.getString(rs.getColumnIndex(DBHelper.SMSAR_COLUMN_USERNAME));
-                    String pass = rs.getString(rs.getColumnIndex(DBHelper.SMSAR_COLUMN_PASSWORD));
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("username", nam);
-                    editor.putString("password",pass);
-                    editor.apply();
-                   // editor.commit();
-                    if (password.equals(pass)) {
-                     success();
+         //   Map<String, Object> userDate = new HashMap<>();
+            db.collection("Smsar").whereEqualTo("mUsername", username).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Smsar smsar = documentSnapshot.toObject(Smsar.class);
+                         cUsername = smsar.getmUsername();
+                         cPassword = smsar.getmPassword();
+                        progressBar.setProgress(50);
+                        if (isCorrect(cUsername,cPassword)) {
 
-                    } else
-                        Toast.makeText(this, "Wrong Password", Toast.LENGTH_LONG).show();
-                    if (!rs.isClosed()) {
-                        rs.close();
-                    }
+                            success();
+                            saveSession(cUsername, cPassword);
+                        } else{
+                            Toast.makeText(MainActivity.this,
+                                    "Wrong username or password\nTry again please", Toast.LENGTH_LONG).show();
 
+                    }}
+
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MainActivity.this,
+                            "Failed", Toast.LENGTH_LONG).show();
+                    hideProgressBar();
+                })
+            .addOnCompleteListener(task -> {
+                if(cUsername.equals("")&&cPassword.equals("")){
+                    Toast.makeText(MainActivity.this,
+                            "Wrong username or password \nTry again please", Toast.LENGTH_LONG).show();
+                hideProgressBar();
                 }
-                else
-                    Toast.makeText(this, "Wrong Username", Toast.LENGTH_LONG).show();
-            }
-                catch(SQLException e){
-                    e.printStackTrace();
-                    Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
 
-                }
-            }
-        else{
+            });
+
+          //  hideProgressBar();
+        } else {
             mError.setText("Empty Fields");
             mError.setVisibility(View.VISIBLE);
+            hideProgressBar();
         }
 
     }
-    public boolean validationVariable () {
-        if (username.isEmpty()||password.isEmpty())
+
+    public boolean validationVariable() {
+        if (username.isEmpty() || password.isEmpty())
             return false;
 
         return true;
 
     }
 
-    private void success(){
+    private void success() {
+        progressBar.setProgress(100);
+        hideProgressBar();
         intent = new Intent(MainActivity.this, SmsarMainActivity.class);
         startActivity(intent);
         finish();
         this.finish();
     }
 
-    public void closeSmsar(){
-        Intent intent=new Intent(this,UserMainActivity.class);
+    public void closeSmsar() {
+        Intent intent = new Intent(this, UserMainActivity.class);
         startActivity(intent);
 
-
     }
-    public void prepareToInsert(){
 
-        username=userNameEdit.getText().toString();
-        if(!username.isEmpty()){
-            password= passwordEdit.getText().toString();
-            String space=username.charAt(username.length()-1)+"";
-            username=username.toLowerCase();
-            username=username.replaceAll(" ","");
+    public void prepareToInsert() {
+
+        username = userNameEdit.getText().toString();
+        if (!username.isEmpty()) {
+            password = passwordEdit.getText().toString();
+            String space = username.charAt(username.length() - 1) + "";
+            username = username.toLowerCase();
+            username = username.replaceAll(" ", "");
         }
 
 
+    }
+
+
+    private boolean isCorrect(String user,String pass) {
+        return password.equals(pass)&&username.equals(user);
+    }
+
+    private void saveSession(String user, String pass) {
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("username", user);
+        editor.putString("password", pass);
+        editor.apply();
+
+    }
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    // Hide progress
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void startLoading() {
+        //Simulate Heavy task in background thread
+     new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i <= 30; i++) {
+                    final int currentProgressCount = i;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    //Post updates to the User Interface
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setProgress(currentProgressCount);
+                        }
+                    });
+                }
+
+            }
+
+        }).start();
+
+
+
+    }
+
+    public void checkInputs(){
+        userNameEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mError.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        passwordEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mError.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

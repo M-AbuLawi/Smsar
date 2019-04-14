@@ -9,9 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.yasoft.smsar.models.Property;
-import com.yasoft.smsar.models.SmsarModel;
-
-import org.w3c.dom.Text;
+import com.yasoft.smsar.models.Smsar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Smsar.db";
 
-    //CREATE TABLE Smsar
+    //CREATE TABLE StartInterface
     public static final String SMSAR_TABLE_NAME = "Smsars";
     public static final String SMSAR_COLUMN_USERNAME = "username";
     public static final String SMSAR_COLUMN_NAME = "name";
@@ -258,6 +256,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
 
     }
+    public ArrayList<Property> getAllProperty(int rooms,int baths,boolean parking){
+        ArrayList<Property> array_list = new ArrayList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor res=db.rawQuery("select * from Property WHERE noRooms = '"+rooms+"' AND noBathrooms = '"+baths+"' AND parking = '"+parking+"'  ",null);
+        res.moveToFirst();
+
+        while(res.moveToNext()){
+            int id =res.getInt(res.getColumnIndex(PROPERTY_COLUMN__PROPERTYID));
+            String city=res.getString(res.getColumnIndex(PROPERTY_COLUMN__CITY));
+            String desc=res.getString(res.getColumnIndex(PROPERTY_COLUMN__DESCRIPTION));
+            String price=res.getString(res.getColumnIndex(PROPERTY_COLUMN__PRICE));
+            String username=res.getString(res.getColumnIndex(PROPERTY_COLUMN_SMSARUSERNAME));
+            Property property=new Property(id,username,city,desc,price);
+            array_list.add(property);
+
+        }
+
+        return array_list;
+
+    }
+
     public Cursor getAllData(){
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -282,8 +301,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return array_list;
     }
-    public ArrayList<SmsarModel> getAllSmsar(String userName) {
-        ArrayList<SmsarModel> array_list = new ArrayList<>();
+    public ArrayList<Smsar> getAllSmsar(String userName) {
+        ArrayList<Smsar> array_list = new ArrayList<>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -294,15 +313,15 @@ public class DBHelper extends SQLiteOpenHelper {
             String username=res.getString(res.getColumnIndex(SMSAR_COLUMN_USERNAME));
             String name=res.getString(res.getColumnIndex(SMSAR_COLUMN_NAME));
             String pn=res.getString(res.getColumnIndex(SMSAR_COLUMN_PHONE));
-            SmsarModel smsarModel=new SmsarModel(username,name,pn);
+            Smsar smsarModel=new Smsar(username,name,pn);
             array_list.add(smsarModel);
 
         }
 
         return array_list;
     }
-    public ArrayList<SmsarModel> getAllSmsar() {
-        ArrayList<SmsarModel> array_list = new ArrayList<>();
+    public ArrayList<Smsar> getAllSmsar() {
+        ArrayList<Smsar> array_list = new ArrayList<>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -313,7 +332,7 @@ public class DBHelper extends SQLiteOpenHelper {
             String username=res.getString(res.getColumnIndex(SMSAR_COLUMN_USERNAME));
             String name=res.getString(res.getColumnIndex(SMSAR_COLUMN_NAME));
             String pn=res.getString(res.getColumnIndex(SMSAR_COLUMN_PHONE));
-            SmsarModel smsarModel=new SmsarModel(username,name,pn);
+            Smsar smsarModel=new Smsar(username,name,pn);
             array_list.add(smsarModel);
 
         }

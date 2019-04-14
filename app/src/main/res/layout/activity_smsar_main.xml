@@ -22,7 +22,9 @@
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
         app:itemTextColor="#000"
+
         app:itemIconTint="#000"
+        app:labelVisibilityMode="labeled"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
