@@ -21,7 +21,7 @@
                 android:height="30dp"
                 />
             <solid
-                android:color="@color/PrimaryDark"
+                android:color="@color/primary_colored_dark"
 
                 />
         </shape>
@@ -38,7 +38,7 @@
             <size
                 android:height="30dp"/>
             <solid
-                android:color="@color/buttons"/>
+                android:color="@color/white_transparency"/>
         </shape>
     </item>
 </selector>

@@ -1,15 +1,15 @@
 package com.yasoft.smsar;
 
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,15 +22,15 @@ public class SmsarMainActivity extends AppCompatActivity {
     private TextView mTextMessage;
 
 
-    FragmentManager fragmentManager= getFragmentManager();
+    FragmentManager fragmentManager= getSupportFragmentManager();
     FragmentTransaction fragmentTransaction= fragmentManager.beginTransaction();
 
-    NewProperty _fragmentNewProperty =new NewProperty();
-    Manage _fragmentManage=new Manage();
-    Discover mDiscover=new Discover();
-    Settings _fragmentSetting=new Settings();
+    Fragment _fragmentNewProperty =new NewProperty();
+    Fragment _fragmentManage=new Manage();
+    Fragment mDiscover=new Discover();
+    Fragment _fragmentSetting=new Settings();
     Fragment fragment;
-    Inbox _mInbox=new Inbox();
+    Fragment _mInbox=new Inbox();
     BottomNavigationView navigation;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,7 +136,7 @@ public class SmsarMainActivity extends AppCompatActivity {
 
 
 
-    private  <T> void fragmentLauncher(T transform){
+    private  <T> void fragmentLauncher(Fragment transform){
 
         fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -145,10 +145,10 @@ public class SmsarMainActivity extends AppCompatActivity {
         if (_fragmentSetting.isVisible())
             fragmentTransaction.remove(_fragmentSetting);
         if(_fragmentNewProperty.isVisible()){
-         //   setListener(_fragmentNewProperty);
+            //setListener(_fragmentNewProperty);
             fragmentTransaction.remove(_fragmentNewProperty);}
 
-        fragmentTransaction.replace(R.id.mainView, (android.app.Fragment) transform);
+        fragmentTransaction.replace(R.id.mainView, transform);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -156,7 +156,7 @@ public class SmsarMainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("user_details", MODE_PRIVATE);;
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
 
         Intent intent=new Intent(getApplicationContext(),MainActivity.class);
         startActivity(intent);
@@ -177,6 +177,12 @@ public class SmsarMainActivity extends AppCompatActivity {
     }
 
 
+
+    public void launchEditor(Bundle mb){
+        _fragmentNewProperty.setArguments(mb);
+        fragmentManager.beginTransaction().replace(R.id.mainView,_fragmentNewProperty).addToBackStack(null).commit();
+
+    }
     public void navPointer(int id){
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setSelectedItemId(id);

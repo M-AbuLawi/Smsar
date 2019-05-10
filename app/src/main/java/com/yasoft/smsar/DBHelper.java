@@ -206,8 +206,6 @@ public class DBHelper extends SQLiteOpenHelper {
             String desc=res.getString(res.getColumnIndex(PROPERTY_COLUMN__DESCRIPTION));
             String price=res.getString(res.getColumnIndex(PROPERTY_COLUMN__PRICE));
            // String username=res.getString(res.getColumnIndex(PROPERTY_COLUMN_SMSARUSERNAME));
-            Property property=new Property(id,city,desc,price);
-            array_list.add(property);
 
         }
 
@@ -248,8 +246,8 @@ public class DBHelper extends SQLiteOpenHelper {
             String desc=res.getString(res.getColumnIndex(PROPERTY_COLUMN__DESCRIPTION));
             String price=res.getString(res.getColumnIndex(PROPERTY_COLUMN__PRICE));
             String username=res.getString(res.getColumnIndex(PROPERTY_COLUMN_SMSARUSERNAME));
-            Property property=new Property(id,username,city,desc,price);
-            array_list.add(property);
+        //    Property property=new Property(id,username,city,desc,price);
+           // array_list.add(property);
 
         }
 
@@ -268,8 +266,8 @@ public class DBHelper extends SQLiteOpenHelper {
             String desc=res.getString(res.getColumnIndex(PROPERTY_COLUMN__DESCRIPTION));
             String price=res.getString(res.getColumnIndex(PROPERTY_COLUMN__PRICE));
             String username=res.getString(res.getColumnIndex(PROPERTY_COLUMN_SMSARUSERNAME));
-            Property property=new Property(id,username,city,desc,price);
-            array_list.add(property);
+        //    Property property=new Property(id,username,city,desc,price);
+        //    array_list.add(property);
 
         }
 

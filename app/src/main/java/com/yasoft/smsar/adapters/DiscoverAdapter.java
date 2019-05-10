@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.squareup.picasso.Picasso;
 import com.yasoft.smsar.DBHelper;
 import com.yasoft.smsar.ShowProperty;
 import com.yasoft.smsar.SmsarMainActivity;
@@ -68,6 +70,9 @@ public class DiscoverAdapter extends FirestoreRecyclerAdapter<Property, Discover
         holder.txtCity.setText(model.getmCity());
         holder.txtDesc.setText(model.getmDesc());
         holder.txtPrice.setText(model.getmPrice()+" JD");
+        Picasso.get().load(model.getmImageDrawable()).
+                fit().placeholder(R.drawable.placeholder_image).
+                error(R.drawable.no_img).into(holder.mImage);
     //    holder
         Bundle mb=new Bundle();
         mb.putInt("id",model.getmID());
@@ -94,6 +99,7 @@ public class DiscoverAdapter extends FirestoreRecyclerAdapter<Property, Discover
 
     class PropertyHolder extends RecyclerView.ViewHolder {
         TextView txtCity, txtPrice, txtUsername,txtDesc;
+        ImageView mImage;
 
         public PropertyHolder(View itemView) {
             super(itemView);
@@ -102,6 +108,7 @@ public class DiscoverAdapter extends FirestoreRecyclerAdapter<Property, Discover
             txtCity=itemView.findViewById(R.id.city);
             txtPrice=itemView.findViewById(R.id.price);
             txtUsername=itemView.findViewById(R.id.usernameShow);
+            mImage=itemView.findViewById(R.id.mainImage);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

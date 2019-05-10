@@ -5,18 +5,17 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -26,20 +25,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.yasoft.smsar.models.Smsar;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -57,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     TextView mError;
     StartInterface mFrag = new StartInterface();
+    NetworkError mNWError = new NetworkError();
     SharedPreferences pref;
     private DBHelper mDBHelper;
+
+    EncryptString mEncrypt;
 
     String email, name, username, password, pn;
     private static String KEY_USERNAME = "username";
@@ -87,12 +85,8 @@ public class MainActivity extends AppCompatActivity {
         pref = getSharedPreferences("user_details", MODE_PRIVATE);
         if (pref.contains("username") && pref.contains("password"))
             success();
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.addToBackStack(null);
-        ft.replace(R.id.mainView, mFrag);
-        ft.commit();
 
+        replaceInterface();
         imageView = findViewById(R.id.logo);
 
         mDBHelper = new DBHelper(this);
@@ -207,12 +201,21 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+    int x;
+    public  String string(int x){
+        this.x=x;
+
+        return "string";
+
+    }
 
     public void prepareToInsert() {
 
         username = userNameEdit.getText().toString();
         if (!username.isEmpty()) {
             password = passwordEdit.getText().toString();
+           mEncrypt= new EncryptString(password);
+            password = mEncrypt.getHashedString();
             String space = username.charAt(username.length() - 1) + "";
             username = username.toLowerCase();
             username = username.replaceAll(" ", "");
@@ -314,5 +317,49 @@ public class MainActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public void replaceInterface(){
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack(null);
+
+        if(isOnline())
+            ft.replace(R.id.mainView, mFrag);
+            else {
+            ft.addToBackStack(null);
+            ft.replace(R.id.mainView, mNWError);
+        }
+
+        ft.commit();
+
+
+    }
+
+    public boolean isOnline()  {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+        }
+        catch (IOException e)          { e.printStackTrace(); }
+        catch (InterruptedException e) { e.printStackTrace(); }
+
+        return false;
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        replaceInterface();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        replaceInterface();
     }
 }

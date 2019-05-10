@@ -4,7 +4,7 @@ package com.yasoft.smsar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -105,10 +105,8 @@ public class Manage extends Fragment {
 
 
     private String getUsername(){
-
         Bundle argument;
         argument = getArguments();
-
         String username="";
 
         if (argument != null)

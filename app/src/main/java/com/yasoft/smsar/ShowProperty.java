@@ -36,14 +36,14 @@ public class ShowProperty extends Fragment {
     Context mContext;
     ViewGroup actionBarLayout;
     String username = "", pn = "";
-    Button mCall;
+    Button mCall,mChat;
     private FirebaseFirestore db;
     private DocumentReference detailsRef;
     ProgressBar pg;
 
 
-    TextView mPrice,mDescription,mCity,mDate ,mBaths,mRooms,mArea;
-    ImageView mParking;
+    TextView mPrice,mDescription,mCity,mDate ,mBaths,mRooms,mArea,decLabel;
+    ImageView mParking,propertyImage;
     boolean parking;
 
 
@@ -101,6 +101,12 @@ public class ShowProperty extends Fragment {
           mParking = root.findViewById(R.id.parking);
           mArea = root.findViewById(R.id.area);
           pg=root.findViewById(R.id.loadingItems);
+          propertyImage=root.findViewById(R.id.imageP);
+          mCall=root.findViewById(R.id.call);
+          mChat=root.findViewById(R.id.chat);
+          decLabel=root.findViewById(R.id.descLabel);
+
+
         //END
 
 
@@ -255,6 +261,10 @@ public class ShowProperty extends Fragment {
             mRooms.setVisibility(View.VISIBLE);
             mDate.setVisibility(View.VISIBLE);
             mArea.setVisibility(View.VISIBLE);
+            propertyImage.setVisibility(View.VISIBLE);
+            mChat.setVisibility(View.VISIBLE);
+            mCall.setVisibility(View.VISIBLE);
+            decLabel.setVisibility(View.VISIBLE);
           //  parking.setVisibility(View.VISIBLE);
 
             pg.setVisibility(View.GONE);

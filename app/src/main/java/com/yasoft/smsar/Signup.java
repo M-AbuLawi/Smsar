@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,6 +28,7 @@ import com.yasoft.smsar.models.Smsar;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -80,6 +82,14 @@ public class Signup extends AppCompatActivity {
                     boolean flag;
                     //      mydb.getWritableDatabase();
                     prepareToInsert();
+
+                    if (!validEmail(email)) {
+                        Toast.makeText(Signup.this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
+
+                    }
+                     if(password.length()<6)
+                        Toast.makeText(Signup.this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
+                    else if(validEmail(email)&&password.length()>=6)
                     try {
                         Smsar mSmsar = new Smsar(name, pn, username, email, password);
 
@@ -120,7 +130,8 @@ public class Signup extends AppCompatActivity {
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                     }
-                } else {
+                }
+                else {
                     ErorrM.setText("Empty Fields");
                     ErorrM.setVisibility(View.VISIBLE);
                 }
@@ -142,15 +153,39 @@ public class Signup extends AppCompatActivity {
 
     }
 
+    EncryptString mEncrypt;
     public void prepareToInsert() {
         username = Username.getText().toString();
         name = Fullname.getText().toString();
         email = Email.getText().toString();
+
+
         password = Password.getText().toString();
+
+        mEncrypt=new EncryptString(password);
+        password=mEncrypt.getHashedString();
         pn = phonenumber.getText().toString();
         username = username.toLowerCase().trim();
 
     }
+
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+
+        int emailLength=email.length();
+        String domain="";
+
+        //a@e.com example@example.com , .org, .net
+        if(emailLength>6) {
+            domain = email.substring(emailLength - 3);
+            if (domain.equals("com") || domain.equals("net") || domain.equals("org"))
+                return pattern.matcher(email).matches();
+
+        else return false;
+    }
+    else return false;
+    }
+
 
 
     public void getIDs() {

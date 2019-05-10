@@ -7,6 +7,21 @@
     android:background="@color/ms_white"
     tools:context=".ShowFilter">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/filterToolBar"
+        android:layout_width="420dp"
+        android:layout_height="55dp"
+        app:navigationIcon="@drawable/ic_exit"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:minHeight="?attr/actionBarSize"
+        android:visibility="visible"
+        android:background="@color/primary_colored"
+        app:popupTheme="@style/Theme.GuidelinesCompat"
+        app:theme="@style/Theme.GuidelinesCompat.Toolbar"
+        app:titleTextColor="@color/ms_white"/>
 
     <com.jaygoo.widget.RangeSeekBar
         android:layout_width="match_parent"

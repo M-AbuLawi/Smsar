@@ -6,17 +6,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.squareup.picasso.Picasso;
 import com.yasoft.smsar.DBHelper;
 import com.yasoft.smsar.DeleteAlertDialog;
+import com.yasoft.smsar.NewProperty;
 import com.yasoft.smsar.SmsarMainActivity;
 import com.yasoft.smsar.models.Property;
 import com.yasoft.smsar.R;
@@ -34,26 +40,32 @@ public class CustomAdapter extends FirestoreRecyclerAdapter<Property, CustomAdap
         super(options);
     }
 
-
+    Bundle mb;
     @Override
     protected void onBindViewHolder(@NonNull PropertyHolder holder, int position, @NonNull Property model) {
 
         holder.txtCity.setText(model.getmCity());
         holder.txtDesc.setText(model.getmDesc());
-        holder.txtPrice.setText(model.getmPrice()+" JD");
+        holder.txtPrice.setText(model.getmPrice()+"JD");
+      //  Toast.makeText(mContext,model.getmImageDrawable(),Toast.LENGTH_LONG).show();
+        Picasso.get().load(model.getmImageDrawable()).
+                fit().placeholder(R.drawable.placeholder_image).
+                error(R.drawable.no_img).into(holder.mImage);
 
-        Bundle mb=new Bundle();
+          mb=new Bundle();
         mb.putInt("id",model.getmID());
         mb.putString("desc",model.getmDesc());
 
 
-
+        holder.mEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editDetails();
+           //   openDialog(position);
+            }
+        });
         //edit delete clicks
 
-        holder.mEdit.setOnClickListener(v -> {
-
-            Toast.makeText(mContext ,"edit me", Toast.LENGTH_SHORT).show();
-        });
 
         holder.mDelete.setOnClickListener(v ->{
             Toast.makeText(mContext, "delete me", Toast.LENGTH_SHORT).show();
@@ -79,7 +91,7 @@ public class CustomAdapter extends FirestoreRecyclerAdapter<Property, CustomAdap
     }
     class PropertyHolder extends RecyclerView.ViewHolder {
         TextView txtCity, txtPrice ,txtDesc ,mDelete,mEdit;
-
+        ImageView mImage;
         private PropertyHolder(View itemView) {
             super(itemView);
 
@@ -87,7 +99,8 @@ public class CustomAdapter extends FirestoreRecyclerAdapter<Property, CustomAdap
             txtCity=itemView.findViewById(R.id.city);
             txtPrice=itemView.findViewById(R.id.price);
             mDelete=itemView.findViewById(R.id.eDelete);
-            mEdit=itemView.findViewById(R.id.eEdit);
+            mEdit=itemView.findViewById(R.id.edit);
+            mImage=itemView.findViewById(R.id.mainImage);
 
         }
     }
@@ -106,6 +119,11 @@ public class CustomAdapter extends FirestoreRecyclerAdapter<Property, CustomAdap
                 .setCancelButton("Cancel", SweetAlertDialog::dismissWithAnimation)
                 .show();
 
+
+    }
+
+    public void editDetails(){
+        ((SmsarMainActivity)mContext).launchEditor(mb);
 
     }
 }

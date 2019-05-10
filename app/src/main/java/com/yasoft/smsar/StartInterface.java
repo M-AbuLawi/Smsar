@@ -57,6 +57,4 @@ public class StartInterface extends Fragment {
         return root;
     }
 
-
-
 }

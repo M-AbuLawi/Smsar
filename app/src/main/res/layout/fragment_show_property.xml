@@ -18,12 +18,12 @@
         android:layout_marginEnd="0dp"
         android:background="@color/primary_colored"
         android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/back32"
+        app:navigationIcon="@drawable/ic_arrow_back"
         app:popupTheme="@style/Theme.GuidelinesCompat"
-        app:subtitleTextColor="@color/ms_black"
+        app:subtitleTextColor="@color/ms_white"
         app:theme="@style/Theme.GuidelinesCompat.Toolbar"
         app:title="@string/title_Discover"
-        app:titleTextColor="@color/ms_black" />
+        app:titleTextColor="@color/ms_white" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageP"
                 android:layout_width="match_parent"
                 android:layout_height="261dp"
                 android:layout_alignParentStart="true"
@@ -57,7 +57,7 @@
                 android:id="@+id/price"
                 android:layout_width="292dp"
                 android:layout_height="45dp"
-                android:layout_below="@+id/imageView2"
+                android:layout_below="@+id/imageP"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="-1dp"
@@ -76,7 +76,7 @@
                 android:id="@+id/fav_button"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_below="@+id/imageView2"
+                android:layout_below="@+id/imageP"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="61dp"
                 android:layout_marginTop="0dp"
@@ -189,7 +189,7 @@
                 app:srcCompat="@drawable/ic_parking" />
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/descLabel"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bathroomNO"
@@ -211,7 +211,7 @@
                 android:id="@+id/description"
                 android:layout_width="421dp"
                 android:layout_height="211dp"
-                android:layout_below="@+id/textView17"
+                android:layout_below="@+id/descLabel"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="8dp"
@@ -264,8 +264,8 @@
     <ProgressBar
         android:id="@+id/loadingItems"
         style="@style/Theme.GuidelinesCompat"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"

@@ -10,52 +10,68 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <android.support.design.widget.AppBarLayout
+    <RelativeLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:background="@color/ms_white"
-        android:layout_height="186dp"
->
+        android:layout_height="257dp"
+        android:background="@drawable/layout_bg">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="142dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="127dp"
+            android:layout_marginTop="37dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/profile_picture2"
             app:civ_border_color="#ecf0f1"
             app:civ_border_width="1dp" />
 
         <TextView
             android:id="@+id/usernameSetting"
-            android:layout_width="96dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:layout_marginTop="2dp"
+            android:layout_marginStart="154dp"
+            android:layout_marginTop="187dp"
             android:fontFamily="@font/tajawalbold"
             android:text="Username"
             android:textAlignment="center"
-            android:textColor="#000" />
+            android:textColor="#FFF"
+            android:textSize="22sp" />
 
-    </android.support.design.widget.AppBarLayout>
+        <ImageButton
+            android:id="@+id/changeImage"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="248dp"
+            android:layout_marginTop="121dp"
+            android:background="@drawable/circle_button"
+            app:srcCompat="@drawable/ic_camera"
+            android:contentDescription="Change image by pressing here" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/listSetting"
-        android:layout_width="423dp"
-        android:layout_height="413dp"
+        android:layout_width="match_parent"
+        android:layout_height="339dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="270dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="56dp"
-        android:entries="@array/settings"
         android:background="@color/ms_white"
-        />
+        android:entries="@array/settings" />
 
 </RelativeLayout>

@@ -7,7 +7,7 @@ import java.util.List;
 public class Property {
 
     private int mID;
-    private Blob mImageDrawable;
+    private String mImageUrl;
     private String mCity;
     private String mDesc;
     private String mPrice;
@@ -28,26 +28,25 @@ public class Property {
 
     }
 
-    public Property(int mID, String mCity, String mDesc, String mPrice) {
+    public Property(int mID, String mUsername, String mCity, String mDesc, String mPrice,
+                    int noRooms, int noBathrooms, String address, String date ,String area, boolean parking) {
         this.mID = mID;
         this.mCity = mCity;
-        this.mDesc = mDesc;
-        this.mPrice = mPrice;
-
-    }
-
-    public Property(int mID, String mUsername, String mCity, String mDesc, String mPrice) {
-        this.mID = mID;
-        this.mCity = mCity;
+        this.area=area;
         this.mDesc = mDesc;
         this.mPrice = mPrice;
         this.mUsername = mUsername;
+        this.noRooms = noRooms;
+        this.noBathrooms = noBathrooms;
+        this.address = address;
+        this.date = date;
+        this.parking = parking;
     }
 
     public Property(int mID, String mUsername, String mCity, String mDesc, String mPrice,
-                    int noRooms, int noBathrooms, String address, String date ,String area, boolean parking ) {
+                    int noRooms, int noBathrooms, String address, String date ,String area, boolean parking ,String mImageUrl) {
         this.mID = mID;
-        this.mImageDrawable = mImageDrawable;
+        this.mImageUrl = mImageUrl;
         this.mCity = mCity;
         this.area=area;
         this.mDesc = mDesc;
@@ -100,12 +99,13 @@ public class Property {
         this.mPrice = mPrice;
     }
 
-    public Blob getmImageDrawable() {
-        return mImageDrawable;
+
+    public String getmImageDrawable() {
+        return mImageUrl;
     }
 
-    public void setmImageDrawable(Blob mImageDrawable) {
-        this.mImageDrawable = mImageDrawable;
+    public void setmImageDrawable(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
     }
 
     public int getNoRooms() {

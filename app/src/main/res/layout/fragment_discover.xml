@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Discover"
-    android:background="@color/ms_white">
+    android:background="@color/ms_white"
+    tools:context=".Discover">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -15,70 +15,58 @@
         android:layout_height="55dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
-
+        android:background="@color/primary_colored"
         android:clickable="true"
         android:focusable="true"
         android:minHeight="?attr/actionBarSize"
         android:visibility="visible"
-        android:background="@color/primary_colored"
         app:popupTheme="@style/Theme.GuidelinesCompat"
         app:theme="@style/Theme.GuidelinesCompat.Toolbar"
         app:title="@string/title_Discover"
-        app:titleTextColor="@color/ms_white"/>
+        app:titleTextColor="@color/ms_white" />
 
-    <Button
-        android:id="@+id/filter"
-        android:layout_width="170dp"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="58dp"
-        android:background="@color/float_transparent"
-        android:drawableEnd="@drawable/ic_filter_vector_18"
-        android:drawablePadding="2dp"
-        android:paddingStart="5dp"
-        android:paddingEnd="4dp"
-        android:fontFamily="@font/tajawalregular"
-        android:textAlignment="center"
-        android:text="@string/title_filter"
-        android:textColor="@color/buttons"
-        android:textAllCaps="false"
-        android:textSize="18sp" />
+        android:layout_below="@+id/discoverToolBar"
+        app:tabIndicatorColor="@color/primary_colored"
+        android:layout_marginTop="0dp">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home">
 
 
-    <Button
-        android:id="@+id/sort"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="57dp"
-        android:background="@color/float_transparent"
-        android:layout_marginEnd="30dp"
-        android:drawableEnd="@drawable/ic_sort_vector_16"
-        android:gravity="center"
-        android:paddingStart="5dp"
-        android:paddingEnd="4dp"
-        android:drawablePadding="2dp"
-        android:fontFamily="@font/tajawalregular"
-         android:textAlignment="center"
-        android:text="@string/title_sort"
-        android:textColor="@color/buttons"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:visibility="visible" />
+        </android.support.design.widget.TabItem>
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="House" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apartment" />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/discoverRV"
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Villa" />
+
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="108dp"
-        android:layout_marginBottom="55dp"
-        android:scrollbars="vertical"
-        android:visibility="visible" />
+        android:layout_below="@+id/tabLayout"
+        android:layout_marginTop="0dp"
+        />
+
 
 </RelativeLayout>
 

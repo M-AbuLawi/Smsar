@@ -6,8 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
@@ -30,9 +31,9 @@ public class UserMainActivity extends AppCompatActivity {
     private TextView mTextMessage;
 
 
-        FragmentManager fg=getFragmentManager();
+        FragmentManager fg=getSupportFragmentManager();
         FragmentTransaction ft=fg.beginTransaction();
-        Discover _discoverFrag=new Discover();
+        Fragment _discoverFrag=new Discover();
         BottomNavigationView navigation;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {

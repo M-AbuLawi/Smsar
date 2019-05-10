@@ -9,6 +9,12 @@
     tools:context=".MainActivity"
     android:id="@+id/mainView"
     android:focusable="false">
+    <RelativeLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="257dp"
+        android:background="@drawable/layout_bg">
+
 
     <ImageView
         android:id="@+id/logo"
@@ -21,15 +27,28 @@
         android:maxHeight="64dp"
         android:maxWidth="64dp"
         app:srcCompat="@drawable/logo" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/logo"
+            android:text="Smsar"
+            android:textColor="@color/ms_white"
+            android:fontFamily="@font/tajawalbold"
+            android:textSize="25sp"
+            />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
-        android:layout_alignStart="@+id/logo"
-        android:layout_marginStart="-6dp"
-        android:layout_marginTop="4dp">
+        android:layout_below="@id/password"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+       >
 
         <Button
             android:id="@+id/logIn"
@@ -90,9 +109,9 @@
         android:layout_below="@+id/loading"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="99dp"
-        android:layout_marginTop="97dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="37dp"
         android:clickable="true"
         android:fontFamily="@font/tajawalmedium"
         android:text="New ? Start Now By SginUp"
@@ -113,17 +132,19 @@
 
     <ProgressBar
         android:id="@+id/loading"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="186dp"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonContainer"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="151dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="150dp"
         android:max="100"
         android:visibility="invisible" />
+
+
 
 
 </RelativeLayout>
