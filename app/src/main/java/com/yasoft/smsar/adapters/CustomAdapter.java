@@ -48,7 +48,7 @@ public class CustomAdapter extends FirestoreRecyclerAdapter<Property, CustomAdap
         holder.txtDesc.setText(model.getmDesc());
         holder.txtPrice.setText(model.getmPrice()+"JD");
       //  Toast.makeText(mContext,model.getmImageDrawable(),Toast.LENGTH_LONG).show();
-        Picasso.get().load(model.getmImageDrawable()).
+        Picasso.get().load(model.getmImageUrl()).
                 fit().placeholder(R.drawable.placeholder_image).
                 error(R.drawable.no_img).into(holder.mImage);
 

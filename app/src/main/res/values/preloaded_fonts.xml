@@ -3,6 +3,8 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/cabin</item>
         <item>@font/catamaran</item>
+        <item>@font/nunito_bold</item>
+        <item>@font/nunito_semibold</item>
         <item>@font/telex</item>
     </array>
 </resources>

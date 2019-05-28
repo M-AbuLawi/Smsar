@@ -4,10 +4,11 @@
     <color name="colorPrimaryDark">#0082FF</color>
     <color name="colorAccent">#FF4081</color>
     <color name="buttons">#0082FF</color>
-    <color name="links">#4d13d1</color>
+    <color name="links">#0082FF</color>
     <color name="Primary">#0082FF</color>
     <color name="Alpha">#009688</color>
     <color name="PrimaryDark">#232f34</color>
     <color name="background">#fbfeff</color>
     <color name="caption">#494848</color>
+    <color name="gray">#D3D3D3</color>
 </resources>

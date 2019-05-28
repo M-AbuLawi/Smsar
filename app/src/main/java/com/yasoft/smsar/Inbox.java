@@ -34,8 +34,8 @@ public class Inbox extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root= inflater.inflate(R.layout.fragment_inbox, container, false);
-        search = (SearchBox) root.findViewById(R.id.searchbox);
-        search.enableVoiceRecognition(this);
+    //    search = (SearchBox) root.findViewById(R.id.searchbox);
+ //       search.enableVoiceRecognition(this);
         ((SmsarMainActivity)getActivity()).navPointer(R.id.navigation_inbox);
 
     return root;

@@ -5,11 +5,11 @@
 
     <style name="Theme.GuidelinesCompat" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="colorPrimary">@color/buttons</item>
+        <item name="colorPrimary">@color/primary_colored</item>
         <item name="colorPrimaryDark">@color/primary_colored</item>
-        <item name="colorAccent">@color/buttons</item>
+        <item name="colorAccent">@color/primary_colored</item>
 
-        <item name="actionModeBackground">@color/buttons</item>
+        <item name="actionModeBackground">@color/primary_colored</item>
 
         <!-- Actionbar styles -->
         <item name="actionBarTheme">@style/Theme.GuidelinesCompat.Toolbar</item>
@@ -23,5 +23,13 @@
 
     </style>
 
-
+=
+        <style name="SplashTheme" parent="AppTheme">
+            <item name="android:windowBackground">@drawable/splash</item>
+            <item name="actionModeBackground">@color/primary_colored</item>
+            <item name="colorPrimary">@color/primary_colored</item>
+            <item name="colorPrimaryDark">@color/primary_colored</item>
+            <item name="colorAccent">@color/primary_colored</item>
+        </style>
+   =
 </resources>

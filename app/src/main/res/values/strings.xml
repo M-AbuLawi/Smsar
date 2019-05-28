@@ -37,8 +37,13 @@
         <item>Al Zarqa</item>
         <item>Al Mafraq</item>
         <item>AL Aqba</item>
-        <item>Al Kara</item>
+        <item>Al Karak</item>
         <item>Maan</item>
+        <item>Ajloun</item>
+        <item>Madba</item>
+        <item>Al Tafila</item>
+        <item>Al Patra</item>
+        <item>Al Ramtha</item>
     </string-array>
     <string-array name="numbers">
         <item>1</item>

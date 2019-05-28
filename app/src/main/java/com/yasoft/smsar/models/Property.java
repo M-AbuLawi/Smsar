@@ -1,6 +1,5 @@
 package com.yasoft.smsar.models;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,26 +12,28 @@ public class Property {
     private String mPrice;
     private String mUsername;
     private String area;
-
-
+    private String type;
+    private String category;
+    private double longitude;
+    private double latitude;
     private int noRooms;
     private int noBathrooms;
-    private static int LIKED_NO;
+    private int likedNumber;
+    private int viewNumber;
     private String address;
     private String date;
     private boolean parking;
-
-    private List<Property> mList=new ArrayList<>();
+    private List<Property> mList = new ArrayList<>();
 
     public Property() {
 
     }
 
     public Property(int mID, String mUsername, String mCity, String mDesc, String mPrice,
-                    int noRooms, int noBathrooms, String address, String date ,String area, boolean parking) {
+                    int noRooms, int noBathrooms, String address, String date, String area, boolean parking,String type,String category,double longitude,double latitude) {
         this.mID = mID;
         this.mCity = mCity;
-        this.area=area;
+        this.area = area;
         this.mDesc = mDesc;
         this.mPrice = mPrice;
         this.mUsername = mUsername;
@@ -41,14 +42,60 @@ public class Property {
         this.address = address;
         this.date = date;
         this.parking = parking;
+        this.type=type;
+        this.category=category;
+        this.longitude=longitude;
+        this.latitude=latitude;
+
     }
 
-    public Property(int mID, String mUsername, String mCity, String mDesc, String mPrice,
-                    int noRooms, int noBathrooms, String address, String date ,String area, boolean parking ,String mImageUrl) {
+    public Property(int mID, String mImageUrl, String mCity, String mDesc, String mPrice, String mUsername, 
+                    String area, int noRooms, int noBathrooms,
+                     String address, String date, boolean parking,String type,String category,double longitude,double latitude) {
         this.mID = mID;
         this.mImageUrl = mImageUrl;
         this.mCity = mCity;
-        this.area=area;
+        this.mDesc = mDesc;
+        this.mPrice = mPrice;
+        this.mUsername = mUsername;
+        this.area = area;
+        this.type = type;
+        this.category = category;
+        this.noRooms = noRooms;
+        this.noBathrooms = noBathrooms;
+        this.address = address;
+        this.date = date;
+        this.parking = parking;
+        this.longitude=longitude;
+        this.latitude=latitude;
+
+    }
+    public Property(int mID, String mImageUrl, String mCity, String mDesc, String mPrice, String mUsername,
+                    String area, String type, String category, int noRooms, int noBathrooms,
+                    int likedNumber, int viewNumber ,String address, String date, boolean parking) {
+        this.mID = mID;
+        this.mImageUrl = mImageUrl;
+        this.mCity = mCity;
+        this.mDesc = mDesc;
+        this.mPrice = mPrice;
+        this.mUsername = mUsername;
+        this.area = area;
+        this.type = type;
+        this.category = category;
+        this.noRooms = noRooms;
+        this.noBathrooms = noBathrooms;
+        this.likedNumber = likedNumber;
+        this.viewNumber=viewNumber;
+        this.address = address;
+        this.date = date;
+        this.parking = parking;
+    }
+    public Property(int mID, String mUsername, String mCity, String mDesc, String mPrice,
+                    int noRooms, int noBathrooms, String address, String date, String area,
+                    boolean parking, String mImageUrl,String type,String category,double longitude,double latitude) {
+        this.mID = mID;
+        this.mCity = mCity;
+        this.area = area;
         this.mDesc = mDesc;
         this.mPrice = mPrice;
         this.mUsername = mUsername;
@@ -57,7 +104,15 @@ public class Property {
         this.address = address;
         this.date = date;
         this.parking = parking;
+        this.mImageUrl = mImageUrl;
+        this.type=type;
+        this.category=category;
+        this.longitude=longitude;
+        this.latitude=latitude;
+
     }
+
+
 
     public String getmUsername() {
         return mUsername;
@@ -100,14 +155,6 @@ public class Property {
     }
 
 
-    public String getmImageDrawable() {
-        return mImageUrl;
-    }
-
-    public void setmImageDrawable(String mImageUrl) {
-        this.mImageUrl = mImageUrl;
-    }
-
     public int getNoRooms() {
         return noRooms;
     }
@@ -140,15 +187,15 @@ public class Property {
         this.date = date;
     }
 
+    public boolean getParking() {
 
+        return parking;
+    }
 
     public void setParking(boolean parking) {
         this.parking = parking;
     }
-    public boolean getParking(){
 
-        return parking;
-    }
     public String getArea() {
         return area;
     }
@@ -157,20 +204,62 @@ public class Property {
         this.area = area;
     }
 
-    public static int getLikedNo() {
-        return LIKED_NO;
+
+    public String getmImageUrl() {
+        return mImageUrl;
     }
 
-    public static void setLikedNo(int likedNo) {
-        LIKED_NO = likedNo;
+    public void setmImageUrl(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
     }
 
-
-    public int getLIKED_NO() {
-        return LIKED_NO;
+    public String getType() {
+        return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getLikedNumber() {
+        return likedNumber;
+    }
+
+    public void setLikedNumber(int likedNumber) {
+        this.likedNumber = likedNumber;
+    }
+
+    public int getViewNumber() {
+        return viewNumber;
+    }
+
+    public void setViewNumber(int viewNumber) {
+        this.viewNumber = viewNumber;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 }
 
 

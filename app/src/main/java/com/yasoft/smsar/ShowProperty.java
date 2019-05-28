@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -64,12 +64,10 @@ public class ShowProperty extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                onDetach();
                 Toast.makeText(root.getContext(), "hello", Toast.LENGTH_LONG).show();
                 return true;
 
             case R.id.action_setting:
-                onDetach();
                 Toast.makeText(root.getContext(), "hello", Toast.LENGTH_LONG).show();
                 return true;
 
@@ -117,7 +115,7 @@ public class ShowProperty extends Fragment {
 
 
 
-        final Toolbar toolbar1 = (Toolbar) root.findViewById(R.id.discoverToolBar);
+        final Toolbar toolbar1 = (Toolbar) root.findViewById(R.id.displayScreenToolBar);
         toolbar1.inflateMenu(R.menu.menu_dashboard_titlebar);
 
         toolbar1.setNavigationOnClickListener(v -> {

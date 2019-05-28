@@ -5,11 +5,14 @@ import android.support.v4.app.FragmentManager;
 
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.yasoft.smsar.ApartmentType;
+import com.yasoft.smsar.HousesType;
 import com.yasoft.smsar.MainDiscoverFragment;
+import com.yasoft.smsar.VillaType;
 
 
-public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
-    public SectionsPagerAdapter(FragmentManager fm) {
+public class PropertySectionsPagerAdapter extends FragmentStatePagerAdapter {
+    public PropertySectionsPagerAdapter(FragmentManager fm) {
 
         super(fm);
     }
@@ -22,13 +25,13 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
                 fragment = new MainDiscoverFragment();
                 break;
             case 1:
-                fragment = new MainDiscoverFragment();
+                fragment = new HousesType();
                 break;
             case 2:
-                fragment = new MainDiscoverFragment();
+                fragment = new ApartmentType();
                 break;
            case 3:
-               fragment = new MainDiscoverFragment();
+               fragment = new VillaType();
                break;
         }
         return fragment;

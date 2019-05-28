@@ -11,10 +11,17 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 
 
 public class SmsarMainActivity extends AppCompatActivity {
@@ -34,30 +41,31 @@ public class SmsarMainActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_dashboard_titlebar,menu);
+       // getMenuInflater().inflate(R.menu.menu_dashboard_titlebar,menu);
 
         return true;
     }
 
 
-    @Override
+    //recyclerView.Adapter=Adapter(list);
+
+ /*   @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
                 fragmentLauncher(_fragmentNewProperty);
-            //    setTitle(R.string.title_newApartment);
+                //    setTitle(R.string.title_newApartment);
                 return true;
 
             case R.id.action_setting:
                 fragmentLauncher(_fragmentSetting);
-           //     setTitle(R.string.title_setting);
+                //     setTitle(R.string.title_setting);
                 return true;
 
         }
 
-
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     private OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new OnNavigationItemSelectedListener() {
@@ -96,6 +104,8 @@ public class SmsarMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smsar_main);
 
+   /*     Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);*/
 
 
 
@@ -108,6 +118,7 @@ public class SmsarMainActivity extends AppCompatActivity {
          restoredText = prefs.getString("username",null);
         //END
 
+
         //send username to fragments
         //START
         Toast.makeText(this,restoredText,Toast.LENGTH_LONG).show(); // FOR TESTING PURPOSES
@@ -119,10 +130,10 @@ public class SmsarMainActivity extends AppCompatActivity {
 
         //END
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        mTextMessage =  findViewById(R.id.message);
 
 
-         navigation = (BottomNavigationView) findViewById(R.id.navigation);
+         navigation =  findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         fragmentTransaction.replace(R.id.mainView,_fragmentManage);
@@ -184,13 +195,46 @@ public class SmsarMainActivity extends AppCompatActivity {
 
     }
     public void navPointer(int id){
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation =  findViewById(R.id.navigation);
         navigation.setSelectedItemId(id);
 
     }
 
 
+    public void parsDataToFilter(Bundle bundle){
+//        MainDiscoverFragment fragment = (MainDiscoverFragment) getSupportFragmentManager().findFragmentById(R.id.MainDiscover);
+        MainDiscoverFragment fragment = new MainDiscoverFragment();
+       fragment.setArguments(bundle);
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainView, fragment);
+        fragmentTransaction.addToBackStack(null);
 
+      /*  final RxGps rxGps = new RxGps(this);
+
+        rxGps.locationLowPower()
+                .flatMapMaybe(rxGps::geocoding)
+
+                .doOnSubscribe(this::addDisposable)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Andr)
+
+                .subscribe(address -> {
+                    //addressText.setText(getAddressText(address));
+                }, throwable -> {
+                    if (throwable instanceof RxGps.PermissionException) {
+                        //displayError(throwable.getMessage());
+                    } else if (throwable instanceof RxGps.PlayServicesNotAvailableException) {
+                   //     displayError(throwable.getMessage());
+                    }
+                });*/
+
+
+// Commit the transaction
+        fragmentTransaction.commit();
+
+    //    Toast.makeText(this,"worked activity",Toast.LENGTH_SHORT).show();
+
+    }
     public void hideBottomNavigationView() {
         navigation.clearAnimation();
         navigation.animate().translationY(navigation.getHeight()).setDuration(300);
