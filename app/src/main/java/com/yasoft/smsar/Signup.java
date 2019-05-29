@@ -16,8 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,6 +30,7 @@ import com.yasoft.smsar.models.Smsar;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -85,11 +88,11 @@ public class Signup extends AppCompatActivity {
 
                     if (!validEmail(email)) {
                         Toast.makeText(Signup.this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
-
                     }
+                    
                     if(password.length()<6)
                         Toast.makeText(Signup.this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
-                    else if(validEmail(email)&&password.length()>=6)
+                    else if(validEmail(email)&&password.length()>=6 && !userExist(username))
                         try {
                             Smsar mSmsar = new Smsar(name, pn, username, email, password);
 
@@ -155,10 +158,13 @@ public class Signup extends AppCompatActivity {
 
     EncryptString mEncrypt;
     public void prepareToInsert() {
+        
         username = Username.getText().toString();
+      
+            
         name = Fullname.getText().toString();
         email = Email.getText().toString();
-
+        
 
         password = Password.getText().toString();
 
@@ -215,6 +221,20 @@ public class Signup extends AppCompatActivity {
 
 //        return currentid;
 
+    }
+    
+    boolean flage=false;
+    private boolean userExist(String username){
+        DocumentReference docRef = db.collection("ProfilePictures").document(username);
+        docRef.get()
+                .addOnCompleteListener(task -> {
+                    DocumentSnapshot snapshot=task.getResult();
+                    if(Objects.requireNonNull(snapshot).exists())
+                        flage=true;
+                });
+                     
+
+        return flage;
     }
 }
 

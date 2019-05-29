@@ -8,24 +8,10 @@
     tools:context=".NewProperty">
 
     <RelativeLayout
-        android:id="@+id/imageLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/propertyPicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            />
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/newPropertyToolBar"
         android:layout_width="match_parent"
-        android:background="@color/ms_white"
-        android:layout_height="wrap_content">
+        android:layout_height="66dp"
+        android:background="@color/ms_white">
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,16 +64,32 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/imageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        android:layout_marginTop="88dp">
+
+        <ImageView
+            android:id="@+id/propertyPicture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/mainScroll"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@id/newPropertyToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="539dp"
+        android:layout_below="@id/imageLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="63dp"
+        android:layout_marginTop="273dp"
         android:layout_marginBottom="-62dp">
 
         <LinearLayout
@@ -121,8 +123,8 @@
                     android:paddingStart="18dp"
                     android:paddingTop="15dp"
                     android:paddingEnd="12dp"
-                    android:text="Amman"
                     android:paddingBottom="12dp"
+                    android:text="Amman"
                     android:textAlignment="textStart"
                     android:textAppearance="@style/Widget.MaterialComponents.Chip.Filter"
                     android:textColor="@color/buttons"
@@ -140,21 +142,21 @@
                     android:fontFamily="@font/nunito"
                     android:text="LOCATION"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
+
                 <TextView
                     android:id="@+id/errorLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginEnd="20dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginTop="46dp"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/nunito"
                     android:text="some of text fields is empty"
                     android:textColor="@android:color/holo_red_dark"
-                    android:visibility="invisible"
                     android:textSize="14sp"
-                    />
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/streetLabel"
@@ -362,13 +364,13 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="430dp"
                     android:layout_marginEnd="8dp"
-                    android:inputType="number"
                     android:background="@drawable/rounded_edittext"
                     android:hint="$"
+                    android:inputType="number"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
-                    android:textColor="@color/primary_colored"
-                    />
+                    android:textColor="@color/primary_colored" />
+
                 <TextView
                     android:id="@+id/areaLabel"
                     android:layout_width="wrap_content"
@@ -391,9 +393,9 @@
                     android:layout_marginTop="530dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="10dp"
-                    android:inputType="number"
                     android:background="@drawable/rounded_edittext"
                     android:hint="m"
+                    android:inputType="number"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     android:textColor="@color/primary_colored" />
@@ -418,8 +420,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="595dp"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="20dp"
                     app:sb_checked_color="@color/primary_colored"
                     app:sb_show_indicator="false" />
 
@@ -428,8 +430,8 @@
                     android:layout_width="350dp"
                     android:layout_height="1dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="551dp"
                     android:layout_marginEnd="20dp"
@@ -529,8 +531,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="80dp"
-                >
+                android:layout_marginBottom="80dp">
 
                 <TextView
                     android:id="@+id/typeLabel"
@@ -598,24 +599,26 @@
 
 
                 </RadioGroup>
+
                 <View
                     style="@style/separator"
                     android:layout_width="350dp"
                     android:layout_height="1dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="150dp"
                     android:layout_marginEnd="20dp"
                     android:background="@color/primary_colored" />
+
                 <View
                     style="@style/separator"
                     android:layout_width="350dp"
                     android:layout_height="1dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="150dp"
                     android:layout_marginEnd="20dp"
@@ -623,13 +626,14 @@
 
 
             </RelativeLayout>
+
             <View
                 style="@style/separator"
                 android:layout_width="350dp"
                 android:layout_height="1dp"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="150dp"
                 android:layout_marginEnd="20dp"

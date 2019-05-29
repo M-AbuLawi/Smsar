@@ -72,6 +72,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
+import com.squareup.picasso.Picasso;
 import com.suke.widget.SwitchButton;
 import com.yasoft.smsar.adapters.ImageAdapter;
 import com.yasoft.smsar.models.Images;
@@ -494,7 +495,8 @@ public class NewProperty extends Fragment {
                     mBrowse.setAdapter(mAdapter);*/
                     // show the image to the user
                     imageLayout.setVisibility(View.VISIBLE);
-                    imageView.setImageBitmap(mImage);
+                 //   imageView.setImageBitmap(mImage);
+                    Picasso.get().load(mImageUri).fit().into(imageView);
 
 
                 } catch (FileNotFoundException e) {

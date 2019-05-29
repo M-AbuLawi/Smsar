@@ -184,8 +184,8 @@ public class MainDiscoverFragment extends Fragment {
     private void recentAdded(){
         Query fireStoreSearchQuery = propertyRef.orderBy("date").limit(LOADIND_LIMIT);
         dataFetch(fireStoreSearchQuery,R.id.recentRV);
-
     }
+
 
     private void rentAdded(){
         Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Rent").limit(LOADIND_LIMIT);
@@ -203,10 +203,10 @@ public class MainDiscoverFragment extends Fragment {
 
     }
 
-private void dataFetch(Query query,int rvView){
+    private void dataFetch(Query query,int rvView){
+        Log.i("Query",query.toString()); // for testing purpose
 
-        Log.i("Query",query.toString());
-    FirestoreRecyclerOptions<Property> options = new FirestoreRecyclerOptions.Builder<Property>()
+          FirestoreRecyclerOptions<Property> options = new FirestoreRecyclerOptions.Builder<Property>()
             .setQuery(query, Property.class)
             .build();
 
