@@ -21,7 +21,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.squareup.picasso.Picasso;
 import com.yasoft.smsar.DBHelper;
-import com.yasoft.smsar.DeleteAlertDialog;
+
 import com.yasoft.smsar.NewProperty;
 import com.yasoft.smsar.SmsarMainActivity;
 import com.yasoft.smsar.models.Property;

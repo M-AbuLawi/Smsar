@@ -8,6 +8,20 @@
     tools:context=".NewProperty">
 
     <RelativeLayout
+        android:id="@+id/imageLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/propertyPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/newPropertyToolBar"
         android:layout_width="match_parent"
         android:background="@color/ms_white"
