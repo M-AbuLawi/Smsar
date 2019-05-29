@@ -10,15 +10,26 @@ import android.content.pm.PackageManager;
 import android.database.SQLException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +48,7 @@ import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,9 +60,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -63,6 +77,9 @@ import com.yasoft.smsar.adapters.ImageAdapter;
 import com.yasoft.smsar.models.Images;
 import com.yasoft.smsar.models.Property;
 
+import org.imperiumlabs.geofirestore.GeoFirestore;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -85,6 +102,7 @@ public class NewProperty extends Fragment {
     public static final int CAMERA_REQUEST_CODE = 228;
     public static final int CAMERA_PERMISSION_REQUEST_CODE = 4192;
     int PICK_IMAGE_MULTIPLE = 1;
+    ImageButton dec, inc, inc1, dec1, exit;
     EditText DESC, PRICE, mAddress;
     ImageButton mUpload;
     Button city;
@@ -93,11 +111,12 @@ public class NewProperty extends Fragment {
     ArrayList<Bitmap> images;
     FloatingActionButton fab;
     View root;
+    View imageLayout;
     TextView mError, mArea;
     Context context;
     final SmsarMainActivity smsar = (SmsarMainActivity) context;
     TextView _mNumberOfRooms, _mNumberOfBathRooms;
-    double lat,lon;
+    double latitude, longitude;
     SwitchButton mParking;
     RecyclerView mBrowse;
     String date;
@@ -107,7 +126,10 @@ public class NewProperty extends Fragment {
     String username;
     Images image;
     Bitmap bitmap;
-    RadioGroup typeRG,catgoryRG;
+    private TextView _screenRooms;
+    private TextView _screenBaths;
+    private int numberOfRooms = 1, numberOfBathrooms = 1;
+    RadioGroup typeRG, catgoryRG;
     Uri mImageUri;
     Bundle argument;
     private String mCity;
@@ -127,7 +149,21 @@ public class NewProperty extends Fragment {
     //  DocumentReference userRef;
     public NewProperty() {
         // Required empty public constructor
+
+
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Get user Location
+
+
+    }
+
+    CollectionReference geoFirestoreRef = FirebaseFirestore.getInstance().collection("Property");
+    ;
+    GeoFirestore geoFirestore = new GeoFirestore(geoFirestoreRef);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,38 +171,44 @@ public class NewProperty extends Fragment {
 
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_addproperty, container, false);
+
+
         context = root.getContext();
-
+        imageLayout = root.findViewById(R.id.imageLayout);
         DESC = root.findViewById(R.id.description);
-     PRICE = root.findViewById(R.id.price);
-      ib = root.findViewById(R.id.addImage);
+        PRICE = root.findViewById(R.id.price);
+        ib = root.findViewById(R.id.addImage);
 
-       city = root.findViewById(R.id.cities);
+        city = root.findViewById(R.id.cities);
         fab = root.findViewById(R.id.addProperty);
-       mError = root.findViewById(R.id.errorLabel);
+        mError = root.findViewById(R.id.errorLabel);
 
-       catgoryRG=root.findViewById(R.id.catgoryRadioGroup);
-       typeRG=root.findViewById(R.id.typeRadioGroub);
-       // mBrowse = root.findViewById(R.id.browseImages);
+        catgoryRG = root.findViewById(R.id.catgoryRadioGroup);
+        typeRG = root.findViewById(R.id.typeRadioGroub);
+
+
+        inc = root.findViewById(R.id.increaseR);
+        dec = root.findViewById(R.id.decreaseR);
+
+        inc1 = root.findViewById(R.id.increaseB);
+        dec1 = root.findViewById(R.id.decreaseB);
+        // mBrowse = root.findViewById(R.id.browseImages);
 
         final ArrayAdapter<String> citisList = new ArrayAdapter<>(context, R.layout.fragment_testing,
                 getResources().getStringArray(R.array.cities));
-     //   mBrowse.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        //   mBrowse.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         //     mBrowse.setAdapter(new ImageAdapter(new int[]{R.drawable.home,R.drawable.house1,R.drawable.house2,R.drawable.house3,R.drawable.house1}));
 
-      //  imageView = root.findViewById(R.id.testI);
-
+        imageView = root.findViewById(R.id.propertyPicture);
+        getLocation();
         FirebaseApp.initializeApp(root.getContext());
         db = FirebaseFirestore.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("Property");
         //   userRef = db.document("ID/id");
-     //   ScrollView scrollView=root.findViewById(R.id.mainScroll);
+        //   ScrollView scrollView=root.findViewById(R.id.mainScroll);
         //scrollView.onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed);
         if (checkArgumentsForId())
             fillFields();
-
-        //Get user Location
-        getLocation();
 
 
         Bundle argument;
@@ -175,7 +217,7 @@ public class NewProperty extends Fragment {
             username = getArguments().getString("username");
 
         }
-        city.setOnClickListener(v->showCitiesDialog(citisList));
+        city.setOnClickListener(v -> showCitiesDialog(citisList));
 
         mUpload = root.findViewById(R.id.upload);
 //open image Gallery
@@ -184,26 +226,22 @@ public class NewProperty extends Fragment {
 
         //confirm data
         fab.setOnClickListener(v -> {
-            uploadFile();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    addProperty();
-                }
-            }, 9000);
+            if (mImage != null)
+                uploadFile();
+            else
+                addProperty();
 
         });
 
         //use the camera to capture image
-      ib.setOnClickListener(v -> takePhoto());
+        ib.setOnClickListener(v -> takePhoto());
 
 
-       _mNumberOfRooms = root.findViewById(R.id.numOfRooms);
+        _mNumberOfRooms = root.findViewById(R.id.numOfRooms);
         _mNumberOfBathRooms = root.findViewById(R.id.numOfBaths);
-        mArea =  root.findViewById(R.id.area);
+        mArea = root.findViewById(R.id.area);
         mParking = root.findViewById(R.id.parking);
-        mAddress =  root.findViewById(R.id.address);
+        mAddress = root.findViewById(R.id.address);
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -214,9 +252,46 @@ public class NewProperty extends Fragment {
 
         ((SmsarMainActivity) getActivity()).navPointer(R.id.navigation_newApartment);
 
+        inc.setOnClickListener(v -> {
+            ++numberOfRooms;
+            updateScreen();
+        });
+
+        dec.setOnClickListener(v -> {
+            --numberOfRooms;
+            updateScreen();
+        });
+
+
+        inc1.setOnClickListener(v -> {
+            ++numberOfBathrooms;
+            updateScreen();
+        });
+
+        dec1.setOnClickListener(v -> {
+            --numberOfBathrooms;
+            updateScreen();
+        });
+
+
         return root;
         //  return inflater.inflate(R.layout.fragment_addproperty, container, false);
 
+    }
+
+    private void updateScreen() {
+
+        check();
+
+        _mNumberOfRooms.setText(numberOfRooms + "");
+        _mNumberOfBathRooms.setText(numberOfBathrooms + "");
+    }
+
+    void check() {
+        if (numberOfRooms < 1)
+            numberOfRooms = 1;
+        if (numberOfBathrooms < 1)
+            numberOfBathrooms = 1;
     }
 
     private String getFileExtension(Uri uri) {
@@ -230,15 +305,20 @@ public class NewProperty extends Fragment {
         if (mImageUri != null) {
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
-
-            mUploadTask = fileReference.putFile(mImageUri)
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            mImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+            mUploadTask = fileReference.putBytes(data)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                              @Override
+                        boolean flag = false;
+
+                        @Override
                                               public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                  Toast.makeText(context, "Upload successful", Toast.LENGTH_LONG).show();
+
                                                   fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                       @Override
                                                       public void onSuccess(Uri uri) {
+
                                                           image = new Images(mID + "", Objects.requireNonNull(uri.toString()));
                                                       }
                                                   })
@@ -247,9 +327,21 @@ public class NewProperty extends Fragment {
                                                               public void onFailure(@NonNull Exception e) {
                                                                   Toast.makeText(context, "Upload Failed", Toast.LENGTH_LONG).show();
                                                               }
-                                                          });
+                                                          })
 
-                                              }
+                                                          .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                                              @Override
+                                                              public void onComplete(@NonNull Task<Uri> task) {
+                                                                  Toast.makeText(context, task.isComplete() + "", Toast.LENGTH_LONG).show();
+
+                                                                  addProperty();
+
+                                                              }
+                                                          })
+                                                  ;
+
+
+                        }
                                           }
                     )
 
@@ -271,6 +363,8 @@ public class NewProperty extends Fragment {
 
     }
 
+    boolean propertyUploadedFlag;
+
     public void addProperty() throws SQLException {
 
 
@@ -283,20 +377,22 @@ public class NewProperty extends Fragment {
             prepareForInsert();
             Property mProperty;
 
-       Log.i("lat",lat+"");
+
             if (!TextUtils.isEmpty(image.getmImageUrl()))
                 mProperty = new Property(mID, username, mCity, mDesc, mPrice, noRooms, noBathrooms, address, date, area,
-                        parking, Objects.requireNonNull(image.getmImageUrl()),type,category,lon,lat);
+                        parking, Objects.requireNonNull(image.getmImageUrl()), type, category, longitude, latitude);
             else
-                mProperty = new Property(mID, username, mCity, mDesc, mPrice, noRooms, noBathrooms, address, date, area, parking,type,category,lon,lat);
+                mProperty = new Property(mID, username, mCity, mDesc, mPrice, noRooms, noBathrooms, address, date, area, parking, type, category, longitude, latitude);
+
             db.collection("Property").document(mProperty.getmID() + "").set(mProperty)
+
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            propertyUploadedFlag = true;
                             Toast.makeText(context, "done",
                                     Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, lon+"",
-                                    Toast.LENGTH_SHORT).show();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -307,16 +403,23 @@ public class NewProperty extends Fragment {
                                     Toast.LENGTH_SHORT).show();
                         }
                     })
-            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    Toast.makeText(context, "Complete",
-                            Toast.LENGTH_SHORT).show();
-                }
-            })
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (propertyUploadedFlag)
+                                Toast.makeText(context, "Upload successful", Toast.LENGTH_LONG).show();
+                            geoFirestore.setLocation(mProperty.getmID() + "", new GeoPoint(latitude, longitude), new GeoFirestore.CompletionListener() {
+                                @Override
+                                public void onComplete(Exception exception) {
+                                    if (exception == null) {
+                                        System.out.println("Location saved on server successfully!");
+                                    }
+                                }
+                            });
+                        }
+                    })
             ;
-
-
 
 
         } else {
@@ -324,18 +427,24 @@ public class NewProperty extends Fragment {
             mError.setVisibility(View.VISIBLE);
         }
     }
+
     public void showCitiesDialog(ArrayAdapter adapter) {
         DialogPlus dialog = DialogPlus.newDialog(context)
                 .setAdapter(adapter)
-                .setOnItemClickListener((dialog1, item, view, position) -> { mCity=item.toString();city.setText(item.toString()); dialog1.dismiss(); })
+                .setOnItemClickListener((dialog1, item, view, position) -> {
+                    mCity = item.toString();
+                    city.setText(item.toString());
+                    dialog1.dismiss();
+                })
                 .setExpanded(false)
                 .create();
 
         dialog.show();
     }
+
     public boolean validationVariable() {
 
-        return !TextUtils.isEmpty(mCity)&& !TextUtils.isEmpty(lat+"")&& !TextUtils.isEmpty(lon+"");
+        return !TextUtils.isEmpty(mCity) && !TextUtils.isEmpty(latitude + "") && !TextUtils.isEmpty(longitude + "");
 
     }
 
@@ -350,6 +459,8 @@ public class NewProperty extends Fragment {
             }
         }
     }
+
+    Bitmap mImage;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -374,14 +485,17 @@ public class NewProperty extends Fragment {
                     inputStream = context.getContentResolver().openInputStream(mImageUri);
 
                     // get a bitmap from the stream.
-                    Bitmap image = BitmapFactory.decodeStream(inputStream);
+                    mImage = BitmapFactory.decodeStream(inputStream);
 //mBrowse , mAdapter
 
+                    mImage = addWaterMark(mImage, Color.WHITE, 40, context);
                   /*  Images mImage=new Images(image);
                     mAdapter=new ImageAdapter(mImage);
                     mBrowse.setAdapter(mAdapter);*/
                     // show the image to the user
-//                    imageView.setImageBitmap(image);
+                    imageLayout.setVisibility(View.VISIBLE);
+                    imageView.setImageBitmap(mImage);
+
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -391,6 +505,27 @@ public class NewProperty extends Fragment {
 
             }
         }
+    }
+
+    public static Bitmap addWaterMark(Bitmap src, int color, int alpha, Context mContext) {
+        int w = src.getWidth();
+        int h = src.getHeight();
+        Bitmap result = Bitmap.createBitmap(w, h, src.getConfig());
+
+        Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(src, 0, 0, null);
+        Bitmap waterMark = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.watermark);
+        Paint paint = new Paint();
+        paint.setColor(color);
+        paint.setAlpha(alpha);
+        paint.setAntiAlias(true);
+        canvas.drawBitmap(waterMark, 0, 0, paint);
+
+    /* Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(src, 0, 0, null);
+        Bitmap waterMark = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
+        canvas.drawBitmap(waterMark, 0, 0, null); */
+        return result;
     }
 
     @Override
@@ -460,28 +595,18 @@ public class NewProperty extends Fragment {
             mID *= -1;
 
     }
-    @SuppressLint("CheckResult")
-    private void getLocation(){
 
-        new RxGps(Objects.requireNonNull(getActivity())).locationLowPower()
 
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.single())
+    private void getLocation() {
 
-                .subscribe(location -> {
-                    lat = location.getLatitude();
-                    lon=location.getLongitude();
-                }, throwable -> {
-
-                    if (throwable instanceof RxGps.PermissionException) {
-                        //the user does not allow the permission
-                    } else if (throwable instanceof RxGps.PlayServicesNotAvailableException) {
-                        //the user do not have play services
-                    }
-                });
-
+            UserLocation userLocation=new UserLocation(getActivity(),context);
+            longitude=userLocation.getLongitude();
+            latitude=userLocation.getLatitude();
 
     }
+
+
+
     public void prepareForInsert() {
       //  mCity = spin.getSelectedItem().toString();
 
@@ -561,7 +686,7 @@ public class NewProperty extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                DESC.setText("Write about your description");
+                DESC.setHint("Write about your description here");
                 PRICE.setHint("JD");
                 mAddress.setHint("Street Name");
                 _mNumberOfBathRooms.setHint("1");
@@ -574,12 +699,13 @@ public class NewProperty extends Fragment {
 
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
         this.getArguments().remove("id");
         argument = null;
-   clearFields();
+        clearFields();
     }
 
     @Override
@@ -591,3 +717,5 @@ public class NewProperty extends Fragment {
 
     }
 }
+
+

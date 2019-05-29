@@ -203,10 +203,10 @@ public class ShowFilter extends Fragment {
 
     }
     void check() {
-        if (numberOfRooms < 0)
-            numberOfRooms = 0;
-        if (numberOfBathrooms < 0)
-            numberOfBathrooms = 0;
+        if (numberOfRooms < 1)
+            numberOfRooms = 1;
+        if (numberOfBathrooms < 1)
+            numberOfBathrooms = 1;
     }
 
 

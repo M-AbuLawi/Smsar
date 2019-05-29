@@ -108,7 +108,7 @@
                     android:paddingTop="15dp"
                     android:paddingEnd="12dp"
                     android:text="Amman"
-                 android:paddingBottom="12dp"
+                    android:paddingBottom="12dp"
                     android:textAlignment="textStart"
                     android:textAppearance="@style/Widget.MaterialComponents.Chip.Filter"
                     android:textColor="@color/buttons"
@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-                  android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="46dp"
                     android:fontFamily="@font/nunito"
                     android:text="some of text fields is empty"
@@ -354,7 +354,7 @@
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     android:textColor="@color/primary_colored"
-                     />
+                    />
                 <TextView
                     android:id="@+id/areaLabel"
                     android:layout_width="wrap_content"

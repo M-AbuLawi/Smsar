@@ -87,49 +87,49 @@ public class Signup extends AppCompatActivity {
                         Toast.makeText(Signup.this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
 
                     }
-                     if(password.length()<6)
+                    if(password.length()<6)
                         Toast.makeText(Signup.this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
                     else if(validEmail(email)&&password.length()>=6)
-                    try {
-                        Smsar mSmsar = new Smsar(name, pn, username, email, password);
+                        try {
+                            Smsar mSmsar = new Smsar(name, pn, username, email, password);
 
-                        //    smsarRef.add(mSmsar);
-                        db.collection("Smsar").document(username).set(mSmsar)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(Signup.this, "done",
-                                                Toast.LENGTH_SHORT).show();
+                            //    smsarRef.add(mSmsar);
+                            db.collection("Smsar").document(username).set(mSmsar)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(Signup.this, "done",
+                                                    Toast.LENGTH_SHORT).show();
 
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
 
-                                        Toast.makeText(Signup.this, "Failed",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                            Toast.makeText(Signup.this, "Failed",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
 
 
-                        flag = mDBHelper.insertSmsar(username, name,
-                                email, password, pn);
-                        if (flag) {
-                            Toast.makeText(getApplicationContext(), "done",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "not done",
-                                    Toast.LENGTH_SHORT).show();
+                            flag = mDBHelper.insertSmsar(username, name,
+                                    email, password, pn);
+                            if (flag) {
+                                Toast.makeText(getApplicationContext(), "done",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "not done",
+                                        Toast.LENGTH_SHORT).show();
 
+                            }
+                            intent = new Intent(Signup.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                         }
-                        intent = new Intent(Signup.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-                    }
                 }
                 else {
                     ErorrM.setText("Empty Fields");
@@ -181,9 +181,9 @@ public class Signup extends AppCompatActivity {
             if (domain.equals("com") || domain.equals("net") || domain.equals("org"))
                 return pattern.matcher(email).matches();
 
+            else return false;
+        }
         else return false;
-    }
-    else return false;
     }
 
 
@@ -217,11 +217,6 @@ public class Signup extends AppCompatActivity {
 
     }
 }
-
-
-
-
-
 
 
 

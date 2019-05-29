@@ -188,18 +188,18 @@ public class ApartmentType extends Fragment {
     }
 
     private void recentAdded(){
-        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("category","House").limit(LOADIND_LIMIT);
+        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("category","Apartment").limit(LOADIND_LIMIT);
         dataFetch(fireStoreSearchQuery,R.id.recentRV);
 
     }
 
     private void rentAdded(){
-        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Rent").whereEqualTo("category","House").limit(LOADIND_LIMIT);
+        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Rent").whereEqualTo("category","Apartment").limit(LOADIND_LIMIT);
         dataFetch(fireStoreSearchQuery,R.id.rentRV);
 
     }
     private void sellAdded(){
-        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Sell").whereEqualTo("category","House").limit(LOADIND_LIMIT);
+        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Sell").whereEqualTo("category","Apartment").limit(LOADIND_LIMIT);
         dataFetch(fireStoreSearchQuery,R.id.sellRV);
 
     }

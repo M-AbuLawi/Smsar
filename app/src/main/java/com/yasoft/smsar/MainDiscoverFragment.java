@@ -28,10 +28,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.yasoft.smsar.adapters.DiscoverAdapter;
 import com.yasoft.smsar.models.Property;
+
+import org.imperiumlabs.geofirestore.GeoFirestore;
+import org.imperiumlabs.geofirestore.GeoQuery;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +62,9 @@ public class MainDiscoverFragment extends Fragment {
     FirebaseFirestore db;
     private CollectionReference propertyRef;
     EditText searchBar;
-
+    double latitude, longitude;
+    CollectionReference geoFirestoreRef = FirebaseFirestore.getInstance().collection("Property");
+    GeoFirestore geoFirestore = new GeoFirestore(geoFirestoreRef);
     ImageButton deleteTextButton;
     // TODO: Rename and change types and number of parameters
     HashMap<String,Object> list;
@@ -143,24 +149,14 @@ public class MainDiscoverFragment extends Fragment {
     }
 
 
-    @SuppressLint("CheckResult")
+
     private void getLocation(){
-
-        new RxGps(Objects.requireNonNull(getActivity())).locationLowPower()
-
-                .subscribeOn(Schedulers.newThread())
-            .observeOn(Schedulers.single())
-
-                .subscribe(location -> Log.i( "getLocation: ",location.getLatitude()+""), throwable -> {
-                    if (throwable instanceof RxGps.PermissionException) {
-                        //the user does not allow the permission
-                    } else if (throwable instanceof RxGps.PlayServicesNotAvailableException) {
-                        //the user do not have play services
-                    }
-                });
-
+        UserLocation userLocation=new UserLocation(getActivity(),mContext);
+        longitude=userLocation.getLongitude();
+        latitude=userLocation.getLatitude();
 
     }
+
         private void searchBarListener(){
             String searchText=searchBar.getText().toString();
             if(searchText.equals("")) {
@@ -180,6 +176,7 @@ public class MainDiscoverFragment extends Fragment {
 
     private static  int LOADIND_LIMIT=10;
     private void setUpRecyclerView() {
+        GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(37.7832, -122.4056), 0.6);
         Query queryLocation = propertyRef.orderBy("mPrice", Query.Direction.ASCENDING).whereEqualTo("mCity","Amman");
         dataFetch(queryLocation,R.id.discoverRV);
 
@@ -237,11 +234,11 @@ private void dataFetch(Query query,int rvView){
 
     public void loadNavBar(){
        // String context=mContext.toString();
-        if (getContext().toString().contains("Smsar")) {
-            ((SmsarMainActivity) getActivity()).navPointer(R.id.MainDiscover);
+        if (Objects.requireNonNull(getContext()).toString().contains("Smsar")) {
+            ((SmsarMainActivity) Objects.requireNonNull(getActivity())).navPointer(R.id.MainDiscover);
             //       UserMainActivity mUser=(UserMainActivity)mContext;
         } else if (getContext().toString().contains("User")) {
-            ((UserMainActivity) getActivity()).navPointer(R.id.MainDiscover);
+            ((UserMainActivity) Objects.requireNonNull(getActivity())).navPointer(R.id.MainDiscover);
         }
 
     }
