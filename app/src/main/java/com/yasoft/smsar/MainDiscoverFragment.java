@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.github.florent37.rxgps.RxGps;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import io.reactivex.schedulers.Schedulers;
 
 
 /**

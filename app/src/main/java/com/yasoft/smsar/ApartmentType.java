@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.github.florent37.rxgps.RxGps;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,7 +30,7 @@ import com.yasoft.smsar.models.Property;
 
 import java.util.Objects;
 
-import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,7 +51,7 @@ public class ApartmentType extends Fragment {
     DiscoverAdapter mAdapter;
     EditText searchBar;
     ImageButton deleteTextButton;
-
+    double longitude,latitude;
     public ApartmentType() {
         // Required empty public constructor
     }
@@ -148,18 +147,9 @@ public class ApartmentType extends Fragment {
     @SuppressLint("CheckResult")
     private void getLocation(){
 
-        new RxGps(Objects.requireNonNull(getActivity())).locationLowPower()
-
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.single())
-
-                .subscribe(location -> Log.i( "getLocation: ",location.getLatitude()+""), throwable -> {
-                    if (throwable instanceof RxGps.PermissionException) {
-                        //the user does not allow the permission
-                    } else if (throwable instanceof RxGps.PlayServicesNotAvailableException) {
-                        //the user do not have play services
-                    }
-                });
+        UserLocation userLocation=new UserLocation(getActivity(),mContext);
+       latitude= userLocation.getLatitude();
+        longitude=userLocation.getLongitude();
 
 
     }

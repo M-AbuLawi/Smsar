@@ -54,7 +54,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.florent37.rxgps.RxGps;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -89,7 +89,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
 
-import io.reactivex.schedulers.Schedulers;
+
 
 import static android.app.Activity.RESULT_OK;
 
