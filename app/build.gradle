@@ -60,8 +60,6 @@ dependencies {
     implementation 'com.github.florent37:singledateandtimepicker:2.1.4'
 
     implementation 'com.github.imperiumlabs:GeoFirestore-Android:v1.1.1'
-    implementation 'com.github.florent37:rxgps:1.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
 
     implementation 'com.github.ceryle:RadioRealButton:v2.1.1'
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
