@@ -11,11 +11,10 @@ import android.os.Bundle;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,9 +31,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.yasoft.smsar.models.Smsar;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
 
 
 public class MainActivity extends AppCompatActivity {

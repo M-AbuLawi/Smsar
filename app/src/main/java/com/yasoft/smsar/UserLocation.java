@@ -4,33 +4,39 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.widget.Toast;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class UserLocation {
    private double longitude;
     private double latitude;
-
+    private String street;
+   private String city="";
+    private LocationManager lm;
+   private Location location;
     UserLocation(Activity activity,Context context){
-        LocationManager lm = (LocationManager) Objects.requireNonNull(activity).getSystemService(Context.LOCATION_SERVICE);
+         lm = (LocationManager) Objects.requireNonNull(activity).getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
                         PackageManager.PERMISSION_GRANTED) {
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+             location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             longitude = location.getLongitude();
             latitude = location.getLatitude();
 
 
-            Toast.makeText(context,longitude+" "+latitude,Toast.LENGTH_LONG).show();
+
+         // Toast.makeText(context,dis+"",Toast.LENGTH_LONG).show();
             LocationListener locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {
                     longitude = location.getLongitude();
@@ -62,6 +68,29 @@ public class UserLocation {
         }
     }
 
+
+    public void defineAddress(Activity activity) {
+
+        List<Address> addresses= null;
+        Geocoder geocoder = new Geocoder(activity);
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+            Address address = addresses != null ? addresses.get(0) : null;
+            String addressline = address != null ? address.getAddressLine(0) : null;
+            street= address != null ? address.getThoroughfare() : null;
+            city= address != null ? address.getLocality() : null;
+
+
+    }
+
+    public void getNerestLocation(){
+        float dis= location.distanceTo(location);
+    }
+
     public double getLongitude() {
         return longitude;
     }
@@ -78,4 +107,20 @@ public class UserLocation {
         this.latitude = latitude;
     }
 
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 }

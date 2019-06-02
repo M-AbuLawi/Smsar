@@ -4,11 +4,11 @@ package com.yasoft.smsar;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -91,7 +91,7 @@ public class VillaType extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         root=inflater.inflate(R.layout.fragment_villa_type, container, false);
-        mReset=root.findViewById(R.id.resetButton);
+      //  mReset=root.findViewById(R.id.resetButton);
         mContext = root.getContext();
 
         FirebaseApp.initializeApp(mContext);
@@ -103,14 +103,14 @@ public class VillaType extends Fragment {
         deleteTextButton = root.findViewById(R.id.deleteButton);
         //Too load Nav bar for each Activity;
         loadNavBar();
-        mReset.setOnClickListener(v->{
+     /*   mReset.setOnClickListener(v->{
             mReset.setVisibility(View.INVISIBLE);
             setUpRecyclerView();
             recentAdded();
             rentAdded();
             sellAdded();
 
-        });
+        });*/
         //mUser.getSupportActionBar().setTitle(R.string.title_Discover);
         if (searchBar.getText().toString().equals(""))
         {

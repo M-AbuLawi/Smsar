@@ -1,16 +1,20 @@
 package com.yasoft.smsar;
 
 
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 import android.os.Environment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,21 +27,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.kongzue.dialog.listener.InputDialogOkButtonClickListener;
+import com.kongzue.dialog.util.InputInfo;
+import com.kongzue.dialog.v2.InputDialog;
+import com.kongzue.dialog.v2.Notification;
+import com.kongzue.dialog.v2.TipDialog;
 import com.squareup.picasso.Picasso;
 import com.yasoft.smsar.models.Images;
 
@@ -76,7 +83,9 @@ public class Settings extends Fragment {
     String username;
     private Context context;
     private ImageButton mImageButton;
+    CollectionReference cr;
     StorageReference mStorageRef;
+    FirebaseStorage storage;
     private StorageTask mUploadTask;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -88,7 +97,8 @@ public class Settings extends Fragment {
         FirebaseApp.initializeApp(root.getContext());
         firestore=FirebaseFirestore.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("ProfilePictures");
-
+         storage = FirebaseStorage.getInstance();
+        cr=firestore.collection("Property");
 
          username = getArguments().getString("username");
         TextView usernameS=root.findViewById(R.id.usernameSetting);
@@ -97,6 +107,7 @@ public class Settings extends Fragment {
          profileImage.setMaxHeight(52);
          profileImage.setMaxWidth(52);
         usernameS.setText(username);
+
 
 
         mImageButton.setOnClickListener(new View.OnClickListener() {
@@ -110,34 +121,48 @@ public class Settings extends Fragment {
     li.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (id==0)
-            {
-                ((SmsarMainActivity)getActivity()).logout();
-            }
-            if(id==1){
+            switch (position) {
+                case 0:
+                    showInputDialog("Set your Fee","Please Set your fee and you can update it and delete it anytime","Your Fee is : "," %",InputType.TYPE_CLASS_NUMBER,1);
+                    break;
+                case 1:
+                    showInputDialog("Change your PhoneNumber","Please Change your PhoneNumber and you can update it anytime","Your new PhoneNumber is : ","",InputType.TYPE_CLASS_PHONE,14);
+                    break;
+                case 2:
+                showInputDialog("Change your Email","Please Change your Email and you can update it anytime","Your new Email is : ","",InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,50);
+                    break;
+                case 3:
+               showInputDialog("Change your Password","Please Change your Password and you can update it anytime","Your new password is : ","",InputType.TYPE_NUMBER_VARIATION_PASSWORD,50);
+                    break;
+                case 4:
+                    ((SmsarMainActivity) getActivity()).logout();
+                    break;
+                case 5:
+                    new SweetAlertDialog(root.getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Are you sure?")
+                            .setContentText("All of your data will be gone!")
+                            .setConfirmText("Yes, delete it!")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                    deleteSmsar();
+                                    logout();
 
-                new SweetAlertDialog(root.getContext(), SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Are you sure?")
-                        .setContentText("All of your data will be gone!")
-                        .setConfirmText("Yes,delete it!")
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-                               deleteSmsar();
-                                logout();
+                                }
+                            })
+                            .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            })
+                            .show();
+                    break;
 
-                            }
-                        })
-                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-                            }
-                        })
-                        .show();
-                //need to create class to manage the sessions
             }
+
+
         }
     });
         ((SmsarMainActivity)getActivity()).navPointer(R.id.navigation_account);
@@ -147,6 +172,24 @@ public class Settings extends Fragment {
     }
 
 
+    private void showInputDialog(String TITLE, String MESSAGE, String OUTPUT_MESSAGE , String SIGN,int INPUT_TYPE,int MAX_LENGTH){
+      InputDialog.show(context, TITLE, MESSAGE, "Confirm", new InputDialogOkButtonClickListener() {
+            @Override
+            public void onClick(Dialog dialog, String inputText) {
+               Toast.makeText(context, OUTPUT_MESSAGE + inputText+SIGN, Toast.LENGTH_SHORT).show();
+            }
+        }, "Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).setInputInfo(new InputInfo()
+              .setMAX_LENGTH(MAX_LENGTH)
+                .setInputType(INPUT_TYPE));
+
+
+
+    }
     private void logout(){
         ((SmsarMainActivity)getActivity()).logout();
 
@@ -154,11 +197,29 @@ public class Settings extends Fragment {
 
     private int propertyID;
     private void deleteSmsar(){
-
+        WriteBatch batch = firestore.batch();
         firestore.collection("Smsar").document(username).delete();
         firestore.collection("Property").whereEqualTo("mUsername",username).get()
-                .addOnSuccessListener(queryDocumentSnapshots -> firestore.collection("Property")
-                        .document(queryDocumentSnapshots.getDocuments().toString()).delete());
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                       //     queryDocumentSnapshots.forEach(v-> cr.document(queryDocumentSnapshots.getDocuments().toString()).delete());
+                          for (int i=0 ; i<queryDocumentSnapshots.size();i++)
+                           batch.delete(cr.document(queryDocumentSnapshots.getDocuments().get(i).getId()));
+                          batch.commit();
+
+                        }
+                        else {
+                            int count=0;
+                            while (queryDocumentSnapshots.size() > count){
+                                cr.document(queryDocumentSnapshots.getDocuments().toString()).delete();
+                            count++;
+                            }
+                        }
+                    }
+                });
+
 
               }
     Uri mImageUri;
@@ -217,42 +278,21 @@ public class Settings extends Fragment {
         if (mImageUri != null) {
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             mImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] data = baos.toByteArray();
             mUploadTask = fileReference.putBytes(data)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                              @Override
-                                              public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    .addOnSuccessListener(taskSnapshot -> fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
 
-                                                  fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                      @Override
-                                                      public void onSuccess(Uri uri) {
+                            image = new Images( username+ "", Objects.requireNonNull(uri.toString()));
+                        }
+                    })
+                            .addOnFailureListener(e -> Toast.makeText(context, "Upload Failed", Toast.LENGTH_LONG).show())
 
-                                                          image = new Images( username+ "", Objects.requireNonNull(uri.toString()));
-                                                      }
-                                                  })
-                                                          .addOnFailureListener(new OnFailureListener() {
-                                                              @Override
-                                                              public void onFailure(@NonNull Exception e) {
-                                                                  Toast.makeText(context, "Upload Failed", Toast.LENGTH_LONG).show();
-                                                              }
-                                                          })
-
-                                                          .addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                                              @Override
-                                                              public void onComplete(@NonNull Task<Uri> task) {
-                                                                  Toast.makeText(context, task.isComplete() + "", Toast.LENGTH_LONG).show();
-                                                                  changeImage();
-
-
-                                                              }
-                                                          })
-                                                  ;
-
-
-                                              }
-                                          }
+                            .addOnCompleteListener(task -> changeImage())
                     )
 
                     .addOnFailureListener(e ->
@@ -279,6 +319,7 @@ public class Settings extends Fragment {
     }
 
     private void changeImage(){
+        storage.getReferenceFromUrl(imageUrl).delete();
         Map<String, Object> data = new HashMap<>();
         data.put("imageUrl", image.getmImageUrl());
         firestore.collection("ProfilePictures").document(username).set(data)
@@ -288,6 +329,7 @@ public class Settings extends Fragment {
 
     }
 
+    String imageUrl;
     private void setProfileImage(){
 
         DocumentReference docRef = firestore.collection("ProfilePictures").document(username);
@@ -295,6 +337,7 @@ public class Settings extends Fragment {
                 .addOnCompleteListener(task -> {
                     DocumentSnapshot snapshot=task.getResult();
                     if(Objects.requireNonNull(snapshot).exists()){
+                        imageUrl=snapshot.getString("imageUrl");
                         Picasso.get().load(String.valueOf(snapshot.get("imageUrl"))).fit().placeholder(R.drawable.logo_c_144).into(profileImage);
 
                     }

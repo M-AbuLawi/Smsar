@@ -64,33 +64,19 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/imageLayout"
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_alignParentTop="true"
-        android:visibility="gone"
-        android:layout_marginTop="88dp">
-
-        <ImageView
-            android:id="@+id/propertyPicture"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
-    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/mainScroll"
         android:layout_width="match_parent"
-        android:layout_height="539dp"
-        android:layout_below="@id/imageLayout"
+        android:layout_height="729dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="273dp"
+        android:layout_marginTop="83dp"
         android:layout_marginBottom="-62dp">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,11 +85,25 @@
             android:background="@color/ms_white"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:id="@+id/imageLayout"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_alignParentTop="true"
+                android:visibility="gone">
 
+                <ImageView
+                    android:id="@+id/propertyPicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
+            </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/locationLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -645,7 +645,7 @@
 
     </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addProperty"
         android:layout_width="77dp"
         android:layout_height="wrap_content"

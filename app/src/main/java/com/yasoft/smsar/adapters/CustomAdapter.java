@@ -1,15 +1,10 @@
 package com.yasoft.smsar.adapters;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +15,10 @@ import android.widget.Toast;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.squareup.picasso.Picasso;
-import com.yasoft.smsar.DBHelper;
 
-import com.yasoft.smsar.NewProperty;
 import com.yasoft.smsar.SmsarMainActivity;
 import com.yasoft.smsar.models.Property;
 import com.yasoft.smsar.R;
-import com.yasoft.smsar.models.Smsar;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 

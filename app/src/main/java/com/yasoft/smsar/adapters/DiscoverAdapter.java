@@ -1,42 +1,22 @@
 package com.yasoft.smsar.adapters;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
-
-import java.util.List;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
-import com.yasoft.smsar.DBHelper;
-import com.yasoft.smsar.ShowProperty;
-import com.yasoft.smsar.SmsarMainActivity;
 import com.yasoft.smsar.models.Property;
 import com.yasoft.smsar.R;
-import com.yasoft.smsar.UserMainActivity;
-import com.yasoft.smsar.models.Smsar;
-
-import java.util.ArrayList;
 //  private List<Property> arrayList;
 
 
@@ -56,6 +36,7 @@ public class DiscoverAdapter extends FirestoreRecyclerAdapter<Property, Discover
     @Override
     protected void onBindViewHolder(@NonNull PropertyHolder holder, int position, @NonNull Property model) {
 
+
         holder.txtCity.setText(model.getmCity());
         holder.txtDesc.setText(model.getmDesc());
         holder.txtPrice.setText(model.getmPrice()+" JD");
@@ -66,6 +47,7 @@ public class DiscoverAdapter extends FirestoreRecyclerAdapter<Property, Discover
         Bundle mb=new Bundle();
         mb.putInt("id",model.getmID());
         mb.putString("desc",model.getmDesc());
+
 
         // Toast.makeText(context,mb.getInt("id")+""+mb.get("desc"),Toast.LENGTH_LONG).show();
 

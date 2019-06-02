@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,12 +20,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -35,7 +35,7 @@ public class ShowProperty extends Fragment {
     View root;
     Context mContext;
     ViewGroup actionBarLayout;
-    String username = "", pn = "";
+    private static String USERNAME = "", PHONENUMBER = "";
     Button mCall,mChat;
     private FirebaseFirestore db;
     private DocumentReference detailsRef;
@@ -113,22 +113,22 @@ public class ShowProperty extends Fragment {
         setUpDetails();
 
 
-
-
+        mChat.setOnClickListener(v->sendMessage());
+        mCall.setOnClickListener(v->callSmsar());
         final Toolbar toolbar1 = (Toolbar) root.findViewById(R.id.displayScreenToolBar);
         toolbar1.inflateMenu(R.menu.menu_dashboard_titlebar);
 
         toolbar1.setNavigationOnClickListener(v -> {
             onDetach();
             if (root.getContext().toString().contains("User")) {
-                ((UserMainActivity) getActivity()).onBackPressed();
+               Objects.requireNonNull(getActivity()).onBackPressed();
 
             } else if (root.getContext().toString().contains("Smsar")) {
-                ((SmsarMainActivity) getActivity()).onBackPressed();
+                 Objects.requireNonNull(getActivity()).onBackPressed();
             }
 
 
-            Toast.makeText(mContext, getArguments().get("propertyID")+"",Toast.LENGTH_LONG).show();//For Testing Purpose
+         //   Toast.makeText(mContext, (getArguments() != null ? getArguments().get("propertyID") : null) +"",Toast.LENGTH_LONG).show();//For Testing Purpose
 
         });
 
@@ -190,11 +190,14 @@ public class ShowProperty extends Fragment {
 
 
         private void callSmsar(){
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + pn));
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + PHONENUMBER));
             root.getContext().startActivity(intent);
 
         }
-        
+        public void sendMessage(){
+                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("sms:" +PHONENUMBER)));
+
+        }
         private String getPropertyID(){
             String id="";
             Bundle argument;
@@ -206,24 +209,23 @@ public class ShowProperty extends Fragment {
         }
         private void setUpDetails(){
                 detailsRef.get()
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                if(documentSnapshot.exists()){
-                                    mDescription.setText(documentSnapshot.getString("mDesc"));
-                                    mPrice.setText(documentSnapshot.getString("mPrice")+" JD");
-                                    mCity.setText(documentSnapshot.getString("mCity")+" |");
-                                    mCity.append(documentSnapshot.getString("address"));
-                                    mBaths.setText(Objects.requireNonNull(documentSnapshot.get("noBathrooms")).toString());
-                                    mRooms.setText(Objects.requireNonNull(documentSnapshot.get("noRooms")).toString());
-                                    mDate.setText(documentSnapshot.getString("date"));
-                                    mArea.setText(Objects.requireNonNull(documentSnapshot.get("area")).toString());
-                                    parking=Objects.requireNonNull(documentSnapshot.getBoolean("parking"));
-                                //    username = rs.getString(rs.getColumnIndex(DBHelper.PROPERTY_COLUMN_SMSARUSERNAME));
-                                }
-                                else
-                                    Toast.makeText(mContext,"Not exists",Toast.LENGTH_LONG).show();
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if(documentSnapshot.exists()){
+                                mDescription.setText(documentSnapshot.getString("mDesc"));
+                                mPrice.setText(documentSnapshot.getString("mPrice")+" JD");
+                                mCity.setText(documentSnapshot.getString("mCity")+" |");
+                                mCity.append(documentSnapshot.getString("address"));
+                                mBaths.setText(Objects.requireNonNull(documentSnapshot.get("noBathrooms")).toString());
+                                mRooms.setText(Objects.requireNonNull(documentSnapshot.get("noRooms")).toString());
+                                mDate.setText(documentSnapshot.getString("date"));
+                                mArea.setText(Objects.requireNonNull(documentSnapshot.get("area")).toString());
+                                parking=Objects.requireNonNull(documentSnapshot.getBoolean("parking"));
+                                Picasso.get().load(documentSnapshot.getString("mImageUrl")).fit().into(propertyImage);
+                               USERNAME = documentSnapshot.getString("mUsername");
+                               getSmsarPhoneNumber(USERNAME);
                             }
+                            else
+                                Toast.makeText(mContext,"Not exists",Toast.LENGTH_LONG).show();
                         })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -249,7 +251,14 @@ public class ShowProperty extends Fragment {
         }
 
 
-        private void viewVisible(){
+    private void getSmsarPhoneNumber(String username) {
+       db.collection("Smsar").document(username).get()
+               .addOnSuccessListener(snapshot -> PHONENUMBER=snapshot.getString("mPhoneNumber"));
+
+    }
+
+
+    private void viewVisible(){
 
             mDescription.setVisibility(View.VISIBLE);
             mPrice.setVisibility(View.VISIBLE);

@@ -77,11 +77,11 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/nunito"
-                android:text="Your Location"
+                android:text="Nearby"
                 android:textColor="@color/primary_colored"
                 android:textSize="24sp" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/discoverRV"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
@@ -108,7 +108,7 @@
                 android:textColor="@color/primary_colored"
                 android:textSize="24sp" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recentRV"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
@@ -134,7 +134,7 @@
                 android:textColor="@color/primary_colored"
                 android:textSize="24sp" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rentRV"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
@@ -160,7 +160,7 @@
                 android:textColor="@color/primary_colored"
                 android:textSize="24sp" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/sellRV"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"

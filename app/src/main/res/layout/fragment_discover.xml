@@ -40,7 +40,7 @@
 
   </RelativeLayout>
 
-  <android.support.design.widget.TabLayout
+  <com.google.android.material.tabs.TabLayout
       android:id="@+id/tabLayout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -50,34 +50,34 @@
       app:tabTextAppearance="@style/TextAppearance.AppCompat.Small"
       app:tabTextColor="@color/primary_colored">
 
-    <android.support.design.widget.TabItem
+    <com.google.android.material.tabs.TabItem
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Home">
 
 
-    </android.support.design.widget.TabItem>
+    </com.google.android.material.tabs.TabItem>
 
-    <android.support.design.widget.TabItem
+    <com.google.android.material.tabs.TabItem
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:text="House" />
 
-    <android.support.design.widget.TabItem
+    <com.google.android.material.tabs.TabItem
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apartment" />
 
 
-    <android.support.design.widget.TabItem
+    <com.google.android.material.tabs.TabItem
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Villa" />
 
-  </android.support.design.widget.TabLayout>
+  </com.google.android.material.tabs.TabLayout>
 
-  <android.support.v4.view.ViewPager
+  <androidx.viewpager.widget.ViewPager
       android:id="@+id/container"
       android:layout_width="match_parent"
       android:layout_height="match_parent"

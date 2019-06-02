@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ShowProperty">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/displayScreenToolBar"
         android:layout_width="420dp"
         android:layout_height="55dp"

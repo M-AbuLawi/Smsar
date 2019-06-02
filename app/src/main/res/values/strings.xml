@@ -27,9 +27,12 @@
     <string name="title_vistor">Want Apartment ?</string>
 
     <string-array name="settings">
+        <item>Set your Fee</item>
+        <item>Change PhoneNumber</item>
+        <item>Change Email</item>
+        <item>Change Password</item>
         <item>Logout</item>
         <item>Delete Account</item>
-
     </string-array>
     <string-array name="cities">
         <item>Amman</item>

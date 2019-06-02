@@ -1,16 +1,15 @@
 package com.yasoft.smsar;
 
 
-import android.annotation.SuppressLint;
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,22 +23,26 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.yasoft.smsar.adapters.DiscoverAdapter;
 import com.yasoft.smsar.models.Property;
 
 import org.imperiumlabs.geofirestore.GeoFirestore;
-import org.imperiumlabs.geofirestore.GeoQuery;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
 
 
 
@@ -65,6 +68,7 @@ public class MainDiscoverFragment extends Fragment {
     CollectionReference geoFirestoreRef = FirebaseFirestore.getInstance().collection("Property");
     GeoFirestore geoFirestore = new GeoFirestore(geoFirestoreRef);
     ImageButton deleteTextButton;
+    private static int RADIUS_RANGE=5;
     // TODO: Rename and change types and number of parameters
     HashMap<String,Object> list;
 
@@ -95,6 +99,7 @@ public class MainDiscoverFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         propertyRef = db.collection("Property");
         getLocation();
+        getNearestEstate();
         if(list!=null)
             filterData();
 
@@ -109,7 +114,7 @@ public class MainDiscoverFragment extends Fragment {
         loadNavBar();
         mReset.setOnClickListener(v->{
             mReset.setVisibility(View.INVISIBLE);
-            setUpRecyclerView();
+           // setUpRecyclerView();
             recentAdded();
             rentAdded();
             sellAdded();
@@ -118,7 +123,8 @@ public class MainDiscoverFragment extends Fragment {
         //mUser.getSupportActionBar().setTitle(R.string.title_Discover);
         if (searchBar.getText().toString().equals(""))
         {
-            setUpRecyclerView();
+            getNearestEstate();
+          //  setUpRecyclerView();
             recentAdded();
             rentAdded();
             sellAdded();
@@ -149,17 +155,12 @@ public class MainDiscoverFragment extends Fragment {
 
 
 
-    private void getLocation(){
-        UserLocation userLocation=new UserLocation(getActivity(),mContext);
-        longitude=userLocation.getLongitude();
-        latitude=userLocation.getLatitude();
-
-    }
 
         private void searchBarListener(){
             String searchText=searchBar.getText().toString();
             if(searchText.equals("")) {
-                setUpRecyclerView();
+                getNearestEstate();
+          //      setUpRecyclerView();
                 recentAdded();
                 rentAdded();
                 sellAdded();
@@ -171,41 +172,119 @@ public class MainDiscoverFragment extends Fragment {
 
             }
 
+
+
         }
 
-    private static  int LOADIND_LIMIT=10;
-    private void setUpRecyclerView() {
-        GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(37.7832, -122.4056), 0.6);
-        Query queryLocation = propertyRef.orderBy("mPrice", Query.Direction.ASCENDING).whereEqualTo("mCity","Amman");
-        dataFetch(queryLocation,R.id.discoverRV);
+
+    private void getLocation(){
+        UserLocation userLocation=new UserLocation(getActivity(),mContext);
+        longitude=userLocation.getLongitude();
+        latitude=userLocation.getLatitude();
+        userLocation.defineAddress(getActivity());
+
+        String city=userLocation.getCity();
+       city= city.toLowerCase();
+        if(city.contains("mafraq"))
+            city="Al Mafraq";
+        if(city.contains("amman"))
+            city="Amman";
+        if(city.contains("irbid"))
+            city="Irbid";
+        if(city.contains("zarqa"))
+            city="Al Zarqa";
+        if(city.contains("karak"))
+            city="Al Karak";
+        if(city.contains("aqba"))
+            city="AL Aqba";
+        if(city.contains("maan"))
+            city="Maan";
+        if(city.contains("ajloun"))
+            city="Ajloun";
+        if(city.contains("madba"))
+            city="Madba";
+        if(city.contains("tafila"))
+            city="Al Tafila";
+        if(city.contains("patra"))
+            city="Al Patra";
+        if(city.contains("ramtha"))
+            city="Al Ramtha";
+
+        queryLocation(city);
 
     }
+    List<DocumentSnapshot> queryList=new ArrayList<>();
+    private void queryLocation(String city){
+
+      propertyRef.whereEqualTo("mCity",city).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        queryList=queryDocumentSnapshots.getDocuments();
+                       // for (int i = 0 ; i < queryList.size() ; i++)
+                       // Toast.makeText(mContext,queryList.get(0).toString(),Toast.LENGTH_LONG).show();
+
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+          @Override
+          public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+          }
+      });
+
+
+    }
+    private static  int LOADIND_LIMIT=10;
+  //  Map<String,Object> stringIntegerMap=new HashMap<>();
+    private void getNearestEstate(){
+        //GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(latitude, longitude), 100);
+
+
+
+    }
+
+
 
     private void recentAdded(){
         Query fireStoreSearchQuery = propertyRef.orderBy("date").limit(LOADIND_LIMIT);
+        Log.i("String",fireStoreSearchQuery.toString());
         dataFetch(fireStoreSearchQuery,R.id.recentRV);
+
+
     }
+    private void fetchMultipleDoc(String id){
+        //for()
+      // Query fireStoreSearchQuery = db.collection("Property").document(id);
+
+     //   dataFetch(fireStoreSearchQuery,R.id.recentRV);
+
+    }
+
+
+
 
 
     private void rentAdded(){
         Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Rent").limit(LOADIND_LIMIT);
+        Log.i("String",fireStoreSearchQuery.toString());
+        //Toast.makeText(mContext,fireStoreSearchQuery.toString(),Toast.LENGTH_LONG).show();
         dataFetch(fireStoreSearchQuery,R.id.rentRV);
 
     }
     private void sellAdded(){
         Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Sell").limit(LOADIND_LIMIT);
+        Log.i("String",fireStoreSearchQuery.toString());
         dataFetch(fireStoreSearchQuery,R.id.sellRV);
 
     }
     private void fireStoreUserSearch(String searchText){
         Query fireStoreSearchQuery = propertyRef.orderBy("mDesc").startAt(searchText).endAt(searchText + "\uf8ff");
+   //    propertyRef.document()
         dataFetch(fireStoreSearchQuery,R.id.discoverRV);
 
     }
 
     private void dataFetch(Query query,int rvView){
-        Log.i("Query",query.toString()); // for testing purpose
-
           FirestoreRecyclerOptions<Property> options = new FirestoreRecyclerOptions.Builder<Property>()
             .setQuery(query, Property.class)
             .build();
@@ -216,6 +295,7 @@ public class MainDiscoverFragment extends Fragment {
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
     recyclerView.setAdapter(mAdapter);
     mAdapter.startListening();
+
     mAdapter.setOnItemClickListener((documentSnapshot, position) -> {
         Property property = documentSnapshot.toObject(Property.class);
         String id = documentSnapshot.getId();
@@ -307,3 +387,32 @@ public class MainDiscoverFragment extends Fragment {
         mAdapter.stopListening();
     }
 }
+/*
+*          GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(latitude, longitude), 5);
+            geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+                @Override
+                public void onKeyEntered(String s, GeoPoint geoPoint) {
+                        Toast.makeText(mContext,s,Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onKeyExited(String s) {
+
+                }
+
+                @Override
+                public void onKeyMoved(String s, GeoPoint geoPoint) {
+
+                }
+
+                @Override
+                public void onGeoQueryReady() {
+
+                }
+
+                @Override
+                public void onGeoQueryError(Exception e) {
+
+                }
+            });
+* */
