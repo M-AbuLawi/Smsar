@@ -1,5 +1,6 @@
 package com.yasoft.smsar;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -16,9 +18,6 @@ public class UserMainActivity extends AppCompatActivity {
 
 
 
-    public void UserMainActivity(){
-
-    }
 
     private TextView mTextMessage;
 
@@ -26,34 +25,33 @@ public class UserMainActivity extends AppCompatActivity {
         FragmentManager fg=getSupportFragmentManager();
         FragmentTransaction ft=fg.beginTransaction();
         Fragment _discoverFrag=new Discover();
+    Fragment likedListFrag=new LikedList();
+    Fragment notificationFrag=new InboxList();
+    Fragment accountFrag=new Settings();
         BottomNavigationView navigation;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_dashboard:
-                    if(_discoverFrag.isVisible());
-                    else
-                    {
-                        ft.replace(R.id.discoverView,_discoverFrag);
-                    ft.commit();
-                    }
-                    return true;
-                case R.id.navigation_inbox:
-                    //mTextMessage.setText(R.string.title_dashboard);
-                    return true;
 
-                case R.id.navigation_notifications:
-                   // mTextMessage.setText(R.string.title_notifications);
+                case R.id.like:
+                    fragmentLauncher(likedListFrag);
                     return true;
 
                 case R.id.navigation_discover:
-                    // mTextMessage.setText(R.string.title_notifications);
+                    fragmentLauncher(_discoverFrag);
                     return true;
-                case R.id.like:
-                    // mTextMessage.setText(R.string.title_notifications);
+
+                case R.id.navigation_inbox:
+                    fragmentLauncher(notificationFrag);
+                    return true;
+
+                case R.id.navigation_seeker_account:
+
+                    fragmentLauncher(accountFrag);
                     return true;
             }
             return false;
@@ -67,30 +65,46 @@ public class UserMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
 
-
-
-         navigation = (BottomNavigationView) findViewById(R.id.user_navigation);
+        SharedPreferences preferences=getSharedPreferences("user_details", MODE_PRIVATE);
+        preferences = getSharedPreferences("user_details", MODE_PRIVATE);
+        navigation =  findViewById(R.id.user_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        ft.replace(R.id.discoverView,_discoverFrag);
-        ft.commit();
+
+
+
+        if (!preferences.contains("username") && !preferences.contains("password"))
+                  hideBottomNavigationView();
+
+        final Menu menu = navigation.getMenu();
+        MenuItem item=menu.getItem(3);
+        item.setVisible(false);
+
+
+        if(!_discoverFrag.isVisible()) {
+        //    navPointer(R.id.navigation_discover);
+
+            ft.replace(R.id.discoverView,_discoverFrag);
+            ft.addToBackStack(null);
+            ft.commit();
+        }
 
     }
 
 
-/*
-    private  <T> void fragmentLuncher(T transform){
+
+    private   void fragmentLauncher(Fragment transform){
 
         ft = fg.beginTransaction();
-        if(_fragmentManage.isVisible())
-            fragmentTransaction.remove(_fragmentManage);
-        if (_fragmentSetting.isVisible())
-            fragmentTransaction.remove(_fragmentSetting);
-        if(_fragmentNewProperty.isVisible())
-            fragmentTransaction.remove(_fragmentNewProperty);
-        fragmentTransaction.replace(R.id.mainView, (android.app.Fragment) transform);
-        fragmentTransaction.commit();
 
-    }*/
+        if(_discoverFrag.isVisible())
+            ft.remove(_discoverFrag);
+        if (likedListFrag.isVisible())
+            ft.remove(likedListFrag);
+
+        ft.replace(R.id.discoverView, transform);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
         public void callPhoneNumber(String number){
          /*   Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
@@ -99,8 +113,9 @@ public class UserMainActivity extends AppCompatActivity {
         }
 
     public void navPointer(int id){
-        navigation = (BottomNavigationView) findViewById(R.id.user_navigation);
-        navigation.setSelectedItemId(id);
+        navigation =  findViewById(R.id.user_navigation);
+        if(id!=0)
+            navigation.setSelectedItemId(id);
 
     }
 

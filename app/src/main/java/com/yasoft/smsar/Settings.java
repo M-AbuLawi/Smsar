@@ -83,7 +83,7 @@ public class Settings extends Fragment {
     String username;
     private Context context;
     private ImageButton mImageButton;
-    CollectionReference cr;
+    CollectionReference cr,smsarRef;
     StorageReference mStorageRef;
     FirebaseStorage storage;
     private StorageTask mUploadTask;
@@ -99,7 +99,7 @@ public class Settings extends Fragment {
         mStorageRef = FirebaseStorage.getInstance().getReference("ProfilePictures");
          storage = FirebaseStorage.getInstance();
         cr=firestore.collection("Property");
-
+        smsarRef=firestore.collection("Smsar");
          username = getArguments().getString("username");
         TextView usernameS=root.findViewById(R.id.usernameSetting);
         mImageButton=root.findViewById(R.id.changeImage);
@@ -117,22 +117,22 @@ public class Settings extends Fragment {
             }
         });
 
-        li=(ListView)root.findViewById(R.id.listSetting);
+        li=root.findViewById(R.id.listSetting);
     li.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (position) {
                 case 0:
-                    showInputDialog("Set your Fee","Please Set your fee and you can update it and delete it anytime","Your Fee is : "," %",InputType.TYPE_CLASS_NUMBER,1);
+                 showInputDialog("Set your Fee","Please Set your fee \nOnly from 0 to 9 percent is what allowed you to set\nYou can update it and delete it anytime","Your Fee is : "," %",InputType.TYPE_CLASS_NUMBER,1,"fee");
                     break;
                 case 1:
-                    showInputDialog("Change your PhoneNumber","Please Change your PhoneNumber and you can update it anytime","Your new PhoneNumber is : ","",InputType.TYPE_CLASS_PHONE,14);
+                  showInputDialog("Change your PhoneNumber","Please Change your PhoneNumber, you can update it anytime","Your new PhoneNumber is : ","",InputType.TYPE_CLASS_PHONE,14,"phone");
                     break;
                 case 2:
-                showInputDialog("Change your Email","Please Change your Email and you can update it anytime","Your new Email is : ","",InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,50);
+                showInputDialog("Change your Email","Please Change your Email, you can update it anytime.\nemail is very important to be valid and real.","Your new Email is : ","",InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,50,"email");
                     break;
                 case 3:
-               showInputDialog("Change your Password","Please Change your Password and you can update it anytime","Your new password is : ","",InputType.TYPE_NUMBER_VARIATION_PASSWORD,50);
+               showInputDialog("Change your Password","Please Change your Password, No one will know your password except you.\nyou can update it anytime.","Your new password is : ","",InputType.TYPE_NUMBER_VARIATION_PASSWORD,50,"password");
                     break;
                 case 4:
                     ((SmsarMainActivity) getActivity()).logout();
@@ -171,17 +171,41 @@ public class Settings extends Fragment {
          return root;
     }
 
+    private void setFee(String newFee){
+       // int fee=Integer.parseInt(newFee);
+        smsarRef.document(username).update("fee",newFee);
 
-    private void showInputDialog(String TITLE, String MESSAGE, String OUTPUT_MESSAGE , String SIGN,int INPUT_TYPE,int MAX_LENGTH){
+    }
+    private void updatePassword(String newPassword){
+       newPassword=EncryptString.encryptString(newPassword);
+        smsarRef.document(username).update("mPassword",newPassword);
+
+    }
+    private void updateEmail(String newEmail) {
+        smsarRef.document(username).update("mEmail",newEmail);
+
+    }
+
+
+    private void updatePhoneNumber(String newPhoneNumber) {
+        smsarRef.document(username).update("mPhoneNumber",newPhoneNumber);
+    }
+
+
+
+    private void showInputDialog(String TITLE, String MESSAGE, String OUTPUT_MESSAGE , String SIGN,int INPUT_TYPE,int MAX_LENGTH,String TYPE){
       InputDialog.show(context, TITLE, MESSAGE, "Confirm", new InputDialogOkButtonClickListener() {
             @Override
             public void onClick(Dialog dialog, String inputText) {
                Toast.makeText(context, OUTPUT_MESSAGE + inputText+SIGN, Toast.LENGTH_SHORT).show();
+                String input=inputText;
+                updateData(input,TYPE);
+               dialog.dismiss();
             }
         }, "Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                dialog.dismiss();
             }
         }).setInputInfo(new InputInfo()
               .setMAX_LENGTH(MAX_LENGTH)
@@ -190,12 +214,29 @@ public class Settings extends Fragment {
 
 
     }
+
+    private void updateData(String input,String Type) {
+        if(Type.contains("fee"))
+            setFee(input);
+        if(Type.contains("email"))
+            updateEmail(input);
+        if(Type.contains("password"))
+            updatePassword(input);
+        if(Type.contains("phone"))
+            updatePhoneNumber(input);
+    }
+
     private void logout(){
         ((SmsarMainActivity)getActivity()).logout();
 
     }
 
-    private int propertyID;
+
+
+
+
+
+
     private void deleteSmsar(){
         WriteBatch batch = firestore.batch();
         firestore.collection("Smsar").document(username).delete();

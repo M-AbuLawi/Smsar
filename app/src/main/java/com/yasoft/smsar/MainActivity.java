@@ -2,6 +2,7 @@ package com.yasoft.smsar;
 
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +32,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.yasoft.smsar.models.Smsar;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -42,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
     //
 
     EditText userNameEdit, passwordEdit;
-    TextView _signUp;
+    TextView _signUp,resetPassword;
     Button _login;
     Intent intent;
     ImageView imageView;
     TextView mError;
-    StartInterface mFrag = new StartInterface();
-    NetworkError mNWError = new NetworkError();
+    Fragment mFrag = new StartInterface();
+    Fragment mNWError = new NetworkError();
     SharedPreferences pref;
     private DBHelper mDBHelper;
 
@@ -71,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         _login = findViewById(R.id.logIn);
         _signUp = findViewById(R.id.sginUp);
         progressBar =findViewById(R.id.loading);
+        resetPassword=findViewById(R.id.forgot_password);
+
         mHandler = new Handler();
         String text = "New ? Start Now By  <font color='blue'>" + String.format(getString(R.string.sign_up)) + "</font>.";
 
@@ -79,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             _signUp.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
         }
+
+        resetPassword.setOnClickListener(v->startActivity(new Intent(this,ResetPassword.class)));
+        //User session
         pref = getSharedPreferences("user_details", MODE_PRIVATE);
         if (pref.contains("username") && pref.contains("password"))
             success();
@@ -121,6 +128,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+   public void  closeMainInterface(){
+       getSupportFragmentManager().beginTransaction().
+               remove(Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.MainFragment))).commit();
+   }
     int counter;
     String cUsername="";
     String cPassword="";
@@ -177,10 +189,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean validationVariable() {
-        if (username.isEmpty() || password.isEmpty())
-            return false;
-
-        return true;
+        return !username.isEmpty() && !password.isEmpty();
 
     }
 
@@ -196,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
     public void closeSmsar() {
         Intent intent = new Intent(this, UserMainActivity.class);
         startActivity(intent);
-
     }
     int x;
     public  String string(int x){
@@ -211,11 +219,10 @@ public class MainActivity extends AppCompatActivity {
         username = userNameEdit.getText().toString();
         if (!username.isEmpty()) {
             password = passwordEdit.getText().toString();
-           mEncrypt= new EncryptString(password);
-            password = mEncrypt.getHashedString();
-            String space = username.charAt(username.length() - 1) + "";
+            password =EncryptString.encryptString(password);
+    //   String space = username.charAt(username.length() - 1) + "";
             username = username.toLowerCase();
-            username = username.replaceAll(" ", "");
+            username = username.trim();
         }
 
 

@@ -20,7 +20,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="59dp"
         android:background="@drawable/btn_rounded"
-        android:fontFamily="@font/cabin"
+        android:fontFamily="@font/nunito"
         android:text="@string/title_smsar"
         android:textAlignment="center"
         android:textAllCaps="false"
@@ -31,16 +31,17 @@
         android:visibility="visible" />
 
     <Button
-        android:id="@+id/finder"
+        android:id="@+id/seeker"
         android:layout_width="204dp"
         android:layout_height="58dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="138dp"
         android:background="@drawable/btn_rounded"
-        android:fontFamily="@font/cabin"
+        android:fontFamily="@font/nunito"
         android:text="@string/title_vistor"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/ms_black"
+        android:textSize="18sp"
         android:visibility="visible" />
 </RelativeLayout>

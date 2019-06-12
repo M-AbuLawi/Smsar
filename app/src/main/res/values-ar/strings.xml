@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Smsar</string>
+    <string name="app_name">سمسار</string>
     <string name="title_notifications">الإشعارات</string>
     <string name="title_inbox">البريد</string>
     <string name="title_Discover">الإكتشاف</string>
@@ -17,7 +17,7 @@
     <string name="title_About">من نحن</string>
     <string name="title_AddNew">اضف جديداً</string>
     <string name="title_contact">تواصل معنا</string>
-    <string name="sign_up">&lt;u>underline&lt;/u></string>
+    <string name="sign_up">&lt;u>تسجيل&lt;/u></string>
     <string name="title_filter">تصنيف</string>
     <string name="title_username">اسم المستخدم</string>
     <string name="title_password">كلمة المرور</string>
@@ -26,4 +26,13 @@
     <string name="title_vistor">تبحث عن شقة ؟</string>
     <string name="title_sort">ترتيب</string>
     <string name="title_home">الرئيسية</string>
+    <string name="passwrod">الرقم السري</string>
+    <string name="smsar">سمسار</string>
+    <string name="seeker">تبحث عن ملكية</string>
+    <string name="liked_List_Description">سوف تظهر هنا قائمة بجميع العقارات التي سوف تقوم بحفظها</string>
+    <string name="signUp_description">تحتاج إلى حساب لإظهار قائمة المفضلة</string>
+    <string name="enter_the_pin_you_received_in_email">أدخل الرقم الذي وصلك في البريد الإلكتروني</string>
+    <string name="title_activity_reset_password"> استعادة كلمة المرور</string>
+    <string name="enter_your_username_and_we_will_send_you_a_email_with_reset_description">ادخل اسم المستخدم وسوف نقوم بإرسال بريد الكتروني يحتوي على تفاصيل عملية إستعادة كلمة المرور</string>
+    <string name="forgot_your_password">نسيت كلمة المرور ؟</string>
 </resources>

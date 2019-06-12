@@ -1,7 +1,6 @@
 package com.yasoft.smsar;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,25 +30,15 @@ public class StartInterface extends Fragment {
         // Inflate the layout for this fragment
         root= inflater.inflate(R.layout.fragment_smsar, container, false);
 
-        mSmsar=(Button)root.findViewById(R.id.smsar);
-        mFinder=(Button)root.findViewById(R.id.finder);
-        mSmsar.setOnClickListener(new View.OnClickListener() {
+        mSmsar=root.findViewById(R.id.smsar);
+        mFinder=root.findViewById(R.id.seeker);
+        mSmsar.setOnClickListener(v -> getActivity().onBackPressed());
 
-            @Override
-            public void onClick(View v) {
-            getActivity().onBackPressed();
+        mFinder.setOnClickListener(v -> {
 
-            }
-        });
+            ((MainActivity)getActivity()).closeSmsar();
+            //Open UserMainActivity.
 
-        mFinder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ((MainActivity)getActivity()).closeSmsar();
-                //Open UserMainActivity.
-
-            }
         });
 
 

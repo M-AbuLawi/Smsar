@@ -21,9 +21,8 @@ import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.core.app.ActivityCompat;
+
 import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
@@ -167,7 +166,7 @@ public class NewProperty extends Fragment {
         ib = root.findViewById(R.id.addImage);
 
         city = root.findViewById(R.id.cities);
-        fab = root.findViewById(R.id.addProperty);
+        fab = root.findViewById(R.id.next);
         mError = root.findViewById(R.id.errorLabel);
 
         catgoryRG = root.findViewById(R.id.catgoryRadioGroup);

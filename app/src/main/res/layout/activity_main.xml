@@ -145,7 +145,20 @@
         android:max="100"
         android:visibility="invisible" />
 
-
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/buttonContainer"
+        android:layout_alignBottom="@+id/mError"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="98dp"
+        android:fontFamily="@font/nunito"
+        android:text="@string/forgot_your_password"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

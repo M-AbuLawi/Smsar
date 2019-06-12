@@ -66,5 +66,3 @@ dependencies {
     implementation 'com.kongzue.dialog:dialog:2.4.8'
 }
 apply plugin: 'com.google.gms.google-services'
-
-

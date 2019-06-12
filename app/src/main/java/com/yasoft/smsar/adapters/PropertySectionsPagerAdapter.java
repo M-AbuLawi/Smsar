@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.yasoft.smsar.ApartmentType;
+import com.yasoft.smsar.Discover;
 import com.yasoft.smsar.HousesType;
+import com.yasoft.smsar.Inbox;
 import com.yasoft.smsar.MainDiscoverFragment;
 import com.yasoft.smsar.VillaType;
 
@@ -23,9 +25,10 @@ public class PropertySectionsPagerAdapter extends FragmentStatePagerAdapter {
        switch (position) {
             case 0:
                 fragment = new MainDiscoverFragment();
+                
                 break;
             case 1:
-                fragment = new HousesType();
+               fragment = new HousesType();
                 break;
             case 2:
                 fragment = new ApartmentType();

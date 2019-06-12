@@ -1,36 +1,47 @@
 package com.yasoft.smsar;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
  class EncryptString {
 
-        String string;
-
-        EncryptString(String string){
-            this.string=string;
-        }
-
-   private String md5() {
-        try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(string.getBytes());
-            byte[] messageDigest = digest.digest();
-
-            // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i=0; i<messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-            return hexString.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-     public String getHashedString() {
-         return md5();
+     String string;
+     EncryptString(){
      }
- }
+     public static String encryptString(String input)
+     {
+         try {
+
+             // Static getInstance method is called with hashing MD5
+             MessageDigest md = MessageDigest.getInstance("MD5");
+
+             // digest() method is called to calculate message digest
+             //  of an input digest() return array of byte
+             byte[] messageDigest = md.digest(input.getBytes());
+
+             // Convert byte array into signum representation
+             BigInteger no = new BigInteger(1, messageDigest);
+
+             // Convert message digest into hex value
+             String hashtext = no.toString(16);
+             while (hashtext.length() < 32) {
+                 hashtext = "0" + hashtext;
+             }
+             return hashtext;
+         }
+
+         // For specifying wrong message digest algorithms
+         catch (NoSuchAlgorithmException e) {
+             throw new RuntimeException(e);
+         }
+     }
+
+     }
+
+
+
+
+
+
+

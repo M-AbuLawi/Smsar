@@ -24,7 +24,7 @@
     <string name="title_password">Password</string>
     <string name="title_login">Login</string>
     <string name="title_smsar">Smsar ?</string>
-    <string name="title_vistor">Want Apartment ?</string>
+    <string name="title_vistor">Seeker ?</string>
 
     <string-array name="settings">
         <item>Set your Fee</item>
@@ -63,6 +63,15 @@
     <string name="title_activity_test">Discover</string>
     <string name="title_notifications">Notifications</string>
     <string name="sign_up"> &lt;u>Sign Up&lt;/u></string>
+    <string name="passwrod">Passwrod</string>
+    <string name="seeker">Seeker</string>
+    <string name="smsar">Smsar</string>
+    <string name="liked_List_Description">Here where the List of Estates you will bookmarked will appear</string>
+    <string name="signUp_description">You need to have account to show you the list </string>
+    <string name="title_activity_reset_password">ResetPassword</string>
+    <string name="enter_the_pin_you_received_in_email">Enter the PIN You Received in Email</string>
+    <string name="enter_your_username_and_we_will_send_you_a_email_with_reset_description">Enter Your Username and we will send you an Email with Reset Description</string>
+    <string name="forgot_your_password">Forgot Your Password ? </string>
 
 
 </resources>

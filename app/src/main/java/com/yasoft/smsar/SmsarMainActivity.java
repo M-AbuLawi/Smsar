@@ -34,6 +34,7 @@ public class SmsarMainActivity extends AppCompatActivity {
     Fragment _fragmentManage=new Manage();
     Fragment mDiscover=new Discover();
     Fragment _fragmentSetting=new Settings();
+
     Fragment fragment;
     Fragment _mInbox=new Inbox();
     BottomNavigationView navigation;
@@ -145,7 +146,7 @@ public class SmsarMainActivity extends AppCompatActivity {
 
 
 
-    private  <T> void fragmentLauncher(Fragment transform){
+    private   void fragmentLauncher(Fragment transform){
 
         fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -162,7 +163,7 @@ public class SmsarMainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
     public void logout(){
-        SharedPreferences pref = getSharedPreferences("user_details", MODE_PRIVATE);;
+        SharedPreferences pref = getSharedPreferences("user_details", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();
         editor.apply();

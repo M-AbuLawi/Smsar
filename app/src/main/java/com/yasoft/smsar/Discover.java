@@ -51,12 +51,12 @@ public class Discover extends Fragment {
         // Inflate the layout for this fragment
 
         root = inflater.inflate(R.layout.fragment_discover, container, false);
-        String context = root.getContext().toString();
+      //  String context = root.getContext().toString();
         mContext = root.getContext();
 
 
-        setUpAdapter(context);
-
+      //  setUpAdapter(context);
+        mSectionsPagerAdapter = new PropertySectionsPagerAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = root.findViewById(R.id.container);
@@ -100,7 +100,8 @@ public class Discover extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setUpAdapter(Objects.requireNonNull(getContext()).toString());
+      //  setUpAdapter(Objects.requireNonNull(getContext()).toString());
 
     }
+
 }

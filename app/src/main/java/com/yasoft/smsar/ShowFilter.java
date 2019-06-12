@@ -262,11 +262,11 @@ public class ShowFilter extends Fragment {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("hashmap",list);
-        Intent intent = new Intent(Objects.requireNonNull(getActivity()).getBaseContext(),
+        Intent intent = new Intent(getActivity(),
                 SmsarMainActivity.class);
 
         ((SmsarMainActivity)mContext).parsDataToFilter(bundle);
-        getActivity().onBackPressed();
+        Objects.requireNonNull(getActivity()).onBackPressed();
 
     }
 

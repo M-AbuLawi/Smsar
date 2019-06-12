@@ -646,7 +646,7 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addProperty"
+        android:id="@+id/next"
         android:layout_width="77dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

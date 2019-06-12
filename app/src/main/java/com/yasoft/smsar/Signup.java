@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.yasoft.smsar.models.Seeker;
 import com.yasoft.smsar.models.Smsar;
 
 import java.util.Objects;
@@ -34,16 +37,18 @@ public class Signup extends AppCompatActivity {
     int id;
     Intent intent;
     Button button;
+    RadioGroup typeRG;
+    RadioButton typeRB;
     TextView ErorrM;
     private DBHelper mDBHelper = new DBHelper(this);
     private SQLiteDatabase mDb;
     private static int CURRENT_ID;
 
     String email, name, username, password, pn;
-
+    String userType;
     FirebaseFirestore db;
     DocumentReference userRef;
-    private CollectionReference smsarRef;
+    private CollectionReference smsarRef,seekerRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,82 +60,36 @@ public class Signup extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         userRef = db.document("ID/id");
         smsarRef = db.collection("Smsar");
-        getIDs();
+        seekerRef=db.collection("Seeker");
+
         Fullname = findViewById(R.id.fullName);
         Email = findViewById(R.id.email);
         Username = findViewById(R.id.username);
         Password = findViewById(R.id.Password);
         phonenumber = findViewById(R.id.phoneNumber);
         ErorrM = findViewById(R.id.eTextMessage);
+        typeRG=findViewById(R.id.userTypeRG);
+
 
         button = findViewById(R.id._signUp);
 
 
         button.setOnClickListener(new View.OnClickListener() {
 
-
             @Override
-            public void onClick(View v) throws SQLException {
-
-                String userid = "" + (++CURRENT_ID);
-                if (validationVariable()) {
-
-                    boolean flag;
-                    //      mydb.getWritableDatabase();
-                    prepareToInsert();
-
-                    if (!validEmail(email)) {
-                        Toast.makeText(Signup.this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
-                    }
-                    
-                    if(password.length()<6)
-                        Toast.makeText(Signup.this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
-                    else if(validEmail(email)&&password.length()>=6 && !userExist(username))
-                        try {
-                            Smsar mSmsar = new Smsar(name, pn, username, email, password);
-
-                            //    smsarRef.add(mSmsar);
-                            db.collection("Smsar").document(username).set(mSmsar)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Toast.makeText(Signup.this, "done",
-                                                    Toast.LENGTH_SHORT).show();
-
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-
-                                            Toast.makeText(Signup.this, "Failed",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
-
-                            flag = mDBHelper.insertSmsar(username, name,
-                                    email, password, pn);
-                            if (flag) {
-                                Toast.makeText(getApplicationContext(), "done",
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "not done",
-                                        Toast.LENGTH_SHORT).show();
-
-                            }
-                            intent = new Intent(Signup.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-                        }
+            public void onClick(View v)  {
+                int id=typeRG.getCheckedRadioButtonId();
+                 userType="";
+                if(id!=0) {
+                    typeRB = findViewById(id);
+                    userType=typeRB.getText().toString();
                 }
-                else {
-                    ErorrM.setText("Empty Fields");
-                    ErorrM.setVisibility(View.VISIBLE);
-                }
+
+
+                if(userType.equals("Smsar"))
+                    insertSmsar();
+                insertSeeker();
+
             }
 
         });
@@ -139,6 +98,110 @@ public class Signup extends AppCompatActivity {
 
 
 
+    }
+
+    private void insertSeeker() {
+        if (validationVariable()) {
+
+
+            //      mydb.getWritableDatabase();
+            prepareToInsert();
+
+            if (!validEmail(email)) {
+                Toast.makeText(Signup.this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
+            }
+
+            if(password.length()<6)
+                Toast.makeText(Signup.this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
+            else if(validEmail(email) && password.length()>=6 && !flag)
+                try {
+                    password= EncryptString.encryptString(password);
+
+                    Seeker mSeeker = new Seeker(name, pn, username, email, password);
+
+                    //    smsarRef.add(mSmsar);
+
+
+                 seekerRef.document(username).set(mSeeker)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(Signup.this, "done",
+                                            Toast.LENGTH_SHORT).show();
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                    Toast.makeText(Signup.this, "Failed",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                    intent = new Intent(Signup.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+                }
+        }
+        else {
+            ErorrM.setText("Empty Fields");
+            ErorrM.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void insertSmsar() {
+        if (validationVariable()) {
+
+
+            //      mydb.getWritableDatabase();
+            prepareToInsert();
+            if (!validEmail(email))
+                Toast.makeText(Signup.this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
+
+            if(password.length()<6)
+                Toast.makeText(Signup.this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
+            else if(validEmail(email) && password.length()>=6 && !flag){
+                try {
+                    Smsar mSmsar = new Smsar(name, pn, username, email, password);
+                    db.collection("Smsar").document(username).set(mSmsar)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(Signup.this, "done",
+                                            Toast.LENGTH_SHORT).show();
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                    Toast.makeText(Signup.this, "Failed",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+
+                    intent = new Intent(Signup.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        else {
+            ErorrM.setText("Empty Fields");
+            ErorrM.setVisibility(View.VISIBLE);
+        }
     }
     //Validation
 
@@ -161,10 +224,11 @@ public class Signup extends AppCompatActivity {
 
         password = Password.getText().toString();
 
-        mEncrypt=new EncryptString(password);
-        password=mEncrypt.getHashedString();
+
         pn = phonenumber.getText().toString();
         username = username.toLowerCase().trim();
+
+        isExist(username,userType);
 
     }
 
@@ -187,47 +251,29 @@ public class Signup extends AppCompatActivity {
 
 
 
-    public void getIDs() {
-        //  Map<String,Object> data=new HashMap<>();
 
-        userRef.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                        if (documentSnapshot.exists()) {
-
-                            String id = documentSnapshot.get("current_id_number").toString();
-                            // Toast.makeText(MainActivity.this,id,Toast.LENGTH_LONG).show();// for Testing PURPOSE
-                            CURRENT_ID = Integer.parseInt(id);
-
-                        } else
-                            Toast.makeText(Signup.this, "not exist ", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
 
 //        return currentid;
 
-    }
+
     
-    boolean flage=false;
-    private boolean userExist(String username){
-        DocumentReference docRef = db.collection("ProfilePictures").document(username);
+    boolean flag =false;
+    private void isExist(String username,String path){
+        DocumentReference docRef = db.collection(path).document(username);
         docRef.get()
                 .addOnCompleteListener(task -> {
-                    DocumentSnapshot snapshot=task.getResult();
-                    if(Objects.requireNonNull(snapshot).exists())
-                        flage=true;
+                    if(task.isSuccessful())
+                    {
+                        DocumentSnapshot snapshot =task.getResult();
+                    if(Objects.requireNonNull(snapshot).exists()) {
+                        Toast.makeText(this, "username is exists", Toast.LENGTH_LONG).show();
+                        flag = true;
+                    }
+                    }
                 });
-                     
 
-        return flage;
+
+
     }
 }
 
