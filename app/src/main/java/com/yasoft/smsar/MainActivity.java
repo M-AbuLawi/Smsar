@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,10 +50,9 @@ public class MainActivity extends AppCompatActivity {
     Intent intent;
     ImageView imageView;
     TextView mError;
-    Fragment mFrag = new StartInterface();
-    Fragment mNWError = new NetworkError();
+
     SharedPreferences pref;
-    private DBHelper mDBHelper;
+
 
     EncryptString mEncrypt;
 
@@ -74,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
         _signUp = findViewById(R.id.sginUp);
         progressBar =findViewById(R.id.loading);
         resetPassword=findViewById(R.id.forgot_password);
-
+        TextView guestLogin= findViewById(R.id.guestLogin);
+        guestLogin.setOnClickListener(v->startActivity(new Intent(this,UserMainActivity.class)));
         mHandler = new Handler();
         String text = "New ? Start Now By  <font color='blue'>" + String.format(getString(R.string.sign_up)) + "</font>.";
 
@@ -93,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         replaceInterface();
         imageView = findViewById(R.id.logo);
 
-        mDBHelper = new DBHelper(this);
         FirebaseApp.initializeApp(this);
         db = FirebaseFirestore.getInstance();
         userRef = db.document("ID/id");
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mError.setVisibility(View.INVISIBLE);
+                mError.setVisibility(View.GONE);
             }
 
             @Override
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mError.setVisibility(View.INVISIBLE);
+                mError.setVisibility(View.GONE);
             }
 
             @Override
@@ -324,19 +324,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void replaceInterface(){
+        RelativeLayout login,network_error;
+        login=findViewById(R.id.loginView);
+        network_error=findViewById(R.id.network_connView);
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.addToBackStack(null);
-
-        if(isOnline())
-            ft.replace(R.id.mainView, mFrag);
-            else {
-            ft.addToBackStack(null);
-            ft.replace(R.id.mainView, mNWError);
+        if(isOnline()) {
+            login.setVisibility(View.VISIBLE);
+            network_error.setVisibility(View.GONE);
         }
+        else {
+            network_error.setVisibility(View.VISIBLE);
+                login.setVisibility(View.GONE);
 
-        ft.commit();
+        }
 
 
     }
@@ -357,12 +357,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+
         super.onResume();
         replaceInterface();
     }
 
     @Override
     protected void onRestart() {
+
         super.onRestart();
         replaceInterface();
     }

@@ -97,7 +97,7 @@ public class ApartmentType extends Fragment {
         FirebaseApp.initializeApp(mContext);
         db = FirebaseFirestore.getInstance();
         propertyRef = db.collection("Property");
-        getLocation();
+       // getLocation();
 
         searchBar = root.findViewById(R.id.search_field);
         deleteTextButton = root.findViewById(R.id.deleteButton);
@@ -173,7 +173,7 @@ public class ApartmentType extends Fragment {
     private static  int LOADIND_LIMIT=10;
     private void setUpRecyclerView() {
         Query queryLocation = propertyRef.orderBy("mPrice", Query.Direction.ASCENDING).whereEqualTo("mCity","Amman");
-        dataFetch(queryLocation,R.id.discoverRV);
+        dataFetch(queryLocation,R.id.nearbyRV);
 
     }
 
@@ -195,7 +195,7 @@ public class ApartmentType extends Fragment {
     }
     private void fireStoreUserSearch(String searchText){
         Query fireStoreSearchQuery = propertyRef.orderBy("mDesc").startAt(searchText).endAt(searchText + "\uf8ff");
-        dataFetch(fireStoreSearchQuery,R.id.discoverRV);
+        dataFetch(fireStoreSearchQuery,R.id.nearbyRV);
 
     }
 

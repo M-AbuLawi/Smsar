@@ -4,14 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_new"
+    android:background="@color/ms_white"
     tools:context=".StartInterface"
     android:clickable="true"
     android:focusable="true"
     android:id="@+id/MainFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:layout_width="227dp"
+        android:layout_height="202dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="150dp"
+        android:contentDescription="Logo"
+        android:src="@drawable/logo_c" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/nunito_bold"
+        android:text="@string/app_name"
+        android:textColor="@color/primary_colored"
+        android:textSize="32sp" />
     <Button
         android:id="@+id/smsar"
         android:layout_width="250dp"
@@ -25,7 +44,7 @@
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/ms_black"
+        android:textColor="@color/ms_white"
         android:textSize="18sp"
         android:typeface="normal"
         android:visibility="visible" />
@@ -41,7 +60,7 @@
         android:fontFamily="@font/nunito"
         android:text="@string/title_vistor"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/ms_black"
+        android:textColor="@color/ms_white"
         android:textSize="18sp"
         android:visibility="visible" />
 </RelativeLayout>

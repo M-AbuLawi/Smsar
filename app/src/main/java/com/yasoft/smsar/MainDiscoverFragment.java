@@ -1,7 +1,6 @@
 package com.yasoft.smsar;
 
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,19 +22,16 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.yasoft.smsar.adapters.DiscoverAdapter;
 import com.yasoft.smsar.models.Property;
 
 import org.imperiumlabs.geofirestore.GeoFirestore;
+import org.imperiumlabs.geofirestore.core.GeoHash;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +39,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-
+/*
+*
+*
+* */
 
 
 /**
@@ -98,7 +97,7 @@ public class MainDiscoverFragment extends Fragment {
         FirebaseApp.initializeApp(mContext);
         db = FirebaseFirestore.getInstance();
         propertyRef = db.collection("Property");
-        getLocation();
+        getUserLocation();
         getNearestEstate();
         if(list!=null)
             filterData();
@@ -177,13 +176,13 @@ public class MainDiscoverFragment extends Fragment {
         }
 
 
-    private void getLocation(){
+    private void getUserLocation(){
         UserLocation userLocation=new UserLocation(getActivity(),mContext);
         longitude=userLocation.getLongitude();
         latitude=userLocation.getLatitude();
-        userLocation.defineAddress(getActivity());
+      //  userLocation.defineAddress(getActivity());
 
-        String city=userLocation.getCity();
+     /*   String city=userLocation.getCity();
        city= city.toLowerCase();
         if(city.contains("mafraq"))
             city="Al Mafraq";
@@ -210,36 +209,23 @@ public class MainDiscoverFragment extends Fragment {
         if(city.contains("ramtha"))
             city="Al Ramtha";
 
-        queryLocation(city);
+        queryLocation(city);*/
 
     }
-    List<DocumentSnapshot> queryList=new ArrayList<>();
-    private void queryLocation(String city){
 
-      propertyRef.whereEqualTo("mCity",city).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        queryList=queryDocumentSnapshots.getDocuments();
-                       // for (int i = 0 ; i < queryList.size() ; i++)
-                       // Toast.makeText(mContext,queryList.get(0).toString(),Toast.LENGTH_LONG).show();
-
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-          @Override
-          public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-          }
-      });
-
+    private void queryLocation(String range){
+        Query fireStoreSearchQuery = propertyRef.orderBy("g").startAt(range);
+            dataFetch(fireStoreSearchQuery,R.id.nearbyRV);
 
     }
+
+
     private static  int LOADIND_LIMIT=10;
-  //  Map<String,Object> stringIntegerMap=new HashMap<>();
-    private void getNearestEstate(){
-        //GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(latitude, longitude), 100);
 
-
+    private void getNearestEstate() {
+        GeoHash geoHash=new GeoHash(latitude,longitude);
+        String geoCode= geoHash.getGeoHashString();
+          queryLocation(geoCode.substring(0,6));
 
     }
 
@@ -280,7 +266,7 @@ public class MainDiscoverFragment extends Fragment {
     private void fireStoreUserSearch(String searchText){
         Query fireStoreSearchQuery = propertyRef.orderBy("mDesc").startAt(searchText).endAt(searchText + "\uf8ff");
    //    propertyRef.document()
-        dataFetch(fireStoreSearchQuery,R.id.discoverRV);
+        dataFetch(fireStoreSearchQuery,R.id.nearbyRV);
 
     }
 

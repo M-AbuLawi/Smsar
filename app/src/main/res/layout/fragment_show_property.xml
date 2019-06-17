@@ -4,26 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ms_white"
     tools:context=".ShowProperty">
 
-    <androidx.appcompat.widget.Toolbar
+
+    <RelativeLayout
         android:id="@+id/displayScreenToolBar"
-        android:layout_width="420dp"
-        android:layout_height="55dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="@color/primary_colored"
-        android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:popupTheme="@style/Theme.GuidelinesCompat"
-        app:subtitleTextColor="@color/ms_white"
-        app:theme="@style/Theme.GuidelinesCompat.Toolbar"
-        app:title="@string/title_Discover"
-        app:titleTextColor="@color/ms_white" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/float_transparent"
+        >
+
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="34dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@drawable/ic_close"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/transparent_button"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="54dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/details"
+            android:textColor="@color/primary_colored"
+            android:textSize="28sp" />
+
+        <ImageButton
+            android:id="@+id/call"
+            android:layout_width="34dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="80dp"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/transparent_button"
+            app:srcCompat="@drawable/ic_call" />
+        <ImageButton
+            android:id="@+id/chat"
+            android:layout_width="34dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/transparent_button"
+            app:srcCompat="@drawable/ic_chat" />
+
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,8 +74,12 @@
         android:background="@color/ms_white">
 
         <RelativeLayout
+            android:id="@+id/propertyRV"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/float_transparent"
+
+            >
 
             <ImageView
                 android:id="@+id/imageP"
@@ -51,7 +92,7 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
                 android:src="@drawable/house1"
-                android:visibility="gone" />
+            />
 
             <TextView
                 android:id="@+id/price"
@@ -69,22 +110,23 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/ms_black"
                 android:textSize="24sp"
-                android:visibility="gone"
                 tools:ignore="RtlCompat" />
 
             <com.like.LikeButton
                 android:id="@+id/fav_button"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_below="@+id/imageP"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="61dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="16dp"
-                android:visibility="gone"
+                android:layout_marginTop="267dp"
+                android:layout_marginEnd="29dp"
                 app:icon_size="25dp"
-                app:icon_type="heart" />
-
+                app:circle_end_color="@color/primary_colored"
+                app:circle_start_color="@color/colorPrimary"
+                app:dots_primary_color="@color/primary_colored"
+                app:dots_secondary_color="@color/colorPrimary"
+                app:icon_type="heart"
+                app:liked="false" />
             <TextView
                 android:id="@+id/date"
                 android:layout_width="match_parent"
@@ -98,7 +140,8 @@
                 android:fontFamily="@font/tajawalmedium"
                 android:text="Added on 28 Feb 2019"
                 android:textColor="@color/ms_black"
-                android:visibility="gone" />
+   />
+
 
 
             <TextView
@@ -116,7 +159,6 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/ms_black"
                 android:textSize="18dp"
-                android:visibility="gone"
                 tools:ignore="RtlCompat" />
 
             <TextView
@@ -155,7 +197,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/ms_black"
                 android:textSize="24sp"
-                android:visibility="gone" />
+           />
 
             <TextView
                 android:id="@+id/bedroomNO"
@@ -172,7 +214,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/ms_black"
                 android:textSize="24sp"
-                android:visibility="gone" />
+            />
 
             <ImageView
                 android:id="@+id/parking"
@@ -185,18 +227,32 @@
                 android:layout_marginTop="11dp"
                 android:layout_marginEnd="8dp"
                 android:text="TextView"
-                android:visibility="gone"
                 app:srcCompat="@drawable/ic_parking" />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/propertyLocation"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@+id/bathroomNO"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="8dp"
+             >
+
+
+            </com.google.android.gms.maps.MapView>
 
             <TextView
                 android:id="@+id/descLabel"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/bathroomNO"
+                android:layout_below="@+id/propertyLocation"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="171dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="152dp"
                 android:fontFamily="@font/tajawalmedium"
                 android:gravity="center"
@@ -204,58 +260,30 @@
                 android:textAlignment="viewStart"
                 android:textColor="@color/ms_black"
                 android:textSize="24sp"
-                android:visibility="gone"
+
                 tools:ignore="RtlCompat" />
 
             <TextView
                 android:id="@+id/description"
-                android:layout_width="421dp"
-                android:layout_height="211dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/descLabel"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="8dp"
-
+                android:paddingEnd="4dp"
+                android:paddingTop="2dp"
+                android:paddingStart="4dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:scrollbars = "vertical"
                 android:fontFamily="@font/tajawalmedium"
                 android:text="TextView"
                 android:textColor="@color/ms_black"
                 android:textSize="20sp"
-                android:visibility="gone" />
+        />
 
-            <Button
-
-                android:id="@+id/call"
-                android:layout_width="190dp"
-                android:layout_height="57dp"
-                android:layout_below="@+id/description"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
-                android:drawableStart="@drawable/ic_call"
-                android:fontFamily="@font/tajawalmedium"
-                android:text="Call"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="24sp"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/chat"
-                android:layout_width="190dp"
-                android:layout_height="57dp"
-                android:layout_below="@+id/description"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
-                android:drawableStart="@drawable/ic_chat"
-                android:fontFamily="@font/tajawalmedium"
-                android:text="Chat"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="24sp"
-                android:visibility="gone" />
 
 
         </RelativeLayout>
@@ -272,6 +300,49 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="169dp"
-        android:layout_marginTop="355dp" />
+        android:layout_marginTop="355dp"
+        android:visibility="gone"
 
+        />
+    <RelativeLayout
+        android:id="@+id/network_connView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:id="@+id/network_conn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_network"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Network connection error " />
+
+        <TextView
+            android:id="@+id/network_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:layout_below="@+id/network_conn"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="Please Check your network then Try Again"
+            android:textColor="@color/red_btn_bg_pressed_color"
+            />
+
+        <Button
+            android:id="@+id/tryAgain"
+            android:layout_width="130dp"
+            android:layout_height="55dp"
+            android:layout_below="@+id/network_text"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="40dp"
+            android:textSize="18sp"
+            android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
+            android:text="Try Again"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    </RelativeLayout>
 </RelativeLayout>

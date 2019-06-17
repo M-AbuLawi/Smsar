@@ -13,11 +13,9 @@
                 android:radius="70dp"
                 android:topRightRadius="70dp"
                 android:topLeftRadius="70dp"
-
                 android:bottomRightRadius="70dp"
                 />
             <size
-
                 android:height="30dp"
                 />
             <solid
@@ -28,17 +26,19 @@
     </item>
     <item>
         <shape
+
             android:shape="rectangle">
             <corners
                 android:bottomLeftRadius="70dp"
                 android:radius="70dp"
                 android:topRightRadius="70dp"
                 android:topLeftRadius="70dp"
-                android:bottomRightRadius="70dp"/>
+                android:bottomRightRadius="70dp"
+                />
             <size
                 android:height="30dp"/>
             <solid
-                android:color="@color/white_transparency"/>
+                android:color="@color/primary_colored"/>
         </shape>
     </item>
 </selector>

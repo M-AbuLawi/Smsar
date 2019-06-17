@@ -35,4 +35,5 @@
     <string name="title_activity_reset_password"> استعادة كلمة المرور</string>
     <string name="enter_your_username_and_we_will_send_you_a_email_with_reset_description">ادخل اسم المستخدم وسوف نقوم بإرسال بريد الكتروني يحتوي على تفاصيل عملية إستعادة كلمة المرور</string>
     <string name="forgot_your_password">نسيت كلمة المرور ؟</string>
+    <string name="details">التفاصيل</string>
 </resources>

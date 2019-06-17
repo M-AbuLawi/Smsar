@@ -196,7 +196,7 @@ public class SmsarMainActivity extends AppCompatActivity {
     public void navPointer(int id){
         navigation =  findViewById(R.id.navigation);
         if(id!=0)
-        navigation.setSelectedItemId(id);
+             navigation.setSelectedItemId(id);
 
     }
 

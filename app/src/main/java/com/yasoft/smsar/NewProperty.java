@@ -188,6 +188,7 @@ public class NewProperty extends Fragment {
         imageView = root.findViewById(R.id.propertyPicture);
         getLocation();
         FirebaseApp.initializeApp(root.getContext());
+
         db = FirebaseFirestore.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("Property");
         //   userRef = db.document("ID/id");
@@ -396,9 +397,10 @@ public class NewProperty extends Fragment {
                             if (propertyUploadedFlag)
                                 Toast.makeText(context, "Upload successful", Toast.LENGTH_LONG).show();
                             geoFirestore.setLocation(mProperty.getmID() + "", new GeoPoint(latitude, longitude), new GeoFirestore.CompletionListener() {
+
                                 @Override
                                 public void onComplete(Exception exception) {
-                                    if (exception == null) {
+                                    if (exception != null) {
                                         System.out.println("Location saved on server successfully!");
                                     }
                                 }

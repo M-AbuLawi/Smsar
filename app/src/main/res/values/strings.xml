@@ -72,6 +72,8 @@
     <string name="enter_the_pin_you_received_in_email">Enter the PIN You Received in Email</string>
     <string name="enter_your_username_and_we_will_send_you_a_email_with_reset_description">Enter Your Username and we will send you an Email with Reset Description</string>
     <string name="forgot_your_password">Forgot Your Password ? </string>
+    <string name="GOOGLE_API_KEY" translatable="false">AIzaSyBVaRYLrbto_7cgUUSamJ3c4PjVuPxz8ME</string>
+    <string name="details">Details</string>
 
 
 </resources>

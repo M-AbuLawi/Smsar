@@ -9,6 +9,14 @@
     tools:context=".MainActivity"
     android:id="@+id/mainView"
     android:focusable="false">
+
+    <RelativeLayout
+        android:id="@+id/loginView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        >
+
     <RelativeLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -55,13 +63,13 @@
             android:id="@+id/logIn"
             android:layout_width="186dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="12dp"
             android:background="@drawable/btn_rounded"
             android:minWidth="200dp"
             android:onClick="logIN"
             android:text="@string/title_login"
             android:textAllCaps="false"
-            android:textColor="@color/ms_white"
+            android:fontFamily="@font/nunito"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -108,12 +116,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loading"
-        android:layout_alignParentStart="true"
+
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="102dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginBottom="37dp"
-        android:clickable="true"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/tajawalmedium"
         android:text="New ? Start Now By SginUp"
         android:textAlignment="center"
@@ -137,28 +145,80 @@
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonContainer"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="151dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="150dp"
         android:max="100"
         android:visibility="invisible" />
 
     <TextView
         android:id="@+id/forgot_password"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="23dp"
         android:layout_below="@+id/buttonContainer"
         android:layout_alignBottom="@+id/mError"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="110dp"
-        android:layout_marginBottom="98dp"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="89dp"
         android:fontFamily="@font/nunito"
         android:text="@string/forgot_your_password"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
+        <TextView
+            android:id="@+id/guestLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="620dp"
+            android:fontFamily="@font/tajawalmedium"
+            android:text="Login as a Guest"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/network_connView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:id="@+id/network_conn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_network"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Network connection error " />
+
+        <TextView
+            android:id="@+id/network_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/network_conn"
+            android:layout_alignEnd="@+id/network_conn"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="0dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="Please Check your network then Try Again"
+            android:textColor="@color/red_btn_bg_pressed_color"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/tryAgain"
+            android:layout_width="130dp"
+            android:layout_height="55dp"
+            android:layout_below="@+id/network_text"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="40dp"
+            android:textSize="18sp"
+            android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
+            android:text="Try Again"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    </RelativeLayout>
 </RelativeLayout>

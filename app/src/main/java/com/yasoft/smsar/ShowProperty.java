@@ -1,23 +1,42 @@
 package com.yasoft.smsar;
 
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+
+import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -25,28 +44,31 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
 
-public class ShowProperty extends Fragment {
+public class ShowProperty extends Fragment implements OnMapReadyCallback {
 
     View root;
-    Context mContext;
+    private Context mContext;
     ViewGroup actionBarLayout;
     private static String USERNAME = "", PHONENUMBER = "";
-    Button mCall,mChat;
     private FirebaseFirestore db;
     private DocumentReference detailsRef;
-    ProgressBar pg;
+    private ProgressBar pg;
 
 
-    TextView mPrice,mDescription,mCity,mDate ,mBaths,mRooms,mArea,decLabel;
-    ImageView mParking,propertyImage;
-    boolean parking;
+    private TextView mPrice,mDescription,mCity,mDate ,mBaths,mRooms,mArea,decLabel;
+    private ImageView mParking,propertyImage;
+    private boolean parking;
+    private double lat,lon;
 
-
+    public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
 
     public ShowProperty() {
@@ -57,7 +79,8 @@ public class ShowProperty extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      
+        initializeFireStore();
+
     }
 
     @Override
@@ -76,7 +99,7 @@ public class ShowProperty extends Fragment {
     }
 
 
-    
+    MapView map;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,7 +109,7 @@ public class ShowProperty extends Fragment {
         mContext=root.getContext();
 
 
-        
+
         String park = "false";
         //TextView Declaration
         //START
@@ -100,38 +123,40 @@ public class ShowProperty extends Fragment {
           mArea = root.findViewById(R.id.area);
           pg=root.findViewById(R.id.loadingItems);
           propertyImage=root.findViewById(R.id.imageP);
-          mCall=root.findViewById(R.id.call);
-          mChat=root.findViewById(R.id.chat);
+        ImageButton mCall = root.findViewById(R.id.call);
+        ImageButton mChat = root.findViewById(R.id.chat);
+        ImageButton mClose = root.findViewById(R.id.close);
           decLabel=root.findViewById(R.id.descLabel);
 
+            map=root.findViewById(R.id.propertyLocation);
+
+            initGoogleMap(savedInstanceState);
+          mDescription.setMovementMethod(new ScrollingMovementMethod());
 
         //END
 
 
         hideNavigationBar();
-        initializeFireStore();
+
         setUpDetails();
 
-
+        mClose.setOnClickListener(v->getActivity().onBackPressed());
         mChat.setOnClickListener(v->sendMessage());
         mCall.setOnClickListener(v->callSmsar());
-        final Toolbar toolbar1 = (Toolbar) root.findViewById(R.id.displayScreenToolBar);
-        toolbar1.inflateMenu(R.menu.menu_dashboard_titlebar);
 
-        toolbar1.setNavigationOnClickListener(v -> {
-            onDetach();
-            if (root.getContext().toString().contains("User")) {
-               Objects.requireNonNull(getActivity()).onBackPressed();
 
-            } else if (root.getContext().toString().contains("Smsar")) {
-                 Objects.requireNonNull(getActivity()).onBackPressed();
+        LikeButton likeButton=root.findViewById(R.id.fav_button);
+        likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
             }
 
+            @Override
+            public void unLiked(LikeButton likeButton) {
 
-         //   Toast.makeText(mContext, (getArguments() != null ? getArguments().get("propertyID") : null) +"",Toast.LENGTH_LONG).show();//For Testing Purpose
-
+            }
         });
-
 
 
         //Show Parking Option
@@ -140,29 +165,28 @@ public class ShowProperty extends Fragment {
     return root;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-            showNavigationBar();
+    private void initGoogleMap(Bundle savedInstanceState){
+        // *** IMPORTANT ***
+        // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
+        // objects or sub-Bundles.
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+        }
+
+        map.onCreate(mapViewBundle);
+
+        map.getMapAsync(this);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    /*    mCall.setTextColor(getResources().getColor(R.color.ms_black));
-        mCall.setBackgroundColor(getResources().getColor(R.color.float_transparent));*/
 
-    }
 
-    
-    
     private void initializeFireStore(){
 
-        FirebaseApp.initializeApp(mContext);
         db = FirebaseFirestore.getInstance();
         detailsRef=db.collection("Property").document(getPropertyID());
     }
-    
+
     private void hideNavigationBar() {
 
         //Hide navigation bar
@@ -198,6 +222,7 @@ public class ShowProperty extends Fragment {
                 startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("sms:" +PHONENUMBER)));
 
         }
+
         private String getPropertyID(){
             String id="";
             Bundle argument;
@@ -220,6 +245,8 @@ public class ShowProperty extends Fragment {
                                 mDate.setText(documentSnapshot.getString("date"));
                                 mArea.setText(Objects.requireNonNull(documentSnapshot.get("area")).toString());
                                 parking=Objects.requireNonNull(documentSnapshot.getBoolean("parking"));
+                                lat=documentSnapshot.getDouble("latitude");
+                                lon=documentSnapshot.getDouble("longitude");
                                 Picasso.get().load(documentSnapshot.getString("mImageUrl")).fit().into(propertyImage);
                                USERNAME = documentSnapshot.getString("mUsername");
                                getSmsarPhoneNumber(USERNAME);
@@ -260,22 +287,119 @@ public class ShowProperty extends Fragment {
 
     private void viewVisible(){
 
-            mDescription.setVisibility(View.VISIBLE);
-            mPrice.setVisibility(View.VISIBLE);
-            mCity.setVisibility(View.VISIBLE);
-            mCity.setVisibility(View.VISIBLE);
-            mBaths.setVisibility(View.VISIBLE);
-            mRooms.setVisibility(View.VISIBLE);
-            mDate.setVisibility(View.VISIBLE);
-            mArea.setVisibility(View.VISIBLE);
-            propertyImage.setVisibility(View.VISIBLE);
-            mChat.setVisibility(View.VISIBLE);
-            mCall.setVisibility(View.VISIBLE);
-            decLabel.setVisibility(View.VISIBLE);
-          //  parking.setVisibility(View.VISIBLE);
+        RelativeLayout propertyView=root.findViewById(R.id.propertyRV);
+
+        propertyView.setVisibility(View.VISIBLE);
 
             pg.setVisibility(View.GONE);
 
 
         }
+
+
+        private void setLocationOnMap(){
+
+
+
+        }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
+        }
+
+        map.onSaveInstanceState(mapViewBundle);
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public void run() {
+                Log.i("location",lat+" "+lon);
+                LatLng latLng = new LatLng(lat, lon);
+                //     LatLngBounds latLngBounds=new LatLngBounds(latLng,latLng);
+                googleMap.setMyLocationEnabled(true);
+                googleMap.addMarker(new MarkerOptions().position(latLng)
+                        .title(USERNAME)
+                );
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                // googleMap.ani
+
+
+                     }
+}, 3000);
+        CameraUpdate center=
+                CameraUpdateFactory.newLatLng(new LatLng(lat,
+                        lon));
+        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+        googleMap.animateCamera(zoom);
+
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        map.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        map.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        map.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        map.onResume();
+        super.onResume();
+    /*    mCall.setTextColor(getResources().getColor(R.color.ms_black));
+        mCall.setBackgroundColor(getResources().getColor(R.color.float_transparent));*/
+
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        showNavigationBar();
+
+    }
+    @Override
+    public void onDestroy() {
+     map.onDestroy();
+        super.onDestroy();
+
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        map.onLowMemory();
+    }
 }
+
