@@ -46,25 +46,6 @@ public class SmsarMainActivity extends AppCompatActivity {
     }
 
 
-    //recyclerView.Adapter=Adapter(list);
-
- /*   @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_share:
-                fragmentLauncher(_fragmentNewProperty);
-                //    setTitle(R.string.title_newApartment);
-                return true;
-
-            case R.id.action_setting:
-                fragmentLauncher(_fragmentSetting);
-                //     setTitle(R.string.title_setting);
-                return true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     private OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new OnNavigationItemSelectedListener() {
@@ -122,9 +103,10 @@ public class SmsarMainActivity extends AppCompatActivity {
         //START
         Toast.makeText(this,restoredText,Toast.LENGTH_LONG).show(); // FOR TESTING PURPOSES
         bundle.putString("username",restoredText);
-
+        Fragment showProperty= ShowProperty.newInstance(restoredText);
         _fragmentManage.setArguments(bundle);
         _fragmentSetting.setArguments(bundle);
+
         _fragmentNewProperty.setArguments(bundle);
 
         //END

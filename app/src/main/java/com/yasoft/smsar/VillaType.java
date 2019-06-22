@@ -29,6 +29,8 @@ import com.google.firebase.firestore.Query;
 import com.yasoft.smsar.adapters.DiscoverAdapter;
 import com.yasoft.smsar.models.Property;
 
+import org.imperiumlabs.geofirestore.core.GeoHash;
+
 import java.util.Objects;
 
 /**
@@ -94,7 +96,7 @@ public class VillaType extends Fragment {
       //  mReset=root.findViewById(R.id.resetButton);
         mContext = root.getContext();
 
-        FirebaseApp.initializeApp(mContext);
+        //FirebaseApp.initializeApp(mContext);
         db = FirebaseFirestore.getInstance();
         propertyRef = db.collection("Property");
       //  getLocation();
@@ -114,7 +116,8 @@ public class VillaType extends Fragment {
         //mUser.getSupportActionBar().setTitle(R.string.title_Discover);
         if (searchBar.getText().toString().equals(""))
         {
-            setUpRecyclerView();
+
+            getNearestEstate();
             recentAdded();
             rentAdded();
             sellAdded();
@@ -152,7 +155,7 @@ public class VillaType extends Fragment {
     private void searchBarListener(){
         String searchText=searchBar.getText().toString();
         if(searchText.equals("")) {
-            setUpRecyclerView();
+           getNearestEstate();
             recentAdded();
             rentAdded();
             sellAdded();
@@ -167,11 +170,19 @@ public class VillaType extends Fragment {
     }
 
     private static  int LOADIND_LIMIT=10;
-    private void setUpRecyclerView() {
-        Query queryLocation = propertyRef.orderBy("mPrice", Query.Direction.ASCENDING).whereEqualTo("mCity","Amman");
-        dataFetch(queryLocation,R.id.nearbyRV);
 
+    private void getNearestEstate() {
+        GeoHash geoHash=new GeoHash(latitude,longitude);
+        String geoCode= geoHash.getGeoHashString();
+        queryLocation(geoCode.substring(0,6));
     }
+
+    private void queryLocation(String range){
+        Query fireStoreSearchQuery = propertyRef.orderBy("g"/*Geohash*/).
+                whereEqualTo("category","Apartment").startAt(range/*user Geohash*/);
+        dataFetch(fireStoreSearchQuery,R.id.nearbyRV);
+    }
+
 
     private void recentAdded(){
         Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("category","Apartment").limit(LOADIND_LIMIT);

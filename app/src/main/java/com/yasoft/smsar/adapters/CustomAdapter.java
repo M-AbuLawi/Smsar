@@ -38,7 +38,9 @@ public class CustomAdapter extends FirestoreRecyclerAdapter<Property, CustomAdap
 
         holder.txtCity.setText(model.getmCity());
         holder.txtDesc.setText(model.getmDesc());
+        holder.address.setText(model.getAddress());
         holder.txtPrice.setText(model.getmPrice()+"JD");
+        holder.noView.setText(model.getlikedList().size()+"");
       //  Toast.makeText(mContext,model.getmImageDrawable(),Toast.LENGTH_LONG).show();
         Picasso.get().load(model.getmImageUrl()).
                 fit().placeholder(R.drawable.placeholder_image).
@@ -82,18 +84,19 @@ public class CustomAdapter extends FirestoreRecyclerAdapter<Property, CustomAdap
         notifyDataSetChanged();
     }
     class PropertyHolder extends RecyclerView.ViewHolder {
-        TextView txtCity, txtPrice ,txtDesc ,mDelete,mEdit;
+        TextView txtCity, txtPrice ,txtDesc ,mDelete,mEdit,noView,address;
         ImageView mImage;
         private PropertyHolder(View itemView) {
             super(itemView);
 
             txtDesc=itemView.findViewById(R.id.description);
             txtCity=itemView.findViewById(R.id.city);
+            address=itemView.findViewById(R.id.address);
             txtPrice=itemView.findViewById(R.id.price);
             mDelete=itemView.findViewById(R.id.eDelete);
             mEdit=itemView.findViewById(R.id.edit);
             mImage=itemView.findViewById(R.id.mainImage);
-
+            noView=itemView.findViewById(R.id.no_view);
         }
     }
 

@@ -5,6 +5,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.FeatureGroupInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,12 +44,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -62,17 +65,23 @@ public class ShowProperty extends Fragment implements OnMapReadyCallback {
     private DocumentReference detailsRef;
     private ProgressBar pg;
 
-
+    LikeButton likeButton;
     private TextView mPrice,mDescription,mCity,mDate ,mBaths,mRooms,mArea,decLabel;
     private ImageView mParking,propertyImage;
     private boolean parking;
     private double lat,lon;
-
+    String username;
     public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
 
-    public ShowProperty() {
-        // Required empty public constructor
+
+    public static ShowProperty newInstance(String param1) {
+        ShowProperty fragment = new ShowProperty();
+        Bundle args = new Bundle();
+        args.putString("username", param1);
+
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -80,6 +89,9 @@ public class ShowProperty extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeFireStore();
+        if (getArguments() != null) {
+         username = getArguments().getString("username");
+        }
 
     }
 
@@ -145,16 +157,16 @@ public class ShowProperty extends Fragment implements OnMapReadyCallback {
         mCall.setOnClickListener(v->callSmsar());
 
 
-        LikeButton likeButton=root.findViewById(R.id.fav_button);
+         likeButton=root.findViewById(R.id.fav_button);
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-
+                addLikedMember();
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-
+                removeLikedMember();
             }
         });
 
@@ -163,6 +175,16 @@ public class ShowProperty extends Fragment implements OnMapReadyCallback {
 
 
     return root;
+    }
+
+
+    private void addLikedMember() {
+        detailsRef.update("likedList", FieldValue.arrayUnion(username));
+    }
+    private void removeLikedMember() {
+
+        detailsRef.update("likedList", FieldValue.arrayRemove(username));
+
     }
 
     private void initGoogleMap(Bundle savedInstanceState){
@@ -232,6 +254,7 @@ public class ShowProperty extends Fragment implements OnMapReadyCallback {
             }
             return id;
         }
+    List<String> group;
         private void setUpDetails(){
                 detailsRef.get()
                         .addOnSuccessListener(documentSnapshot -> {
@@ -243,6 +266,7 @@ public class ShowProperty extends Fragment implements OnMapReadyCallback {
                                 mBaths.setText(Objects.requireNonNull(documentSnapshot.get("noBathrooms")).toString());
                                 mRooms.setText(Objects.requireNonNull(documentSnapshot.get("noRooms")).toString());
                                 mDate.setText(documentSnapshot.getString("date"));
+                             group = (List<String>) documentSnapshot.get("likedList");
                                 mArea.setText(Objects.requireNonNull(documentSnapshot.get("area")).toString());
                                 parking=Objects.requireNonNull(documentSnapshot.getBoolean("parking"));
                                 lat=documentSnapshot.getDouble("latitude");
@@ -270,6 +294,9 @@ public class ShowProperty extends Fragment implements OnMapReadyCallback {
                             mParking.setVisibility(View.VISIBLE);
                         else
                             mParking.setVisibility(View.INVISIBLE);
+
+                        if(group.contains(username))
+                            likeButton.setLiked(true);
                     }
                 });
 
@@ -284,6 +311,9 @@ public class ShowProperty extends Fragment implements OnMapReadyCallback {
 
     }
 
+    private void checkUserLike(){
+
+    }
 
     private void viewVisible(){
 

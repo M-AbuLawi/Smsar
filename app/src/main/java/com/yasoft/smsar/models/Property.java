@@ -1,5 +1,6 @@
 package com.yasoft.smsar.models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Property {
     private double latitude;
     private int noRooms;
     private int noBathrooms;
-    private int likedNumber;
+    private List<String> likedList;
     private int viewNumber;
     private String address;
     private String date;
@@ -30,7 +31,7 @@ public class Property {
     }
 
     public Property(int mID, String mUsername, String mCity, String mDesc, String mPrice,
-                    int noRooms, int noBathrooms, String address, String date, String area, boolean parking,String type,String category,double longitude,double latitude) {
+                    int noRooms, int noBathrooms, String address, String date, String area, boolean parking,String type,String category,double longitude,double latitude, List<String> likedList) {
         this.mID = mID;
         this.mCity = mCity;
         this.area = area;
@@ -42,6 +43,7 @@ public class Property {
         this.address = address;
         this.date = date;
         this.parking = parking;
+
         this.type=type;
         this.category=category;
         this.longitude=longitude;
@@ -51,7 +53,7 @@ public class Property {
 
     public Property(int mID, String mImageUrl, String mCity, String mDesc, String mPrice, String mUsername, 
                     String area, int noRooms, int noBathrooms,
-                     String address, String date, boolean parking,String type,String category,double longitude,double latitude) {
+                     String address, String date, boolean parking,String type,String category,double longitude,double latitude,List<String> likedList) {
         this.mID = mID;
         this.mImageUrl = mImageUrl;
         this.mCity = mCity;
@@ -65,14 +67,16 @@ public class Property {
         this.noBathrooms = noBathrooms;
         this.address = address;
         this.date = date;
+        this.likedList=likedList;
         this.parking = parking;
         this.longitude=longitude;
         this.latitude=latitude;
+        this.likedList=likedList;
 
     }
     public Property(int mID, String mImageUrl, String mCity, String mDesc, String mPrice, String mUsername,
                     String area, String type, String category, int noRooms, int noBathrooms,
-                    int likedNumber, int viewNumber ,String address, String date, boolean parking) {
+                    List<String> likedList ,String address, String date, boolean parking) {
         this.mID = mID;
         this.mImageUrl = mImageUrl;
         this.mCity = mCity;
@@ -84,15 +88,14 @@ public class Property {
         this.category = category;
         this.noRooms = noRooms;
         this.noBathrooms = noBathrooms;
-        this.likedNumber = likedNumber;
-        this.viewNumber=viewNumber;
+        this.likedList = likedList;
         this.address = address;
         this.date = date;
         this.parking = parking;
     }
     public Property(int mID, String mUsername, String mCity, String mDesc, String mPrice,
                     int noRooms, int noBathrooms, String address, String date, String area,
-                    boolean parking, String mImageUrl,String type,String category,double longitude,double latitude) {
+                    boolean parking, String mImageUrl,String type,String category,double longitude,double latitude,List<String> likedList) {
         this.mID = mID;
         this.mCity = mCity;
         this.area = area;
@@ -109,6 +112,7 @@ public class Property {
         this.category=category;
         this.longitude=longitude;
         this.latitude=latitude;
+        this.likedList=likedList;
 
     }
 
@@ -229,13 +233,15 @@ public class Property {
         this.category = category;
     }
 
-    public int getLikedNumber() {
-        return likedNumber;
+
+    public List<String> getlikedList() {
+        return likedList;
     }
 
-    public void setLikedNumber(int likedNumber) {
-        this.likedNumber = likedNumber;
+    public void setlikedList(List<String> likedList) {
+        this.likedList = likedList;
     }
+
 
     public int getViewNumber() {
         return viewNumber;

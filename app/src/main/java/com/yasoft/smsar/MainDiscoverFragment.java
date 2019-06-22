@@ -212,22 +212,21 @@ public class MainDiscoverFragment extends Fragment {
         queryLocation(city);*/
 
     }
-
-    private void queryLocation(String range){
-        Query fireStoreSearchQuery = propertyRef.orderBy("g").startAt(range);
-            dataFetch(fireStoreSearchQuery,R.id.nearbyRV);
-
-    }
-
-
     private static  int LOADIND_LIMIT=10;
+
 
     private void getNearestEstate() {
         GeoHash geoHash=new GeoHash(latitude,longitude);
         String geoCode= geoHash.getGeoHashString();
-          queryLocation(geoCode.substring(0,6));
-
+        queryLocation(geoCode.substring(0,6));
     }
+
+    private void queryLocation(String range){
+        Query fireStoreSearchQuery = propertyRef.orderBy("g"/*Geohash*/).startAt(range/*user Geohash*/);
+            dataFetch(fireStoreSearchQuery,R.id.nearbyRV);
+    }
+
+
 
 
 
@@ -238,15 +237,6 @@ public class MainDiscoverFragment extends Fragment {
 
 
     }
-    private void fetchMultipleDoc(String id){
-        //for()
-      // Query fireStoreSearchQuery = db.collection("Property").document(id);
-
-     //   dataFetch(fireStoreSearchQuery,R.id.recentRV);
-
-    }
-
-
 
 
 
@@ -265,16 +255,13 @@ public class MainDiscoverFragment extends Fragment {
     }
     private void fireStoreUserSearch(String searchText){
         Query fireStoreSearchQuery = propertyRef.orderBy("mDesc").startAt(searchText).endAt(searchText + "\uf8ff");
-   //    propertyRef.document()
         dataFetch(fireStoreSearchQuery,R.id.nearbyRV);
-
     }
 
     private void dataFetch(Query query,int rvView){
           FirestoreRecyclerOptions<Property> options = new FirestoreRecyclerOptions.Builder<Property>()
             .setQuery(query, Property.class)
-            .build();
-
+                  .build();
     mAdapter = new DiscoverAdapter(options);
     RecyclerView recyclerView = root.findViewById(rvView);
     recyclerView.setHasFixedSize(true);
@@ -285,7 +272,9 @@ public class MainDiscoverFragment extends Fragment {
     mAdapter.setOnItemClickListener((documentSnapshot, position) -> {
         Property property = documentSnapshot.toObject(Property.class);
         String id = documentSnapshot.getId();
+        String username=documentSnapshot.getString("mUsername");
         Bundle mBundle = new Bundle();
+        mBundle.putString("username",username);
         mBundle.putString("id", id);
         Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
         ShowProperty showProperty = new ShowProperty();

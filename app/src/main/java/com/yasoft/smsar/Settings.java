@@ -245,7 +245,6 @@ public class Settings extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                       //     queryDocumentSnapshots.forEach(v-> cr.document(queryDocumentSnapshots.getDocuments().toString()).delete());
                           for (int i=0 ; i<queryDocumentSnapshots.size();i++)
                            batch.delete(cr.document(queryDocumentSnapshots.getDocuments().get(i).getId()));
                           batch.commit();
@@ -260,9 +259,9 @@ public class Settings extends Fragment {
                         }
                     }
                 });
-
-
               }
+
+
     Uri mImageUri;
     Bitmap mImage;
     public void openImageGallery() {

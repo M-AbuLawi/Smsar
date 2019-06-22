@@ -88,7 +88,8 @@ public class Signup extends AppCompatActivity {
 
                 if(userType.equals("Smsar"))
                     insertSmsar();
-                insertSeeker();
+                else
+                    insertSeeker();
 
             }
 
@@ -120,7 +121,7 @@ public class Signup extends AppCompatActivity {
                     Seeker mSeeker = new Seeker(name, pn, username, email, password);
 
                     //    smsarRef.add(mSmsar);
-
+                    // user name checking exist is not working
 
                  seekerRef.document(username).set(mSeeker)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -168,6 +169,7 @@ public class Signup extends AppCompatActivity {
                 Toast.makeText(Signup.this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
             else if(validEmail(email) && password.length()>=6 && !flag){
                 try {
+                    password= EncryptString.encryptString(password);
                     Smsar mSmsar = new Smsar(name, pn, username, email, password);
                     db.collection("Smsar").document(username).set(mSmsar)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
