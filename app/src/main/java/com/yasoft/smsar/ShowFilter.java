@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 
 import android.content.Context;
@@ -264,7 +264,7 @@ public class ShowFilter extends Fragment {
         bundle.putSerializable("hashmap",list);
         Intent intent = new Intent(getActivity(),
                 SmsarMainActivity.class);
-
+      //  Fragment discover= new MainDiscoverFragment();
         ((SmsarMainActivity)mContext).parsDataToFilter(bundle);
         Objects.requireNonNull(getActivity()).onBackPressed();
 

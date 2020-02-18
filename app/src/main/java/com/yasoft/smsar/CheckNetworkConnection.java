@@ -1,10 +1,6 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 import android.os.AsyncTask;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 
 public class CheckNetworkConnection extends AsyncTask <Void,Void,Boolean> {
     private Consumer mConsumer;

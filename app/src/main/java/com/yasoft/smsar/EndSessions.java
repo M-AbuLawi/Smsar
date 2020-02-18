@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.view.View;
 public class EndSessions extends Activity {
 
 
-    final SharedPreferences pref = getSharedPreferences("user_details", MODE_PRIVATE);;
+    final SharedPreferences pref = getSharedPreferences("user_details", MODE_PRIVATE);
 
     EndSessions(){
 

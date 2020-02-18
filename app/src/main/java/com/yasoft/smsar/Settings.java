@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 
 import android.app.Dialog;
@@ -43,10 +43,8 @@ import com.google.firebase.storage.UploadTask;
 import com.kongzue.dialog.listener.InputDialogOkButtonClickListener;
 import com.kongzue.dialog.util.InputInfo;
 import com.kongzue.dialog.v2.InputDialog;
-import com.kongzue.dialog.v2.Notification;
-import com.kongzue.dialog.v2.TipDialog;
 import com.squareup.picasso.Picasso;
-import com.yasoft.smsar.models.Images;
+import com.yasoft.aqarkom.models.Images;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -99,13 +97,14 @@ public class Settings extends Fragment {
         mStorageRef = FirebaseStorage.getInstance().getReference("ProfilePictures");
          storage = FirebaseStorage.getInstance();
         cr=firestore.collection("Property");
-        smsarRef=firestore.collection("Smsar");
-         username = getArguments().getString("username");
+        smsarRef=firestore.collection("aqarkom");
+       //  username = getArguments().getString("userType");
+        username = "mabulawi";
         TextView usernameS=root.findViewById(R.id.usernameSetting);
         mImageButton=root.findViewById(R.id.changeImage);
         profileImage =  root.findViewById(R.id.profile_image);
-         profileImage.setMaxHeight(52);
-         profileImage.setMaxWidth(52);
+         profileImage.setMaxHeight(100);
+         profileImage.setMaxWidth(100);
         usernameS.setText(username);
 
 
@@ -245,7 +244,6 @@ public class Settings extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                       //     queryDocumentSnapshots.forEach(v-> cr.document(queryDocumentSnapshots.getDocuments().toString()).delete());
                           for (int i=0 ; i<queryDocumentSnapshots.size();i++)
                            batch.delete(cr.document(queryDocumentSnapshots.getDocuments().get(i).getId()));
                           batch.commit();
@@ -260,9 +258,9 @@ public class Settings extends Fragment {
                         }
                     }
                 });
-
-
               }
+
+
     Uri mImageUri;
     Bitmap mImage;
     public void openImageGallery() {
@@ -360,14 +358,14 @@ public class Settings extends Fragment {
     }
 
     private void changeImage(){
-        storage.getReferenceFromUrl(imageUrl).delete();
+//        mStorageRef.child(imageUrl).delete();
+    //    mStorageRef.getReferenceFromUrl(imageUrl).delete();
         Map<String, Object> data = new HashMap<>();
         data.put("imageUrl", image.getmImageUrl());
         firestore.collection("ProfilePictures").document(username).set(data)
         .addOnSuccessListener(aVoid -> Toast.makeText(context,"Profile Picture Changed ",Toast. LENGTH_LONG).show())
         .addOnCompleteListener(task -> Picasso.get().load(image.getmImageUrl()).fit().into(profileImage))
         ;
-
     }
 
     String imageUrl;
@@ -379,11 +377,8 @@ public class Settings extends Fragment {
                     DocumentSnapshot snapshot=task.getResult();
                     if(Objects.requireNonNull(snapshot).exists()){
                         imageUrl=snapshot.getString("imageUrl");
-                        Picasso.get().load(String.valueOf(snapshot.get("imageUrl"))).fit().placeholder(R.drawable.logo_c_144).into(profileImage);
-
+                        Picasso.get().load(imageUrl).fit().placeholder(R.drawable.logo2).into(profileImage);
                     }
-
-
                 });
 
 

@@ -1,6 +1,4 @@
-package com.yasoft.smsar.models;
-
-import java.util.ArrayList;
+package com.yasoft.aqarkom.models;
 
 public class Seeker {
 

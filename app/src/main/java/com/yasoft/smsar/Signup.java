@@ -1,13 +1,13 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 
 import android.content.Intent;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -20,13 +20,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.yasoft.smsar.models.Seeker;
-import com.yasoft.smsar.models.Smsar;
+import com.yasoft.aqarkom.models.Seeker;
+import com.yasoft.aqarkom.models.Smsar;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -40,15 +39,13 @@ public class Signup extends AppCompatActivity {
     RadioGroup typeRG;
     RadioButton typeRB;
     TextView ErorrM;
-    private DBHelper mDBHelper = new DBHelper(this);
-    private SQLiteDatabase mDb;
     private static int CURRENT_ID;
 
     String email, name, username, password, pn;
     String userType;
     FirebaseFirestore db;
     DocumentReference userRef;
-    private CollectionReference smsarRef,seekerRef;
+    private CollectionReference aqarkomRef,seekerRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +53,9 @@ public class Signup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        FirebaseApp.initializeApp(this);
         db = FirebaseFirestore.getInstance();
         userRef = db.document("ID/id");
-        smsarRef = db.collection("Smsar");
+        aqarkomRef = db.collection("aqarkom");
         seekerRef=db.collection("Seeker");
 
         Fullname = findViewById(R.id.fullName);
@@ -79,16 +75,16 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View v)  {
                 int id=typeRG.getCheckedRadioButtonId();
-                 userType="";
+                userType="";
                 if(id!=0) {
                     typeRB = findViewById(id);
                     userType=typeRB.getText().toString();
                 }
 
-
-                if(userType.equals("Smsar"))
+                if(userType.contains("Smsar"))
                     insertSmsar();
-                insertSeeker();
+                else
+                    insertSeeker();
 
             }
 
@@ -120,7 +116,7 @@ public class Signup extends AppCompatActivity {
                     Seeker mSeeker = new Seeker(name, pn, username, email, password);
 
                     //    smsarRef.add(mSmsar);
-
+                    // user name checking exist is not working
 
                  seekerRef.document(username).set(mSeeker)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -154,12 +150,9 @@ public class Signup extends AppCompatActivity {
             ErorrM.setVisibility(View.VISIBLE);
         }
     }
-
+    boolean test=false;
     private void insertSmsar() {
-        if (validationVariable()) {
-
-
-            //      mydb.getWritableDatabase();
+        if (test) {
             prepareToInsert();
             if (!validEmail(email))
                 Toast.makeText(Signup.this,"Enter valid e-mail!",Toast.LENGTH_LONG).show();
@@ -168,6 +161,7 @@ public class Signup extends AppCompatActivity {
                 Toast.makeText(Signup.this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
             else if(validEmail(email) && password.length()>=6 && !flag){
                 try {
+                    password= EncryptString.encryptString(password);
                     Smsar mSmsar = new Smsar(name, pn, username, email, password);
                     db.collection("Smsar").document(username).set(mSmsar)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -182,8 +176,8 @@ public class Signup extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
 
-                                    Toast.makeText(Signup.this, "Failed",
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Signup.this, "Failed" + e.getMessage(),
+                                            Toast.LENGTH_LONG).show();
                                 }
                             });
 
@@ -209,7 +203,6 @@ public class Signup extends AppCompatActivity {
         return !TextUtils.isEmpty(Fullname.getText().toString()) && !TextUtils.isEmpty(Email.getText().toString()) &&
                 !TextUtils.isEmpty(Username.getText().toString())
                 && !TextUtils.isEmpty(Password.getText().toString()) && !TextUtils.isEmpty(phonenumber.getText().toString());
-
     }
 
     EncryptString mEncrypt;

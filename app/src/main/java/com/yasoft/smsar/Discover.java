@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 
 import android.content.Context;
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.widget.Toolbar;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 
-import com.yasoft.smsar.adapters.PropertySectionsPagerAdapter;
+import com.yasoft.aqarkom.adapters.PropertySectionsPagerAdapter;
 
 import org.jetbrains.annotations.NotNull;
 

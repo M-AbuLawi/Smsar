@@ -1,16 +1,14 @@
-package com.yasoft.smsar.adapters;
+package com.yasoft.aqarkom.adapters;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.yasoft.smsar.ApartmentType;
-import com.yasoft.smsar.Discover;
-import com.yasoft.smsar.HousesType;
-import com.yasoft.smsar.Inbox;
-import com.yasoft.smsar.MainDiscoverFragment;
-import com.yasoft.smsar.VillaType;
+import com.yasoft.aqarkom.ApartmentType;
+import com.yasoft.aqarkom.HousesType;
+import com.yasoft.aqarkom.MainDiscoverFragment;
+import com.yasoft.aqarkom.VillaType;
 
 
 public class PropertySectionsPagerAdapter extends FragmentStatePagerAdapter {

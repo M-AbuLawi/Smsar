@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 
 import android.annotation.SuppressLint;
@@ -22,12 +22,13 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.yasoft.smsar.adapters.DiscoverAdapter;
-import com.yasoft.smsar.models.Property;
+import com.yasoft.aqarkom.adapters.DiscoverAdapter;
+import com.yasoft.aqarkom.models.Property;
+
+import org.imperiumlabs.geofirestore.core.GeoHash;
 
 import java.util.Objects;
 
@@ -94,10 +95,10 @@ public class VillaType extends Fragment {
       //  mReset=root.findViewById(R.id.resetButton);
         mContext = root.getContext();
 
-        FirebaseApp.initializeApp(mContext);
+        //FirebaseApp.initializeApp(mContext);
         db = FirebaseFirestore.getInstance();
         propertyRef = db.collection("Property");
-        getLocation();
+      //  getLocation();
 
         searchBar = root.findViewById(R.id.search_field);
         deleteTextButton = root.findViewById(R.id.deleteButton);
@@ -114,7 +115,8 @@ public class VillaType extends Fragment {
         //mUser.getSupportActionBar().setTitle(R.string.title_Discover);
         if (searchBar.getText().toString().equals(""))
         {
-            setUpRecyclerView();
+
+            getNearestEstate();
             recentAdded();
             rentAdded();
             sellAdded();
@@ -152,7 +154,7 @@ public class VillaType extends Fragment {
     private void searchBarListener(){
         String searchText=searchBar.getText().toString();
         if(searchText.equals("")) {
-            setUpRecyclerView();
+           getNearestEstate();
             recentAdded();
             rentAdded();
             sellAdded();
@@ -167,31 +169,39 @@ public class VillaType extends Fragment {
     }
 
     private static  int LOADIND_LIMIT=10;
-    private void setUpRecyclerView() {
-        Query queryLocation = propertyRef.orderBy("mPrice", Query.Direction.ASCENDING).whereEqualTo("mCity","Amman");
-        dataFetch(queryLocation,R.id.discoverRV);
 
+    private void getNearestEstate() {
+        GeoHash geoHash=new GeoHash(latitude,longitude);
+        String geoCode= geoHash.getGeoHashString();
+        queryLocation(geoCode.substring(0,6));
     }
 
+    private void queryLocation(String range){
+        Query fireStoreSearchQuery = propertyRef.orderBy("g"/*Geohash*/).
+                whereEqualTo("category","Villa").startAt(range/*user Geohash*/);
+        dataFetch(fireStoreSearchQuery,R.id.nearbyRV);
+    }
+
+
     private void recentAdded(){
-        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("category","Apartment").limit(LOADIND_LIMIT);
+        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("category","Villa").limit(LOADIND_LIMIT);
         dataFetch(fireStoreSearchQuery,R.id.recentRV);
 
     }
 
     private void rentAdded(){
-        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Rent").whereEqualTo("category","Apartment").limit(LOADIND_LIMIT);
+        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Rent").whereEqualTo("category","Villa").limit(LOADIND_LIMIT);
         dataFetch(fireStoreSearchQuery,R.id.rentRV);
 
     }
     private void sellAdded(){
-        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Sell").whereEqualTo("category","Apartment").limit(LOADIND_LIMIT);
+        Query fireStoreSearchQuery = propertyRef.orderBy("date").whereEqualTo("type","Sell").whereEqualTo("category","Villa").limit(LOADIND_LIMIT);
         dataFetch(fireStoreSearchQuery,R.id.sellRV);
 
     }
     private void fireStoreUserSearch(String searchText){
         Query fireStoreSearchQuery = propertyRef.orderBy("mDesc").startAt(searchText).endAt(searchText + "\uf8ff");
-        dataFetch(fireStoreSearchQuery,R.id.discoverRV);
+        dataFetch(fireStoreSearchQuery,R.id.nearbyRV);
 
     }
 

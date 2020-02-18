@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 
 import androidx.fragment.app.FragmentManager;
@@ -11,7 +11,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
@@ -46,25 +45,6 @@ public class SmsarMainActivity extends AppCompatActivity {
     }
 
 
-    //recyclerView.Adapter=Adapter(list);
-
- /*   @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_share:
-                fragmentLauncher(_fragmentNewProperty);
-                //    setTitle(R.string.title_newApartment);
-                return true;
-
-            case R.id.action_setting:
-                fragmentLauncher(_fragmentSetting);
-                //     setTitle(R.string.title_setting);
-                return true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     private OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new OnNavigationItemSelectedListener() {
@@ -122,9 +102,10 @@ public class SmsarMainActivity extends AppCompatActivity {
         //START
         Toast.makeText(this,restoredText,Toast.LENGTH_LONG).show(); // FOR TESTING PURPOSES
         bundle.putString("username",restoredText);
-
+        Fragment showProperty= ShowProperty.newInstance(restoredText);
         _fragmentManage.setArguments(bundle);
         _fragmentSetting.setArguments(bundle);
+
         _fragmentNewProperty.setArguments(bundle);
 
         //END
@@ -173,7 +154,6 @@ public class SmsarMainActivity extends AppCompatActivity {
 
         this.finish();
 
-
     }
 
     public void openAddNew(){
@@ -196,7 +176,7 @@ public class SmsarMainActivity extends AppCompatActivity {
     public void navPointer(int id){
         navigation =  findViewById(R.id.navigation);
         if(id!=0)
-        navigation.setSelectedItemId(id);
+             navigation.setSelectedItemId(id);
 
     }
 

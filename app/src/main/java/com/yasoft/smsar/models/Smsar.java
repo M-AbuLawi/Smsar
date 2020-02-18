@@ -1,4 +1,4 @@
-package com.yasoft.smsar.models;
+package com.yasoft.aqarkom.models;
 
 import java.util.ArrayList;
 

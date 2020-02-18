@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,8 +8,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.yasoft.smsar.models.Property;
-import com.yasoft.smsar.models.Smsar;
+import com.yasoft.aqarkom.models.Property;
+import com.yasoft.aqarkom.models.Smsar;
 
 import java.util.ArrayList;
 import java.util.HashMap;

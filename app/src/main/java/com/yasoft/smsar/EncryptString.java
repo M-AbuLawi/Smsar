@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -12,7 +12,6 @@ import java.security.NoSuchAlgorithmException;
      public static String encryptString(String input)
      {
          try {
-
              // Static getInstance method is called with hashing MD5
              MessageDigest md = MessageDigest.getInstance("MD5");
 
@@ -30,13 +29,11 @@ import java.security.NoSuchAlgorithmException;
              }
              return hashtext;
          }
-
          // For specifying wrong message digest algorithms
          catch (NoSuchAlgorithmException e) {
              throw new RuntimeException(e);
          }
      }
-
      }
 
 

@@ -1,7 +1,6 @@
-package com.yasoft.smsar.models;
+package com.yasoft.aqarkom.models;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 
 public class Images {
 

@@ -1,4 +1,4 @@
-package com.yasoft.smsar.interfaces;
+package com.yasoft.aqarkom.interfaces;
 
 
 
@@ -6,7 +6,7 @@ public interface Foreign {
 
 
 
-    public void setData(int rooms, int baths, Boolean parking);
+    void setData(int rooms, int baths, Boolean parking);
 
 
 

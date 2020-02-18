@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 import android.graphics.drawable.Drawable;
 import android.net.Uri;

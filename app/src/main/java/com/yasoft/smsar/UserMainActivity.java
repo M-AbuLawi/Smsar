@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatEditText;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -65,7 +64,7 @@ public class UserMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
 
-        SharedPreferences preferences=getSharedPreferences("user_details", MODE_PRIVATE);
+        SharedPreferences preferences;
         preferences = getSharedPreferences("user_details", MODE_PRIVATE);
         navigation =  findViewById(R.id.user_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -74,11 +73,11 @@ public class UserMainActivity extends AppCompatActivity {
 
         if (!preferences.contains("username") && !preferences.contains("password"))
                   hideBottomNavigationView();
-
-        final Menu menu = navigation.getMenu();
-        MenuItem item=menu.getItem(3);
-        item.setVisible(false);
-
+        if(preferences.getString("userTYpe","none").contains("Seeker")) {
+            final Menu menu = navigation.getMenu();
+            MenuItem item = menu.getItem(3);
+            item.setVisible(false);
+        }
 
         if(!_discoverFrag.isVisible()) {
         //    navPointer(R.id.navigation_discover);
@@ -100,7 +99,8 @@ public class UserMainActivity extends AppCompatActivity {
             ft.remove(_discoverFrag);
         if (likedListFrag.isVisible())
             ft.remove(likedListFrag);
-
+        if (accountFrag.isVisible())
+ft.remove(accountFrag);
         ft.replace(R.id.discoverView, transform);
         ft.addToBackStack(null);
         ft.commit();

@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 
 import android.content.Intent;
@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.Objects;
 
 
 /**
@@ -73,7 +71,7 @@ View root;
         root= inflater.inflate(R.layout.fragment_liked_list, container, false);
 
         signUpAction=root.findViewById(R.id.signUpAction);
-        mLogin=root.findViewById(R.id.login);
+        mLogin=root.findViewById(R.id.loginB);
 
         String text = getString(R.string.signUp_description)+" <font color='blue'>" + String.format(getString(R.string.sign_up)) + "</font>.";
 

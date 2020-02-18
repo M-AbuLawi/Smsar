@@ -1,9 +1,8 @@
-package com.yasoft.smsar.adapters;
+package com.yasoft.aqarkom.adapters;
 
 
 import android.graphics.Bitmap;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -11,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.yasoft.smsar.R;
+import com.yasoft.aqarkom.R;
 
 import java.util.ArrayList;
 
@@ -36,7 +35,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.HorizontalVi
     @Override
     public void onBindViewHolder(HorizontalViewHolder holder, int position) {
         //holder.image.setImageResource(items.get(position));
-            populateItemRows((HorizontalViewHolder) holder, position);
+            populateItemRows(holder, position);
 
     }
 

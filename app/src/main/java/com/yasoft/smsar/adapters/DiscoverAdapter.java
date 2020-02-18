@@ -1,4 +1,4 @@
-package com.yasoft.smsar.adapters;
+package com.yasoft.aqarkom.adapters;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -15,8 +15,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
-import com.yasoft.smsar.models.Property;
-import com.yasoft.smsar.R;
+import com.yasoft.aqarkom.models.Property;
+import com.yasoft.aqarkom.R;
 //  private List<Property> arrayList;
 
 
@@ -39,6 +39,7 @@ public class DiscoverAdapter extends FirestoreRecyclerAdapter<Property, Discover
 
         holder.txtCity.setText(model.getmCity());
         holder.txtDesc.setText(model.getmDesc());
+
         holder.txtPrice.setText(model.getmPrice()+" JD");
         Picasso.get().load(model.getmImageUrl()).
                 fit().placeholder(R.drawable.placeholder_image).

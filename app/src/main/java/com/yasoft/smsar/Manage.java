@@ -1,4 +1,4 @@
-package com.yasoft.smsar;
+package com.yasoft.aqarkom;
 
 
 import android.content.Context;
@@ -19,8 +19,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.yasoft.smsar.adapters.CustomAdapter;
-import com.yasoft.smsar.models.Property;
+import com.yasoft.aqarkom.adapters.CustomAdapter;
+import com.yasoft.aqarkom.models.Property;
 
 import java.util.HashMap;
 

@@ -1,9 +1,8 @@
-package com.yasoft.smsar.adapters;
+package com.yasoft.aqarkom.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.squareup.picasso.Picasso;
 
-import com.yasoft.smsar.SmsarMainActivity;
-import com.yasoft.smsar.models.Property;
-import com.yasoft.smsar.R;
+import com.yasoft.aqarkom.SmsarMainActivity;
+import com.yasoft.aqarkom.models.Property;
+import com.yasoft.aqarkom.R;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -35,10 +34,14 @@ public class CustomAdapter extends FirestoreRecyclerAdapter<Property, CustomAdap
     Bundle mb;
     @Override
     protected void onBindViewHolder(@NonNull PropertyHolder holder, int position, @NonNull Property model) {
-
+        int numberOfLikes= 0 ;
         holder.txtCity.setText(model.getmCity());
         holder.txtDesc.setText(model.getmDesc());
+        holder.address.setText(model.getAddress());
         holder.txtPrice.setText(model.getmPrice()+"JD");
+        if(model.getlikedList() != null)
+          numberOfLikes = model.getlikedList().size();
+        holder.noView.setText(numberOfLikes+"");
       //  Toast.makeText(mContext,model.getmImageDrawable(),Toast.LENGTH_LONG).show();
         Picasso.get().load(model.getmImageUrl()).
                 fit().placeholder(R.drawable.placeholder_image).
@@ -82,18 +85,19 @@ public class CustomAdapter extends FirestoreRecyclerAdapter<Property, CustomAdap
         notifyDataSetChanged();
     }
     class PropertyHolder extends RecyclerView.ViewHolder {
-        TextView txtCity, txtPrice ,txtDesc ,mDelete,mEdit;
+        TextView txtCity, txtPrice ,txtDesc ,mDelete,mEdit,noView,address;
         ImageView mImage;
         private PropertyHolder(View itemView) {
             super(itemView);
 
             txtDesc=itemView.findViewById(R.id.description);
             txtCity=itemView.findViewById(R.id.city);
+            address=itemView.findViewById(R.id.address);
             txtPrice=itemView.findViewById(R.id.price);
             mDelete=itemView.findViewById(R.id.eDelete);
             mEdit=itemView.findViewById(R.id.edit);
             mImage=itemView.findViewById(R.id.mainImage);
-
+            noView=itemView.findViewById(R.id.no_view);
         }
     }
 
